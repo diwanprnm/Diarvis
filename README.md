@@ -1,19 +1,16 @@
-# Temanjabar Laravel
-Temanjabar Website Repository
+# eBMD Explorer Laravel
+eBMD Explorer Website Repository
 
 ## Backend framework
 <img width="40px" align="left" src="https://raw.githubusercontent.com/github/explore/56a826d05cf762b2b50ecbe7d492a839b04f3fbf/topics/laravel/laravel.png"/>
 <br/><br/>
 
-## Frontend framework
-<img width="40px" align="left" src="https://raw.githubusercontent.com/flutter/website/master/src/_assets/image/flutter-lockup.png"/>
-<br/><br/>
-
+ 
 ## Instalasi
 1. Clone repo
 2. Pergi ke direktori aplikasi
   ```
-  cd path/to/temanjabar-laravel
+  https://gitlab.com/izqfly/ebmd-explorer.git
   ```
 2. Pastikan sudah terinstall composer (download [disini](https://getcomposer.org/)), masukkan command di bawah pada cmd/terminal
   ```
