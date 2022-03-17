@@ -24,13 +24,12 @@ eBMD Explorer Website Repository
   ```
   APP_URL=http://localhost:8000/
 
-  DB_CONNECTION=mysql
-  DB_HOST=127.0.0.1
-  DB_PORT=3306
-  DB_DATABASE=teman_jabar
-  DB_USERNAME=root
-  DB_PASSWORD=
-  ```
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+POSTGRES_DATABASE=E_BMD_EXPLORER
+POSTGRES_USERNAME=postgres
+POSTGRES_PASSWORD=postgres
+
 5. run  
   ```
   php artisan key:generate
