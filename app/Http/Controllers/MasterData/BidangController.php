@@ -27,14 +27,14 @@ class BidangController extends Controller
      */
     public function index()
     {
-        $bidang = new Bidang(); 
-        $bidang = $bidang->get(); 
+        $bidang = new Bidang();
+        $bidang = $bidang->get();
         return view('admin.master.unit_organisasi.bidang', compact('bidang'));
     }
 
     public function json()
     {
-        $bidang = DB::table('ref_bidang'); 
+        $bidang = DB::table('ref_bidang');
         return DataTables::of($bidang)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -52,16 +52,16 @@ class BidangController extends Controller
                     $btn = $btn . '<a href="' . route("viewPhotoJembatan", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
                 }
 
-               
+
                 $btn = $btn . '</div>';
 
                 return $btn;
             })
             ->rawColumns(['action'])
-            
+
             ->make(true);
     }
-    
+
 
     public function add()
     {
@@ -344,5 +344,5 @@ class BidangController extends Controller
         return view('admin.master.jembatan.viewPhoto', compact('foto'));
     }
 
-    
+
 }
