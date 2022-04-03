@@ -45,7 +45,6 @@
 
 @section('filter')
 <div class="card">
-
     <div class="accordion-panel">
         <div class="accordion-heading" role="tab" id="headingOne">
             <h3 class="card-title accordion-title">
@@ -58,54 +57,45 @@
             <div class="accordion-content accordion-desc">
                 <form action="{{route('getUnitFilter')}}" method="post">
                     @csrf
-                    
-
                     <div class="modal-body">
-                    <div class="row">    
-                        <div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Bidang</label>
-                                <div class="col-md-9">
-                                    <select class="form-control chosen-select" id="edit_bidang" name="bidang">
-                                        <option value="" >Tampilkan Semua</option>
-                                        @foreach ($bidang as $data)
-                                        <?php if( $filter['bidang'] == $data->kode_bidang) {  ?>
-                                        <option selected value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
-                                        <?php } else { ?>
-                                            <option  value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
-                                    
-                                            <?php } ?>
-                                        @endforeach
-                                    </select> 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Bidang</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control chosen-select" id="edit_bidang" name="bidang">
+                                            <option value="" >Tampilkan Semua</option>
+                                            @foreach ($bidang as $data)
+                                            <?php if( $filter['bidang'] == $data->kode_bidang) {  ?>
+                                            <option selected value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
+                                            <?php } else { ?>
+                                                <option  value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
+
+                                                <?php } ?>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Nama Unit</label>
+                                    <div class="col-md-9">
+                                        <input name="nama_unit" id="edit_nama_unit" value="{{ $filter['nama_unit'] }}" type="text" class="form-control"  >
+                                    </div>
                                 </div>
                             </div>
-
-                           
-
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Nama Unit</label>
-                                <div class="col-md-9">
-                                    <input name="nama_unit" id="edit_nama_unit" value="{{ $filter['nama_unit'] }}" type="text" class="form-control"  >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                        <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Kode Unit</label>
-                                <div class="col-md-9">
-                                    <input name="kode_unit" type="number" value="{{ $filter['kode_unit'] }}" id="edit_kode_unit" class="form-control"  >
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Kode Unit</label>
+                                    <div class="col-md-9">
+                                        <input name="kode_unit" type="number" value="{{ $filter['kode_unit'] }}" id="edit_kode_unit" class="form-control"  >
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    </div>
-
                     <div class="modal-footer">
-                     
-                          <button type="submit"  class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-ui-search"></i> Cari</button>
+                        <button type="submit"  class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-ui-search"></i> Cari</button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -117,15 +107,10 @@
 @section('page-body')
 <div class="row">
     <div class="col-sm-12">
-
-
         <div class="card">
-
-
             <div class="card-block">
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
                 <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Unit</a>
-
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -155,7 +140,6 @@
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-
                 <form action="{{route('saveUnit')}}" method="post">
                     @csrf
                     <div class="modal-header">
@@ -164,12 +148,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="modal-body">
-
-
-
-
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
@@ -179,8 +158,6 @@
                                     <option value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
                                     @endforeach
                                 </select>
-
-
                             </div>
                         </div>
 
@@ -197,29 +174,21 @@
                                 <input name="nama_unit" type="text" class="form-control" required>
                             </div>
                         </div>
-
-
-
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
     @endif
 
-
     @if (hasAccess(Auth::user()->role_id, "Unit", "Update"))
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-
                 <form action="{{route('updateUnit')}}" method="post">
                     @csrf
                     <div class="modal-header">
@@ -229,7 +198,6 @@
                         </button>
                         <input type="hidden" id="unit_id" name="unit_id" />
                     </div>
-
                     <div class="modal-body">
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
@@ -240,8 +208,6 @@
                                     <option value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
                                     @endforeach
                                 </select>
-
-
                             </div>
                         </div>
 
@@ -258,45 +224,35 @@
                                 <input name="nama_unit" id="nama_unit2" type="text" class="form-control" required>
                             </div>
                         </div>
-
-
-
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
     @endif
 
-
     @if (hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h4 class="modal-title">Konfirmasi Hapus Data </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
                 <div class="modal-body">
                     <p>Apakah anda yakin ingin menghapus data ini?</p>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm waves-effect " data-dismiss="modal">Tutup</button>
                     <a id="delHref" href="" class="btn btn-danger  btn-sm waves-effect waves-light ">Hapus</a>
                 </div>
-
             </div>
         </div>
     </div>
@@ -304,6 +260,7 @@
 </div>
 @endsection
 @section('script')
+
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -315,18 +272,14 @@
 
 <script>
     $(document).ready(function() {
-
         $(".chosen-select").chosen({
             width: '100%'
         });
-
-
-
         var table = $('#dttable').DataTable({
             processing: true,
             serverSide: true,
             bFilter: false,
-            ajax: { 
+            ajax: {
                 url: "{{ url('admin/master-data/unit-organisasi/unit/json') }}",
                 data: {
                     "bidang" : "{{  !empty($filter['bidang']) ? $filter['bidang'] : ""  }}",
@@ -334,7 +287,7 @@
                 "kode_unit" : "{{  !empty($filter['kode_unit']) ? $filter['kode_unit']  : "" }}"
                 }
             },
-           
+
             columns: [{
                     'mRender': function(data, type, full, meta) {
                         return +meta.row + meta.settings._iDisplayStart + 1;
@@ -372,8 +325,7 @@
     });
 
 
-    @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))  
-
+    @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))
     $('#editModal').on('show.bs.modal', function(event) {
         const link = $(event.relatedTarget);
         const id = link.data('id');
@@ -387,7 +339,6 @@
     });
 
     function showData(data) {
- 
         $(".chosen-select").val(data.kode_bidang).trigger('chosen:updated');
         $("#kode_unit2").val(data.kode_unit);
         $("#nama_unit2").val(data.nama_unit);
@@ -395,7 +346,6 @@
     }
 
     @endif
-
     @if(hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     $('#delModal').on('show.bs.modal', function(event) {
         const link = $(event.relatedTarget);
