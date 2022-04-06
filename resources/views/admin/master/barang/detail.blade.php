@@ -134,6 +134,18 @@
                                                                                                         <th scope="row">Tgl Pembukuan</th>
                                                                                                         <td>{{$tanah->tgl_pembukuan}}</td>
                                                                                                     </tr>
+                                                                                                    <tr>
+                                                                                                        <th scope="row">Luas</th>
+                                                                                                        <td>{{$tanah->luas_m2}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th scope="row">Alamat</th>
+                                                                                                        <td>{{$tanah->alamat}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th scope="row">Hak Tanah</th>
+                                                                                                        <td>{{$tanah->hak_tanah}}</td>
+                                                                                                    </tr>
                                                                                                 </tbody>
                                                                                             </table>
                                                                                         </div>
@@ -144,24 +156,28 @@
                                                                                             <table class="table">
                                                                                                 <tbody>
                                                                                                     <tr>
-                                                                                                        <th scope="row">Email</th>
-                                                                                                        <td><a href="#!"><span class="__cf_email__" data-cfemail="4206272f2d02273a232f322e276c212d2f">[email&#160;protected]</span></a></td>
+                                                                                                        <th scope="row">Tanggal Sertifikat</th>
+                                                                                                        <td> {{$tanah->sertifikat_tanggal}}</td>
                                                                                                     </tr>
                                                                                                     <tr>
-                                                                                                        <th scope="row">Mobile Number</th>
-                                                                                                        <td>(0123) - 4567891</td>
+                                                                                                        <th scope="row">Nomor Sertifikat</th>
+                                                                                                        <td>{{$tanah->sertifikat_nomor}}</td>
                                                                                                     </tr>
                                                                                                     <tr>
-                                                                                                        <th scope="row">Twitter</th>
-                                                                                                        <td>@xyz</td>
+                                                                                                        <th scope="row">Asal Usul</th>
+                                                                                                        <td>{{$tanah->asal_usul}}</td>
                                                                                                     </tr>
                                                                                                     <tr>
-                                                                                                        <th scope="row">Skype</th>
-                                                                                                        <td>demo.skype</td>
+                                                                                                        <th scope="row">Penggunaan</th>
+                                                                                                        <td>{{$tanah->penggunaan}}</td>
                                                                                                     </tr>
                                                                                                     <tr>
-                                                                                                        <th scope="row">Website</th>
-                                                                                                        <td><a href="#!">www.demo.com</a></td>
+                                                                                                        <th scope="row">harga</th>
+                                                                                                        <td>{{$tanah->harga}}</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <th scope="row">keterangan</th>
+                                                                                                        <td>{{$tanah->nm_aset5}}</td>
                                                                                                     </tr>
                                                                                                 </tbody>
                                                                                             </table>

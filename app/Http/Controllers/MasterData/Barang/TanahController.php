@@ -79,7 +79,7 @@ class TanahController extends Controller
 
         ->select('a.id','b.nm_aset5','a.tahun',DB::raw("CONCAT(a.kd_aset,'',a.kd_aset0,'',a.kd_aset1,'',a.kd_aset2,'',a.kd_aset3,'',a.kd_aset4,'',a.kd_aset5) as kode_aset"), 
            'a.no_register', 'a.harga', 'a.luas_m2', 'a.tgl_dok', 'a.no_dok', 'a.kd_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
-            'a.sertifikat_nomor', 'a.penggunaan', 'a.asal_usul', 'a.kd_ka', 'a.tgl_d2', 'a.tgl_proses')
+            'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka', 'a.tgl_d2', 'a.tgl_proses')
             ->where('id',$id)->first(); 
             return view('admin.master.barang.detail', compact('tanah'));
     }
