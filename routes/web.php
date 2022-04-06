@@ -115,6 +115,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'master-data'], function () {
+        Route::group(['prefix' => 'barang'], function () {
+            Route::group(['prefix' => 'intra'], function () {
+                Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
+                Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
+                Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
+            });
+        });
+
         Route::group(['prefix' => 'unit-organisasi'], function () {
             Route::get('bidang', 'MasterData\BidangController@index')->name('getBidang');
             Route::get('bidang/json', 'MasterData\BidangController@json')->name('getJsonBidang');
