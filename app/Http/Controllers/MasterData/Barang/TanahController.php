@@ -25,19 +25,25 @@ class TanahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //$tanah = DB::table('ta_fn_kib_a')->where('kd_ka','1');
-        //$bidang = $bidang->get();
-        return view('admin.master.barang.tanah');
+ 
+    public function index(Request $request){
+    
+        $filter['bidang'] = $request->bidang;
+        $filter['kode_unit'] = $request->kode_unit;
+        $filter['nama_unit'] = $request->nama_unit;
+        $bidang = DB::table('ref_organisasi_bidang')->get();   
+
+        return view('admin.master.barang.tanah', compact('bidang','filter'));
+    
     }
 
     public function json()
     {
-        $tanah = DB::table('ta_fn_kib_a')->where('kd_ka','1')
+        $tanah = DB::table('ta_fn_kib_a')
                     ->select('id','tahun',DB::raw("CONCAT(ta_fn_kib_a.kd_aset,'',ta_fn_kib_a.kd_aset0,'',ta_fn_kib_a.kd_aset1,'',ta_fn_kib_a.kd_aset2,'',ta_fn_kib_a.kd_aset3,'',ta_fn_kib_a.kd_aset4,'',ta_fn_kib_a.kd_aset5) as kode_aset"), 
                        'no_register', 'harga', 'luas_m2', 'tgl_dok', 'no_dok', 'kd_pemilik',DB::raw(" to_char( tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'tgl_pembukuan', 'alamat', 'hak_tanah', 'sertifikat_tanggal', 
-                        'sertifikat_nomor', 'penggunaan', 'asal_usul', 'kd_ka', 'tgl_d2', 'tgl_proses');
+                        'sertifikat_nomor', 'penggunaan', 'asal_usul', 'kd_ka', 'tgl_d2', 'tgl_proses')
+                        ->where('kd_ka','1');
          return DataTables::of($tanah)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
