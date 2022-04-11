@@ -2,7 +2,7 @@
     <div class="navbar-wrapper">
         <div class="navbar-logo">
             <a href="{{ url('admin/home') }}" style="text-align:center">
-                <span style="text-align:center">E-BMD Explorer</span>
+                <span style="text-align:center">DIARVIS BMD</span>
             </a>
             <a class="mobile-menu" id="mobile-collapse" href="#!">
                 <i class="feather icon-menu icon-toggle-right"></i>

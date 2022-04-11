@@ -20,10 +20,9 @@ function hasAccess($role_id, $menu, $access)
         ->where(['role_id' => $role_id, 'menu' => $menu])->first();
     if ($grantRole) {
         return DB::table('ref_role_access')
-            ->where(['ref_role_grant_application_id' => $grantRole->id, 'role_access' => $access])
+            ->where(['ref_role_grant_application_id' => $grantRole->role_id, 'role_access' => $access])
             ->exists();
     }
-
     return false;
 }
 

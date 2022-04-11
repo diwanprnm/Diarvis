@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('test', function () {
     return view('admin.layout.index');
 });
+
 // {SiteURL}
 Route::get('/', 'LandingController@login')->name('/');
 Route::get('403', function () {
@@ -28,7 +29,7 @@ Route::get('verify-email/{token}', 'AuthController@verifyEmail');
 
 Route::post('auth', 'AuthController@login');
 Route::get('forced-login/{encrypted_id}', 'AuthController@loginUsingId');
- 
+
 // Route::post('role-akses/store', 'MasterData\UserController@storeRoleAccess')->name('storeRoleAccess');
 
 Route::post('tambah-pesan', 'LandingController@createPesan');
@@ -65,14 +66,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', function () {
         return redirect(route('monitoring-kontrak'));
     });
-    
+
     Route::get('/', 'Home@index');
-    
-   
-
-   
-
-     
     Route::get('announcement/destroy/{id}', 'AnnouncementController@destroy');
     Route::resource('/announcement', 'AnnouncementController');
 
@@ -85,7 +80,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('pesan', 'LandingController@getPesan');
     Route::get('log', 'LandingController@getLog')->middleware('role:Log,View');
     Route::get('home', 'Home@index')->name('admin-home');
-    
+
     Route::get('file', 'Home@downloadFile');
     Route::view('map-dashboard', 'admin.map.map-dashboard')->middleware('role:Executive Dashboard,View');
     Route::view('map-dashboard-canggih', 'admin.map.map-dashboard-canggih');
@@ -93,15 +88,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'monitoring'], function () {
         Route::get('progress-pekerjaan', 'MonitoringController@getProgressPekerjaan');
         Route::get('pekerjaan_resume', 'Monitoring\ResumeController@pekerjaan')->name('resume_pekerjaan');
-
-       
         Route::get('main-dashboard', 'MonitoringController@getMainDashboard');
-
-       
     });
 
-     
-     
     // {SiteURL}/admin/landing-page/
     Route::group(['prefix' => 'landing-page'], function () {
         // {SiteURL}/admin/landing-page/profil
@@ -109,32 +98,43 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('/', 'LandingController@getProfil');
             Route::post('update', 'LandingController@updateProfil')->name('updateLandingProfil');
         });
-
-        
- 
-
-       
- 
     });
 
-    
     Route::group(['prefix' => 'laporan'], function () {
         Route::group(['prefix' => 'perencanaan'], function () {
-            
             Route::get('rencana-kebutuhan-barang', 'Report\ReportController@generateReportRKB')->name('generateReportRKB');
             Route::post('rencana-kebutuhan-barang', 'Report\ReportController@generateReportRKB')->name('generateReportRKB');
             Route::post('getunitfiter', 'Report\ReportController@getUnitFilter')->name('getUnitFilter');
             Route::post('getsubunitfiter', 'Report\ReportController@getSubUnitFiter')->name('getSubUnitFiter');
             Route::post('getReportPerencanaanFilter', 'Report\ReportController@getReportPerencanaanFilter')->name('getReportPerencanaanFilter');
-            
-
             Route::get('previewLaporanRKB/{param}', 'Report\ReportController@previewLaporanRKB')->name('previewLaporanRKB');
             Route::get('generatePDFRKB/{param}', 'Report\ReportController@generatePDFRKB')->name('generatePDFRKB');
             Route::view('generate_pdf_rkb', 'admin.report.perencanaan.generate_pdf_rkb');
-           
+
         });
     });
+
     Route::group(['prefix' => 'master-data'], function () {
+        Route::group(['prefix' => 'barang'], function () {
+            Route::group(['prefix' => 'intra'], function () {
+                Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
+                Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
+                Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
+                Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
+
+                Route::get('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                // Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                Route::get('aset-tetap-lainnya/json', 'MasterData\Barang\AsetTetapLainnyaController@json')->name('getJsonAsetTetapLainnya');
+                Route::get('aset-tetap-lainnya/detail/{id}', 'MasterData\Barang\AsetTetapLainnyaController@detail')->name('getDetailKIBE');
+                Route::get('aset-tetap-lainnya/getAsetTetapLainnyaById/{id}', 'MasterData\Barang\AsetTetapLainnyaController@getAsetTetapLainnyaById')->name('getAsetTetapLainnyaById');
+                Route::get('aset-tetap-lainnya/delete/{id}', 'MasterData\Barang\AsetTetapLainnyaController@delete')->name('deleteAsetTetapLainnyaById');
+                Route::post('aset-tetap-lainnya/save', 'MasterData\Barang\AsetTetapLainnyaController@save')->name('saveAsetTetapLainnya');
+                Route::post('aset-tetap-lainnya/update', 'MasterData\Barang\AsetTetapLainnyaController@update')->name('updateAsetTetapLainnya');
+ 
+                
+            });
+        });
+
         Route::group(['prefix' => 'unit-organisasi'], function () {
             Route::get('bidang', 'MasterData\BidangController@index')->name('getBidang');
             Route::get('bidang/json', 'MasterData\BidangController@json')->name('getJsonBidang');
@@ -143,15 +143,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('unit/json', 'MasterData\UnitController@json')->name('getJsonUnit');
             Route::get('unit/getUnitById/{id}', 'MasterData\UnitController@getUnitById')->name('getUnitById');
             Route::get('unit/delete/{id}', 'MasterData\UnitController@delete')->name('deleteUnitById');
-            Route::post('unit/save', 'MasterData\UnitController@save')->name('saveUnit'); 
-            Route::post('unit/update', 'MasterData\UnitController@update')->name('updateUnit'); 
+            Route::post('unit/save', 'MasterData\UnitController@save')->name('saveUnit');
+            Route::post('unit/update', 'MasterData\UnitController@update')->name('updateUnit');
         });
 
+        Route::group(['prefix' => 'kode-barang'], function () {
+            Route::get('jenis', 'MasterData\KodeBarang\JenisController@index')->name('getJenis');
+            Route::post('jenis', 'MasterData\KodeBarang\JenisController@index')->name('getJenisFilter');
+            Route::get('jenis/json', 'MasterData\KodeBarang\JenisController@json')->name('getJsonJenis');
+            Route::get('jenis/getJenisById/{id}', 'MasterData\KodeBarang\JenisController@getJenisById')->name('getJenisById');
+            Route::get('jenis/delete/{id}', 'MasterData\KodeBarang\JenisController@delete')->name('deleteJenisById');
+            Route::post('jenis/save', 'MasterData\KodeBarang\JenisController@save')->name('saveJenis');
+            Route::post('jenis/update', 'MasterData\KodeBarang\JenisController@update')->name('updateJenis');
+        });
 
-
- 
- 
-        
         Route::group(['prefix' => 'user'], function () {
             Route::get('permission', 'MasterData\UserController@getPermission')->name('getAkses')->middleware('role:User,View');
             Route::post('add-permission/store', 'MasterData\UserController@storePermission')->name('createPermis');
@@ -163,8 +168,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::get('edit-menu/{id}', 'MasterData\UserController@editMenu')->name('editMenu');
             Route::post('update-menu/update', 'MasterData\UserController@updateMenu')->name('updateMenu');
             Route::get('destroy-menu/{id}', 'MasterData\UserController@destroyMenu')->name('deleteMenu');
-
-
 
             Route::get('role-akses', 'MasterData\UserController@getDaftarRoleAkses')->name('getRoleAkses');
             Route::get('role-akses/create', 'MasterData\UserController@createRoleAccess')->name('createRoleAccess');
@@ -197,15 +200,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
             Route::post('/manajemen/update', 'MasterData\UserController@update')->name('updateUser');
             Route::get('/manajemen/delete/{id}', 'MasterData\UserController@delete')->name('deleteUser');
         });
-
-           
     });
-
-      
-
-
 });
- Route::view('debug/map-dashboard', 'debug.map-dashboard');
+
+Route::view('debug/map-dashboard', 'debug.map-dashboard');
 Route::view('debug/map-filter', 'debug.map-filter');
 Route::view('coba-map', 'debug.coba-map');
 Route::view('coba-roaddroid', 'debug.map-roaddroid');
@@ -213,7 +211,6 @@ Route::view('map-progress-mingguan', 'debug.map-progress-mingguan');
 Route::view('map-ruas-jalan', 'debug.map-ruas-jalan');
 
 Route::get('debug', 'Backup\DebugController@debug');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('v1')->group(function () {

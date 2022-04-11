@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\MasterData;
+namespace App\Http\Controllers\MasterData\Barang;
 
 use App\Http\Controllers\Controller;
 use App\Model\Master\Bidang;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\Datatables\DataTables;
 
-class BidangController extends Controller
+class TanahController extends Controller
 {
     public function __construct()
     {
@@ -25,32 +25,41 @@ class BidangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $bidang = new Bidang();
-        $bidang = $bidang->get();
-        return view('admin.master.unit_organisasi.bidang', compact('bidang'));
+ 
+    public function index(Request $request){
+    
+        $filter['bidang'] = $request->bidang;
+        $filter['kode_unit'] = $request->kode_unit;
+        $filter['nama_unit'] = $request->nama_unit;
+        $bidang = DB::table('ref_organisasi_bidang')->get();   
+
+        return view('admin.master.barang.tanah', compact('bidang','filter'));
+    
     }
 
     public function json()
     {
-        $bidang = DB::table('ref_bidang');
-        return DataTables::of($bidang)
+        $tanah = DB::table('ta_fn_kib_a')
+                    ->select('id','tahun',DB::raw("CONCAT(ta_fn_kib_a.kd_aset,'',ta_fn_kib_a.kd_aset0,'',ta_fn_kib_a.kd_aset1,'',ta_fn_kib_a.kd_aset2,'',ta_fn_kib_a.kd_aset3,'',ta_fn_kib_a.kd_aset4,'',ta_fn_kib_a.kd_aset5) as kode_aset"), 
+                       'no_register', 'harga', 'luas_m2', 'tgl_dok', 'no_dok', 'kd_pemilik',DB::raw(" to_char( tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'tgl_pembukuan', 'alamat', 'hak_tanah', 'sertifikat_tanggal', 
+                        'sertifikat_nomor', 'penggunaan', 'asal_usul', 'kd_ka', 'tgl_d2', 'tgl_proses')
+                        ->where('kd_ka','1');
+         return DataTables::of($tanah)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<div style="min-width:200px; class="btn-group  " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
-
+                   //  if (hasAccess(Auth::user()->role_id, "Bidang", "View")) {
+                    $btn = $btn . '<a href="' . route("getDetailKIBA", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
+             //   }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
-                    $btn = $btn . '<a href="' . route("editJembatan", $row->id) . '"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                    $btn = $btn . '<a href=" "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                 }
 
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
                     $btn = $btn . '<a href="#delModal" data-id="' . $row->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
                 }
 
-                if (hasAccess(Auth::user()->role_id, "Bidang", "View")) {
-                    $btn = $btn . '<a href="' . route("viewPhotoJembatan", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
-                }
+           
 
 
                 $btn = $btn . '</div>';
@@ -62,6 +71,24 @@ class BidangController extends Controller
             ->make(true);
     }
 
+    public function detail($id) {
+        $tanah = DB::table('ta_fn_kib_a as a')->where('a.kd_ka','1')
+        ->join('ref_rek5_108 as b' , function($join)
+                         {
+                             $join->on('b.kd_aset5', '=', 'a.kd_aset5');
+                             $join->on('b.kd_aset4','=','a.kd_aset4');
+                             $join->on('b.kd_aset3','=','a.kd_aset3');
+                             $join->on('b.kd_aset2','=','a.kd_aset2');
+                             $join->on('b.kd_aset1','=','a.kd_aset1');
+                             $join->on('b.kd_aset0','=','a.kd_aset0');
+                          })
+
+        ->select('a.id','b.nm_aset5','a.tahun',DB::raw("CONCAT(a.kd_aset,'',a.kd_aset0,'',a.kd_aset1,'',a.kd_aset2,'',a.kd_aset3,'',a.kd_aset4,'',a.kd_aset5) as kode_aset"), 
+           'a.no_register', 'a.harga', 'a.luas_m2', 'a.tgl_dok', 'a.no_dok', 'a.kd_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
+            'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka', 'a.tgl_d2', 'a.tgl_proses')
+            ->where('id',$id)->first(); 
+            return view('admin.master.barang.detail', compact('tanah'));
+    }
 
     public function add()
     {

@@ -1,6 +1,6 @@
 @extends('admin.layout.index')
 
-@section('title') Master Unit @endsection
+@section('title') Tanah (KIB A) @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
 
@@ -22,7 +22,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Master Unit</h4>
+                <h4>Tanah (KIB A)</h4>
                 <span></span>
             </div>
         </div>
@@ -63,23 +63,13 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Bidang</label>
                                     <div class="col-md-9">
-                                        <select class="form-control chosen-select" id="edit_bidang" name="bidang">
-                                            <option value="" >Tampilkan Semua</option>
-                                            @foreach ($bidang as $data)
-                                            <?php if( $filter['bidang'] == $data->kode_bidang) {  ?>
-                                            <option selected value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
-                                            <?php } else { ?>
-                                                <option  value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
-
-                                                <?php } ?>
-                                            @endforeach
-                                        </select>
+                                         
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Nama Unit</label>
                                     <div class="col-md-9">
-                                        <input name="nama_unit" id="edit_nama_unit" value="{{ $filter['nama_unit'] }}" type="text" class="form-control"  >
+                                        <input name="nama_unit" id="edit_nama_unit" value=" " type="text" class="form-control"  >
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +77,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Kode Unit</label>
                                     <div class="col-md-9">
-                                        <input name="kode_unit" type="number" value="{{ $filter['kode_unit'] }}" id="edit_kode_unit" class="form-control"  >
+                                        <input name="kode_unit" type="number" value=" " id="edit_kode_unit" class="form-control"  >
                                     </div>
                                 </div>
                             </div>
@@ -110,23 +100,32 @@
         <div class="card">
             <div class="card-block">
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-                <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Unit</a>
+                <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Provinsi</th>
-                                <th>Kota Kabupaten</th>
-                                <th>Bidang</th>
-                                <th>Kode Unit</th>
-                                <th>Nama Unit</th>
+                                <th>Tahun</th>
+                                <th>Kode Pemilik</th>
+                                <th>Kode Aset</th>
+                                <th>No Register</th>
+                                <th>Tgl Pembelian</th>
+                                <th>Tgl Pembukuan</th>
+                                <th>Luas (m2)</th>
+                                <th>Alamat</th>
+                                <th>Hak Tanah</th>
+                                <th>Tgl Sertifikat</th>
+                                <th>No Sertifikat</th>
+                                <th>Asal Usul</th>
+                                <th>Penggunaan</th>
+                                <th>Harga</th>
                                 <!-- <th>Foto</th> -->
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyJembatan">
+                        <tbody id="bodyTanah">
 
                         </tbody>
                     </table>
@@ -152,12 +151,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
-                                <select class="chosen-select" id="bidang" name="bidang">
-                                    <option>Pilih Bidang</option>
-                                    @foreach ($bidang as $data)
-                                    <option value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
-                                    @endforeach
-                                </select>
+                                 
                             </div>
                         </div>
 
@@ -202,12 +196,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
-                                <select class="form-control chosen-select" id="edit_bidang" name="bidang">
-                                    <option>Pilih Bidang</option>
-                                    @foreach ($bidang as $data)
-                                    <option value="{{ $data->kode_bidang }}">{{ $data->nama_bidang }}</option>
-                                    @endforeach
-                                </select>
+                                 
                             </div>
                         </div>
 
@@ -280,12 +269,8 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-                url: "{{ url('admin/master-data/unit-organisasi/unit/json') }}",
-                data: {
-                    "bidang" : "{{  !empty($filter['bidang']) ? $filter['bidang'] : ""  }}",
-                "nama_unit" : "{{  !empty($filter['nama_unit']) ? $filter['nama_unit']  : "" }}",
-                "kode_unit" : "{{  !empty($filter['kode_unit']) ? $filter['kode_unit']  : "" }}"
-                }
+                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
+               
             },
 
             columns: [{
@@ -294,26 +279,61 @@
                     }
                 },
                 {
-                    data: 'nama_provinsi',
-                    name: 'nama_provinsi'
+                    data: 'tahun',
+                    name: 'tahun'
                 },
                 {
-                    data: 'nama_kab_kota',
-                    name: 'nama_kab_kota'
+                    data: 'kd_pemilik',
+                    name: 'kd_pemilik'
                 },
                 {
-                    data: 'nama_bidang',
-                    name: 'nama_bidang'
+                    data: 'kode_aset',
+                    name: 'kode Aset'
                 },
                 {
-                    data: 'kode_unit',
-                    name: 'kode_unit'
+                    data: 'no_register',
+                    name: 'no_register'
                 },
                 {
-                    data: 'nama_unit',
-                    name: 'nama_unit'
+                    data: 'tgl_perolehan',
+                    name: 'tgl_pembelian'
                 },
-
+                {
+                    data: 'tgl_pembukuan',
+                    name: 'tgl_pembukuan'
+                },
+                {
+                    data: 'luas_m2',
+                    name: 'luas_m2'
+                },
+                {
+                    data: 'alamat',
+                    name: 'alamat'
+                },
+                {
+                    data: 'hak_tanah',
+                    name: 'hak_tanah'
+                },
+                {
+                    data: 'sertifikat_tanggal',
+                    name: 'tgl_sertifikat'
+                },
+                {
+                    data: 'sertifikat_nomor',
+                    name: 'no_sertifikat'
+                },
+                {
+                    data: 'asal_usul',
+                    name: 'asal_usul'
+                }, 
+                {
+                    data: 'penggunaan',
+                    name: 'penggunaan'
+                },
+                {
+                    data: 'harga',
+                    name: 'harga'
+                }, 
                 {
                     data: 'action',
                     name: 'action',
