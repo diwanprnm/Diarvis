@@ -136,7 +136,7 @@
                             <input type="text" id="kd_aset5" class="form-control" style="width:40px"
                                 placeholder="...">
                             <a data-toggle="modal" href="#modalAsset"  class="btn btn-info"><i class="icofont icofont-ui-search"></i></a>
-                            
+                            <span id="nama_aset"></span>
                         </div>
                         </div>
                     </div>
@@ -811,6 +811,7 @@
             $("#kd_aset3").attr("value",dt[4]);
             $("#kd_aset4").attr("value",dt[5]);
             $("#kd_aset5").attr("value",dt[6]);
+            $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
             return false;
         });    
