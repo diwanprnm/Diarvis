@@ -122,6 +122,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
  
                 Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
                 Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
+
+                Route::get('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');
+                // Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                Route::get('gedung/json', 'MasterData\Barang\GedungController@json')->name('getJsonGedung');
+                Route::get('gedung/detail/{id}', 'MasterData\Barang\GedungController@detail')->name('getDetailKIBC');
+                Route::get('gedung/getGedungById/{id}', 'MasterData\Barang\GedungController@getGedungById')->name('getGedungById');
+                Route::get('gedung/delete/{id}', 'MasterData\Barang\GedungController@delete')->name('deleteGedungById');
+                Route::post('gedung/save', 'MasterData\Barang\GedungController@save')->name('saveGedung');
+                Route::post('gedung/update', 'MasterData\Barang\GedungController@update')->name('updateGedung');
+
             });
         });
 
@@ -208,4 +218,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('pre', 'MockupController@bankeu_create_pre');
         });
     });
+});
+
+Route::get('/gedung',function(){
+    return view('admin/master/barang/gedung_bangunan/gedung');
 });

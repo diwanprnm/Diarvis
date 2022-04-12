@@ -103,6 +103,11 @@
                                     </a> 
                                 </li>
                                 <li>
+                                    <a href="{{ route('getGedung') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Gedung dan Bangunan</span>
+                                    </a> 
+                                </li>
+                                <li>
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Jalan Irigasi dan Lainnya</span>
                                     </a> 
