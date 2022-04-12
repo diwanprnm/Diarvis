@@ -79,7 +79,7 @@
                             
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
-                                    <td>{{$data->name}}</td>
+                                    <td>{{$data->nama_parpol}}</td>
                                     <td>{{$data->email}}</td>  
                                     <td>{{$data->role_id}}</td>
                                     <td>{{$data->created_at}}</td>

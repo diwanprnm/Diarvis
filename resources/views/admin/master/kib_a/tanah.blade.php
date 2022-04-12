@@ -100,7 +100,7 @@
         <div class="card">
             <div class="card-block">
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-                <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
+                <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -135,6 +135,7 @@
     </div>
 </div>
 <div class="modal-only">
+    
     @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
