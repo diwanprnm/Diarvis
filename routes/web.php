@@ -131,13 +131,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
 
                 Route::get('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');
-                // Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                Route::post('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');
+                Route::get('gedung/add', 'MasterData\Barang\GedungController@add')->name('gedung.add');
+                Route::post('gedung/getKodePemilik', 'MasterData\Barang\GedungController@getKodePemilik')->name('gedung.kode-pemilik');
+                Route::post('gedung/get-sub-unit', 'MasterData\Barang\GedungController@getSubUnit')->name('gedung.sub-unit');
+
+                Route::post('gedung/get-upb', 'MasterData\Barang\GedungController@getUPB')->name('gedung.upb');
+                Route::post('gedung/get-sub-rincian-obyek', 'MasterData\Barang\GedungController@getSubRincianObyek')->name('gedung.sub-rincian-obyek');
+                Route::post('gedung/get-sub-sub-rincian-obyek', 'MasterData\Barang\GedungController@getSubSubRincianObyek')->name('gedung.sub-sub-rincian-obyek');
+                Route::get('gedung/save', 'MasterData\Barang\GedungController@save')->name('gedung.save');
                 Route::get('gedung/json', 'MasterData\Barang\GedungController@json')->name('getJsonGedung');
                 Route::get('gedung/detail/{id}', 'MasterData\Barang\GedungController@detail')->name('getDetailKIBC');
-                Route::get('gedung/getGedungById/{id}', 'MasterData\Barang\GedungController@getGedungById')->name('getGedungById');
-                Route::get('gedung/delete/{id}', 'MasterData\Barang\GedungController@delete')->name('deleteGedungById');
-                Route::post('gedung/save', 'MasterData\Barang\GedungController@save')->name('saveGedung');
-                Route::post('gedung/update', 'MasterData\Barang\GedungController@update')->name('updateGedung');
+
 
             });
         });

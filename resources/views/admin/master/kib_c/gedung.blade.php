@@ -50,7 +50,7 @@
         <div class="card">
             <div class="card-block">
                 @if (hasAccess(Auth::user()->role_id, "Gedung", "Create"))
-                <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Gedung dan Bangunan (KIB C)</a>
+                <a  href="{{route('gedung.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Gedung dan Bangunan (KIB C)</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -94,7 +94,7 @@
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action="{{route('saveGedung')}}" method="post">
+                <form action="{{route('gedung.save')}}" method="post">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Tambah Data Gedung dan Bangunan</h4>
