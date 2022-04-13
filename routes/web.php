@@ -124,6 +124,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('tanah/get-sub-unit', 'MasterData\Barang\TanahController@getSubUnit')->name('tanah.sub-unit');
 
                 Route::post('tanah/get-upb', 'MasterData\Barang\TanahController@getUPB')->name('tanah.upb');
+                Route::post('tanah/get-upb-filter-table', 'MasterData\Barang\TanahController@getUPBFilterTable')->name('tanah.upb.filter.table');
                 Route::post('tanah/get-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubRincianObyek')->name('tanah.sub-rincian-obyek');
                 Route::post('tanah/get-sub-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubSubRincianObyek')->name('tanah.sub-sub-rincian-obyek');
                 Route::get('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
