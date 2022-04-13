@@ -124,6 +124,24 @@ class GedungController extends Controller {
     	}
     }
 
+    public function getUPBFilterTable(Request $request){
+        if($request->ajax()){
+            $ex=explode('_',$request->kode_upb);
+            $bidang = $ex[0];
+            $kode_unit = $ex[1]; 
+            $kode_sub_unit = $ex[2];
+            $kode_upb = $ex[3];
+            $kib_c = DB::table('ta_kib_c')
+            ->where('kd_bidang', $bidang)
+            ->where('kd_unit',$kode_unit)
+            ->where('kd_sub',$kode_sub_unit)
+            ->where('kd_upb',$kode_upb)
+            ->get();
+    		$data = view('admin.master.kib_c.ajax_select_table_kiba',compact('kib_c'))->render();
+    		return response()->json(['data'=>$data]);
+        }
+    }
+
     public function getSubRincianObyek(Request $request) { 
         if($request->ajax()){
            $ex = explode('_',$request->rincian_obyek);
