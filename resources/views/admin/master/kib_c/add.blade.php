@@ -363,16 +363,19 @@
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header">
-                <h5>Basic Form Inputs</h5>
-                <span>Add class of <code>.form-control</code> with
-                    <code>&lt;input&gt;</code> tag</span>
+                <h5>Data KIB - A </h5>
+                 
                 <div class="card-header-right">
                     <i class="icofont icofont-spinner-alt-5"></i>
                 </div>
             </div>
-            <div class="card-block">
-                <h4 class="sub-title">Basic Inputs</h4>
-                <table class="table table-framed ">
+            <div class="card-block" style="overflow-x: auto" >
+            <div id="loader_kib_c" style="display:none">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                </div>
+            </div>
+                 <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
                     <thead>
                         <tr>
                             <th>No. Reg</th>
@@ -382,223 +385,14 @@
                             <th>Uraian Aset</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">6</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">7</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">8</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">9</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">10</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">11</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">12</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">13</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">14</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">15</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">16</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">17</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">18</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">19</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">20</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">21</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">22</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">23</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">24</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">25</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">26</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">27</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">28</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">29</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">30</th>
-                            <td>31/12/2003</td>
-                            <td>1.3.2.05.001.004.005</td>
-                            <td>413.000,00</td>
-                            <td>Filling Cabinet Besi</td>
-                        </tr>
-                    </tbody>
+                         <tbody id="content_kib_c">
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -661,6 +455,7 @@
     </div>
 </div>
 
+
 @endsection
 
 @section('script')
@@ -679,7 +474,9 @@
         $(".chosen-select").chosen({
             width: '100%'
         });
-
+        $('#table_kib_c').dataTable( {
+        "bInfo": false
+        } );
 
         $('#unit').on('change', function() {
        
@@ -730,7 +527,13 @@
                 },
             });
         });
-            
+        function refreshTable() {
+  $('#table_kib_a').each(function() {
+      dt = $(this).dataTable();
+      dt.fnDraw();
+  })
+}
+        
 
         $('#kode_pemilik').on('change', function()  {
             $.ajax({ 

@@ -138,6 +138,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('gedung/get-sub-unit', 'MasterData\Barang\GedungController@getSubUnit')->name('gedung.sub-unit');
 
                 Route::post('gedung/get-upb', 'MasterData\Barang\GedungController@getUPB')->name('gedung.upb');
+                Route::post('gedung/get-upb-filter-table', 'MasterData\Barang\GedungController@getUPBFilterTable')->name('gedung.upb.filter.table');
                 Route::post('gedung/get-sub-rincian-obyek', 'MasterData\Barang\GedungController@getSubRincianObyek')->name('gedung.sub-rincian-obyek');
                 Route::post('gedung/get-sub-sub-rincian-obyek', 'MasterData\Barang\GedungController@getSubSubRincianObyek')->name('gedung.sub-sub-rincian-obyek');
                 Route::get('gedung/save', 'MasterData\Barang\GedungController@save')->name('gedung.save');
