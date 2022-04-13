@@ -1,6 +1,6 @@
 @extends('admin.layout.index')
 
-@section('title') Tanah (KIB A) @endsection
+@section('title') Aset Tetap Lainnya (KIB E) @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
 
@@ -22,7 +22,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Tanah (KIB A)</h4>
+                <h4>Aset Tetap Lainnya (KIB E)</h4>
                 <span></span>
             </div>
         </div>
@@ -100,7 +100,7 @@
         <div class="card">
             <div class="card-block">
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-                <a data-toggle="modal" href="#addModal" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
+                <a  href="{{route('aset-tetap-lainnya.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Aset Tetap Lainnya (KIB E)</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -111,15 +111,13 @@
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
                                 <th>No Register</th>
-                                <th>Tgl Pembelian</th>
+                                <th>Tgl Perolehan</th>
                                 <th>Tgl Pembukuan</th>
-                                <th>Luas (m2)</th>
-                                <th>Alamat</th>
-                                <th>Hak Tanah</th>
-                                <th>Tgl Sertifikat</th>
-                                <th>No Sertifikat</th>
+                                <th>Bahan</th>
+                                <th>Ukuran</th>
+                                <th>Masa Manfaat</th>
+                                <th>Nilai Sisa</th>
                                 <th>Asal Usul</th>
-                                <th>Penggunaan</th>
                                 <th>Harga</th>
                                 <!-- <th>Foto</th> -->
                                 <th style="min-width: 100px;">Aksi</th>
@@ -135,6 +133,7 @@
     </div>
 </div>
 <div class="modal-only">
+    
     @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -261,88 +260,80 @@
 
 <script>
     $(document).ready(function() {
-        $(".chosen-select").chosen({
-            width: '100%'
-        });
-        var table = $('#dttable').DataTable({
-            processing: true,
-            serverSide: true,
-            bFilter: false,
-            ajax: {
-                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
-               
-            },
+            $(".chosen-select").chosen({
+                width: '100%'
+            });
+            var table = $('#dttable').DataTable({
+                processing: true,
+                serverSide: true,
+                bFilter: false,
+                ajax: {
+                    url: "{{ url('admin/master-data/barang/intra/aset-tetap-lainnya/json') }}",
 
-            columns: [{
-                    'mRender': function(data, type, full, meta) {
-                        return +meta.row + meta.settings._iDisplayStart + 1;
-                    }
                 },
-                {
-                    data: 'tahun',
-                    name: 'tahun'
-                },
-                {
-                    data: 'kd_pemilik',
-                    name: 'kd_pemilik'
-                },
-                {
-                    data: 'kode_aset',
-                    name: 'kode Aset'
-                },
-                {
-                    data: 'no_register',
-                    name: 'no_register'
-                },
-                {
-                    data: 'tgl_perolehan',
-                    name: 'tgl_pembelian'
-                },
-                {
-                    data: 'tgl_pembukuan',
-                    name: 'tgl_pembukuan'
-                },
-                {
-                    data: 'luas_m2',
-                    name: 'luas_m2'
-                },
-                {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
-                {
-                    data: 'hak_tanah',
-                    name: 'hak_tanah'
-                },
-                {
-                    data: 'sertifikat_tanggal',
-                    name: 'tgl_sertifikat'
-                },
-                {
-                    data: 'sertifikat_nomor',
-                    name: 'no_sertifikat'
-                },
-                {
-                    data: 'asal_usul',
-                    name: 'asal_usul'
-                }, 
-                {
-                    data: 'penggunaan',
-                    name: 'penggunaan'
-                },
-                {
-                    data: 'harga',
-                    name: 'harga'
-                }, 
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
+
+                columns: [{
+                        'mRender': function(data, type, full, meta) {
+                            return +meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'tahun',
+                        name: 'tahun'
+                    },
+                    {
+                        data: 'kd_pemilik',
+                        name: 'kd_pemilik'
+                    },
+                    {
+                        data: 'kode_aset',
+                        name: 'kode_aset'
+                    },
+                    {
+                        data: 'no_register',
+                        name: 'no_register'
+                    },
+                    {
+                        data: 'tgl_perolehan',
+                        name: 'tgl_pembelian'
+                    },
+                    {
+                        data: 'tgl_pembukuan',
+                        name: 'tgl_pembukuan'
+                    },
+                    {
+                        data: 'bahan',
+                        name: 'bahan'
+                    },
+                    {
+                        data: 'ukuran',
+                        name: 'ukuran'
+                    },
+                    {
+                        data: 'masa_manfaat',
+                        name: 'masa_manfaat'
+                    },
+                    {
+                        data: 'nilai_sisa',
+                        name: 'nilai_sisa'
+                    },
+                    {
+                        data: 'asal_usul',
+                        name: 'asal_usul'
+                    },
+                    {
+                        data: 'harga',
+                        name: 'harga'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
         });
-    });
 
 
     @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))

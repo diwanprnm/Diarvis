@@ -117,21 +117,34 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'barang'], function () {
             Route::group(['prefix' => 'intra'], function () {
+                // tanah
                 Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
+                Route::get('tanah/add', 'MasterData\Barang\TanahController@add')->name('tanah.add');
+                Route::post('tanah/getKodePemilik', 'MasterData\Barang\TanahController@getKodePemilik')->name('tanah.kode-pemilik');
+                Route::post('tanah/get-sub-unit', 'MasterData\Barang\TanahController@getSubUnit')->name('tanah.sub-unit');
+
+                Route::post('tanah/get-upb', 'MasterData\Barang\TanahController@getUPB')->name('tanah.upb');
+                Route::post('tanah/get-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubRincianObyek')->name('tanah.sub-rincian-obyek');
+                Route::post('tanah/get-sub-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubSubRincianObyek')->name('tanah.sub-sub-rincian-obyek');
+                Route::get('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
                 Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
                 Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
 
+                // aset tetap lainnya
                 Route::get('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
-                // Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                Route::get('aset-tetap-lainnya/add', 'MasterData\Barang\AsetTetapLainnyaController@add')->name('aset-tetap-lainnya.add');
+                Route::post('aset-tetap-lainnya/getKodePemilik', 'MasterData\Barang\AsetTetapLainnyaController@getKodePemilik')->name('aset-tetap-lainnya.kode-pemilik');
+                Route::post('aset-tetap-lainnya/get-sub-unit', 'MasterData\Barang\AsetTetapLainnyaController@getSubUnit')->name('aset-tetap-lainnya.sub-unit');
+
+                Route::post('aset-tetap-lainnya/get-upb', 'MasterData\Barang\AsetTetapLainnyaController@getUPB')->name('aset-tetap-lainnya.upb');
+                Route::post('aset-tetap-lainnya/get-sub-rincian-obyek', 'MasterData\Barang\AsetTetapLainnyaController@getSubRincianObyek')->name('aset-tetap-lainnya.sub-rincian-obyek');
+                Route::post('aset-tetap-lainnya/get-sub-sub-rincian-obyek', 'MasterData\Barang\AsetTetapLainnyaController@getSubSubRincianObyek')->name('aset-tetap-lainnya.sub-sub-rincian-obyek');
+                Route::post('aset-tetap-lainnya/save', 'MasterData\Barang\AsetTetapLainnyaController@save')->name('aset-tetap-lainnya.save');
                 Route::get('aset-tetap-lainnya/json', 'MasterData\Barang\AsetTetapLainnyaController@json')->name('getJsonAsetTetapLainnya');
                 Route::get('aset-tetap-lainnya/detail/{id}', 'MasterData\Barang\AsetTetapLainnyaController@detail')->name('getDetailKIBE');
-                Route::get('aset-tetap-lainnya/getAsetTetapLainnyaById/{id}', 'MasterData\Barang\AsetTetapLainnyaController@getAsetTetapLainnyaById')->name('getAsetTetapLainnyaById');
-                Route::get('aset-tetap-lainnya/delete/{id}', 'MasterData\Barang\AsetTetapLainnyaController@delete')->name('deleteAsetTetapLainnyaById');
-                Route::post('aset-tetap-lainnya/save', 'MasterData\Barang\AsetTetapLainnyaController@save')->name('saveAsetTetapLainnya');
-                Route::post('aset-tetap-lainnya/update', 'MasterData\Barang\AsetTetapLainnyaController@update')->name('updateAsetTetapLainnya');
- 
-                
+
             });
         });
 

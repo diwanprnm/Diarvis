@@ -33,7 +33,7 @@ class TanahController extends Controller
         $filter['nama_unit'] = $request->nama_unit;
         $bidang = DB::table('ref_organisasi_bidang')->get();   
 
-        return view('admin.master.barang.tanah', compact('bidang','filter'));
+        return view('admin.master.kib_a.tanah', compact('bidang','filter'));
     
     }
 
@@ -87,29 +87,79 @@ class TanahController extends Controller
            'a.no_register', 'a.harga', 'a.luas_m2', 'a.tgl_dok', 'a.no_dok', 'a.kd_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
             'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka', 'a.tgl_d2', 'a.tgl_proses')
             ->where('id',$id)->first(); 
-            return view('admin.master.barang.detail', compact('tanah'));
+            return view('admin.master.kib_a.detail', compact('tanah'));
     }
 
+    public function getSubUnit(Request $request){
+        if($request->ajax()){
+            $ex = explode('_',$request->kode_unit);
+            $kode_unit = $ex[0];
+            $kode_bidang = $ex[1];
+    		$sub_unit = DB::table('ref_organisasi_sub_unit')->where('kode_unit', $kode_unit)->where('kode_bidang',$kode_bidang)->get();
+    		$data = view('admin.master.kib_a.ajax_select_sub_unit',compact('sub_unit'))->render();
+    		return response()->json(['options'=>$data]);
+    	}
+    }
+    public function getUPB(Request $request){
+        if($request->ajax()){
+            $ex = explode('_',$request->kode_sub_unit);
+            $bidang = $ex[0];
+            $kode_unit = $ex[1]; 
+            $kode_sub_unit = $ex[2];
+            $upb = DB::table('ref_organisasi_upb')
+            ->where('kode_bidang', $bidang)
+            ->where('kode_unit',$kode_unit)
+            ->where('kode_sub_unit',$kode_sub_unit)
+            ->get();
+    		$data = view('admin.master.kib_a.ajax_select_upb',compact('upb'))->render();
+    		return response()->json(['options'=>$data]);
+    	}
+    }
+
+    public function getSubRincianObyek(Request $request) { 
+        if($request->ajax()){
+           $ex = explode('_',$request->rincian_obyek);
+           $kd_aset1 = $ex[0];
+           $kd_aset3 = $ex[1];
+
+            $sub_rincian_obyek = DB::table('ref_rek4_108')
+            ->where('kd_aset1',$kd_aset1)
+             ->where('kd_aset3', $kd_aset3)
+            ->get();
+    		$data = view('admin.master.kib_a.ajax_select_subrincianobyek',compact('sub_rincian_obyek'))->render();
+    		return response()->json(['options'=>$data]);
+    	}
+    }
+
+    public function getSubSubRincianObyek(Request $request) { 
+        if($request->ajax()){
+           $ex = explode('_',$request->rincian_obyek);
+           $kd_aset1 = $ex[0];
+           $kd_aset4 = $ex[1];
+
+            $sub_sub_rincian_obyek = DB::table('ref_rek5_108')
+            ->where('kd_aset1',$kd_aset1)
+             ->where('kd_aset4', $kd_aset4)
+            ->get();
+    		$data = view('admin.master.kib_a.ajax_select_subsubrincianobyek',compact('sub_sub_rincian_obyek'))->render();
+    		return response()->json(['options'=>$data]);
+    	}
+    }
+    public function getKodePemilik(Request $request) { 
+        $kode_pemilik = DB::table('ref_pemilik')->where('kd_pemilik',$request->kode_pemilik)->first();
+        return $kode_pemilik->nm_pemilik;
+    }
     public function add()
-    {
-        $sup = DB::table('utils_sup');
-        $ruasJalan = DB::table('master_ruas_jalan');
-        $uptd = DB::table('landing_uptd');
-        //$jenis = DB::table('utils_jenis_jembatan');
+    { 
 
-        if (Auth::user()->internalRole->uptd) {
-            if (Auth::user()->internalRole->uptd) {
-                $uptd_id = str_replace('uptd', '', Auth::user()->internalRole->uptd);
-                $sup = $sup->where('uptd_id', $uptd_id);
-                $ruasJalan = $ruasJalan->where('uptd_id', $uptd_id);
-            }
-        }
-        $sup = $sup->get();
-        $ruasJalan = $ruasJalan->get();
-        $uptd = $uptd->get();
-        //$jenis = $jenis->get();
+        $kode_pemilik = DB::table('ref_pemilik')->get();
 
-        return view('admin.master.jembatan.add', compact('sup', 'ruasJalan', 'uptd'));
+        $unit = DB::table('ref_organisasi_unit')->get(); 
+        $rincian_object = DB::table('ref_rek3_108')
+                            ->where('kd_aset1','1')
+                            ->get(); 
+
+        return view('admin.master.kib_a.add', compact('kode_pemilik','unit','rincian_object'));
     }
 
     public function store(Request $request)
