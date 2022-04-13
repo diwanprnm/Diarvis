@@ -366,8 +366,9 @@
         $(".chosen-select").chosen({
             width: '100%'
         }); 
-
-
+        $('#table_kib_a').dataTable( {
+        "bInfo": false
+        } );
         $('#unit').on('change', function() {
        
             $.ajax({ 
