@@ -269,6 +269,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
                                                          <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
                                                             <thead>
                                                                 <tr>
@@ -428,7 +433,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                     beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                    $('#loader_upb').show();
+                    $('#loader_kib_a').show();
                 },
                 data: {kode_upb:this.value },
 
@@ -440,7 +445,7 @@
                    //$('#table_kib_a').DataTable().ajax.reload();
                 },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                    $('#loader_upb').hide();
+                    $('#loader_kib_a').hide();
                 },
             });
         });
