@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
 use Yajra\Datatables\DataTables;
 
 class AsetTetapLainnyaController extends Controller
@@ -33,6 +34,7 @@ class AsetTetapLainnyaController extends Controller
         // $filter['kode_unit'] = $request->kode_unit;
         // $filter['nama_unit'] = $request->nama_unit;
         // $bidang = DB::table('ref_organisasi_bidang')->get(); 
+        
         $kd_aset['kd_aset'] = $request->kd_aset;
         $kd_aset['kd_aset0'] = $request->kd_aset;
         $kd_aset['kd_aset1'] = $request->kd_aset;
@@ -44,7 +46,6 @@ class AsetTetapLainnyaController extends Controller
         $nmAset5 = DB::table('ref_rek5_108')
             ->select(DB::raw("CONCAT(ref_rek5_108.kd_aset,'',ref_rek5_108.kd_aset0,'',ref_rek5_108.kd_aset1,'',ref_rek5_108.kd_aset2,'',ref_rek5_108.kd_aset3,'',ref_rek5_108.kd_aset4,'',ref_rek5_108.kd_aset5) as kode_aset"), 'nm_aset5')
             ->get();
-
         // return view('admin.master.kib_a.tanah', compact('bidang','filter'));
         return view('admin.master.kib_e.asettetaplainnya', compact('nmAset5', 'kd_aset'));
     }
@@ -79,7 +80,7 @@ class AsetTetapLainnyaController extends Controller
                 $btn = $btn . '<a href="' . route("getDetailKIBE", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
                 //   }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
-                    $btn = $btn . '<a href=" "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                    $btn = $btn . '<a href="'.route("aset-tetap-lainnya.edit", $row->id).'"><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                 }
 
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
@@ -244,6 +245,81 @@ class AsetTetapLainnyaController extends Controller
         return view('admin.master.kib_e.add', compact('kode_pemilik', 'unit', 'rincian_object'));
     }
 
+    public function edit($id)
+    {
+        
+        $atl = DB::table('ta_fn_kib_e as a')->where('a.kd_ka','1')
+        ->join('ref_rek5_108 as b' , function($join)
+        {
+            $join->on('b.kd_aset5', '=', 'a.kd_aset5');
+            $join->on('b.kd_aset4','=','a.kd_aset4');
+            $join->on('b.kd_aset3','=','a.kd_aset3');
+            $join->on('b.kd_aset2','=','a.kd_aset2');
+            $join->on('b.kd_aset1','=','a.kd_aset1');
+            $join->on('b.kd_aset0','=','a.kd_aset0');
+            $join->on('b.kd_aset','=','a.kd_aset');
+        })
+        ->select('a.id','a.tahun','a.kd_aset','a.kd_aset0','a.kd_aset1','a.kd_aset2','a.kd_aset3','a.kd_aset4','a.kd_aset5', 
+        'a.no_register', 'a.kd_ruang', 'a.kd_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), DB::raw(" to_char( a.tgl_pembukuan, 'DD-MM-YYYY') as tgl_pembukuan"), DB::raw(" to_char( tgl_dokumen, 'DD-MM-YYYY') as tgl_dokumen"),'bahan', 'ukuran', 'asal_usul', 
+        'a.harga', 'a.masa_manfaat', 'a.nilai_sisa','a.kondisi',DB::raw(" to_char( a.tgl_d2, 'DD-MM-YYYY') as tgl_d2"),'a.tgl_proses','b.nm_aset5','kd_kab_kota','kd_prov')
+        ->where('id',$id)->first();
+        // dd( substr($atl->harga,2));
+        $kode_pemilik = DB::table('ref_pemilik')->get();
+
+        // $unit = DB::table('ref_organisasi_unit')->get();
+        $rincian_object = DB::table('ref_rek3_108')
+            ->where('kd_aset1', '1')
+            ->get();
+
+        return view('admin.master.kib_e.edit', compact('atl','kode_pemilik','rincian_object'));
+    }
+
+    public function update(Request $request){
+        $atl['kd_pemilik'] = $request->kode_pemilik;
+        // $atl['idpemda'] = '08010160505000127';
+        // $atl['idpemda'] = 8;
+        // $atl['kd_unit'] = 8;
+        // $atl['kd_sub'] = 8;
+        // $atl['kd_upb'] = 8;
+        // $atl['kd_bidang'] = 8;
+        // $atl['kd_ka'] = 1;
+        $atl['tgl_d2'] = $request->tgl_perolehan;
+        $atl['kd_aset'] = $request->kd_aset;
+        $atl['kd_aset0'] = $request->kd_aset0;
+        $atl['kd_aset1'] = $request->kd_aset1;
+        $atl['kd_aset2'] = $request->kd_aset2;
+        $atl['kd_aset3'] = $request->kd_aset3;
+        $atl['kd_aset4'] = $request->kd_aset4;
+        $atl['kd_aset5'] = $request->kd_aset5;
+        // $atl['no_register'] = 1;
+        $atl['kd_ruang'] = $request->kd_ruang;
+        $atl['tgl_perolehan'] = $request->tgl_perolehan;
+        $atl['tgl_proses'] = $request->tgl_perolehan;
+        $atl['tgl_pembukuan'] = $request->tgl_pembukuan;
+        $atl['bahan'] = $request->bahan;
+        $atl['ukuran'] = $request->ukuran;
+        $atl['asal_usul'] = $request->asal_usul;
+        $atl['harga'] = $request->harga;
+        $atl['kondisi'] = $request->kondisi;
+        $atl['masa_manfaat'] = $request->masa_manfaat;
+        $atl['nilai_sisa'] = $request->nilai_sisa;
+        $atl['kd_kab_kota'] = $request->kab_kota;
+        $atl['kd_prov'] = $request->provinsi;
+        // $atl['tahun'] = date("Y");
+
+        $update_atl = DB::table('ta_fn_kib_e')->where('id', $request->id)->update($atl);
+
+        if($update_atl) {
+            $color = "success";
+            $msg = " Aset Tetap Lainnya ".$request->id."  berhasil diperbaharui ";
+            return redirect(route('getAsetTetapLainnya'))->with(compact('color', 'msg'));
+       }
+
+    }
+
+
+
+
     public function store(Request $request)
     {
         // $jembatan = $request->except('_token', 'foto');
@@ -305,34 +381,6 @@ class AsetTetapLainnyaController extends Controller
         return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
     }
 
-    public function edit($id)
-    {
-        $jembatan = Jembatan::find($id);
-
-        $id = substr($jembatan->uptd, strlen($jembatan->uptd) - 1);
-        $id = (int) $id;
-
-        $ruasJalan = DB::table('master_ruas_jalan');
-        $ruasJalan = $ruasJalan->where('uptd_id', $id);
-        $ruasJalan = $ruasJalan->get();
-
-
-        $sup = DB::table('utils_sup');
-        $sup = $sup->where('uptd_id', $id);
-        $sup = $sup->get();
-        $uptd = DB::table('landing_uptd')->get();
-        //$jenis = DB::table('utils_jenis_jembatan')->get();
-        $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $jembatan->id)->get();
-
-        $dataBentang = DB::table('master_jembatan_bentang');
-        $dataBentang = $dataBentang->where('master_jembatan_id', $jembatan->id);
-        $dataBentang = $dataBentang->get();
-
-        $tipe = DB::table('utils_tipe_bangunan_atas');
-        $tipe = $tipe->get();
-
-        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup', 'uptd', 'tipe', 'dataBentang', 'foto'));
-    }
 
     public function deletePhoto($id)
     {
@@ -351,72 +399,72 @@ class AsetTetapLainnyaController extends Controller
     }
 
 
-    public function update(Request $request)
-    {
-        // $jembatan = $request->except('_token', 'foto', 'id');
-        $jembatan['id_jembatan'] = $request->id_jembatan;
-        $jembatan['nama_jembatan'] = $request->nama_jembatan;
-        $jembatan['uptd'] = $request->uptd;
-        $jembatan['ruas_jalan'] = $request->ruas_jalan;
-        $jembatan['sup'] = $request->sup;
-        $jembatan['lokasi'] = $request->lokasi;
-        // $jembatan['status'] = $request->status;
-        $jembatan['kondisi'] = $request->kondisi;
-        //$jembatan['debit_air'] = $request->debit_air;
-        //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
-        //$jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
-        $jembatan['tinggi_muka_air_banjir'] = $request->tinggi_muka_air_banjir;
-        $jembatan['panjang'] = $request->panjang;
-        $jembatan['lebar'] = $request->lebar;
-        $jembatan['jumlah_bentang'] = $request->jumlah_bentang;
-        $jembatan['lat'] = $request->lat;
-        $jembatan['lng'] = $request->lng;
-        $jembatan['ket'] = $request->ket;
-        $jembatan['tipe'] = $request->tipe;
+    // public function update(Request $request)
+    // {
+    //     // $jembatan = $request->except('_token', 'foto', 'id');
+    //     $jembatan['id_jembatan'] = $request->id_jembatan;
+    //     $jembatan['nama_jembatan'] = $request->nama_jembatan;
+    //     $jembatan['uptd'] = $request->uptd;
+    //     $jembatan['ruas_jalan'] = $request->ruas_jalan;
+    //     $jembatan['sup'] = $request->sup;
+    //     $jembatan['lokasi'] = $request->lokasi;
+    //     // $jembatan['status'] = $request->status;
+    //     $jembatan['kondisi'] = $request->kondisi;
+    //     //$jembatan['debit_air'] = $request->debit_air;
+    //     //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
+    //     //$jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
+    //     $jembatan['tinggi_muka_air_banjir'] = $request->tinggi_muka_air_banjir;
+    //     $jembatan['panjang'] = $request->panjang;
+    //     $jembatan['lebar'] = $request->lebar;
+    //     $jembatan['jumlah_bentang'] = $request->jumlah_bentang;
+    //     $jembatan['lat'] = $request->lat;
+    //     $jembatan['lng'] = $request->lng;
+    //     $jembatan['ket'] = $request->ket;
+    //     $jembatan['tipe'] = $request->tipe;
 
-        $oldfoto = DB::table('master_jembatan_foto')->where('id_jembatan', $request->id)->get();
+    //     $oldfoto = DB::table('master_jembatan_foto')->where('id_jembatan', $request->id)->get();
 
-        if ($request->foto != null) {
-            foreach ($oldfoto as $j => $row) {
-                $row->foto ?? Storage::delete('public/' . $row->foto);
-                DB::table('master_jembatan_foto')->where('foto', $row->foto)->delete();
-            }
+    //     if ($request->foto != null) {
+    //         foreach ($oldfoto as $j => $row) {
+    //             $row->foto ?? Storage::delete('public/' . $row->foto);
+    //             DB::table('master_jembatan_foto')->where('foto', $row->foto)->delete();
+    //         }
 
-            foreach ($request->foto as $i => $val) {
-                $path = 'jembatan/' . Str::snake(date("YmdHis") . ' ' . $val->getClientOriginalName());
-                $val->storeAs('public/', $path);
-                $file['foto'] = $path;
-                $file['nama'] = $request->nama[$i];
-                $file['id_jembatan'] = $request->id;
-                DB::table('master_jembatan_foto')->insert($file);
-            }
-        }
-        $jembatan['updated_by'] = Auth::user()->id;
-        DB::table('master_jembatan')->where('id', $request->id)->update($jembatan);
+    //         foreach ($request->foto as $i => $val) {
+    //             $path = 'jembatan/' . Str::snake(date("YmdHis") . ' ' . $val->getClientOriginalName());
+    //             $val->storeAs('public/', $path);
+    //             $file['foto'] = $path;
+    //             $file['nama'] = $request->nama[$i];
+    //             $file['id_jembatan'] = $request->id;
+    //             DB::table('master_jembatan_foto')->insert($file);
+    //         }
+    //     }
+    //     $jembatan['updated_by'] = Auth::user()->id;
+    //     DB::table('master_jembatan')->where('id', $request->id)->update($jembatan);
 
-        for ($i = 0; $i < $jembatan['jumlah_bentang']; $i++) {
-            $textPanjang = 'panjangBentang' . $i;
-            $textTipe = 'tipe' . $i;
-            $textIdBentang = 'idBentang' . $i;
+    //     for ($i = 0; $i < $jembatan['jumlah_bentang']; $i++) {
+    //         $textPanjang = 'panjangBentang' . $i;
+    //         $textTipe = 'tipe' . $i;
+    //         $textIdBentang = 'idBentang' . $i;
 
-            $dataBentang['master_jembatan_id'] = $request->id;
-            $dataBentang['bentang'] = $i + 1;
-            $dataBentang['panjang'] = $request->$textPanjang;
-            $dataBentang['tipe_bangunan_atas_id'] = $request->$textTipe;
+    //         $dataBentang['master_jembatan_id'] = $request->id;
+    //         $dataBentang['bentang'] = $i + 1;
+    //         $dataBentang['panjang'] = $request->$textPanjang;
+    //         $dataBentang['tipe_bangunan_atas_id'] = $request->$textTipe;
 
-            $oldBentang = DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang);
-            if ($oldBentang->exists()) {
-                DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang)->update($dataBentang);
-            } else {
-                DB::table('master_jembatan_bentang')->insert($dataBentang);
-            }
-        }
+    //         $oldBentang = DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang);
+    //         if ($oldBentang->exists()) {
+    //             DB::table('master_jembatan_bentang')->where('id', $request->$textIdBentang)->update($dataBentang);
+    //         } else {
+    //             DB::table('master_jembatan_bentang')->insert($dataBentang);
+    //         }
+    //     }
 
-        $color = "success";
-        $msg = "Berhasil Memperbaharui Data Jembatan";
+    //     $color = "success";
+    //     $msg = "Berhasil Memperbaharui Data Jembatan";
 
-        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
-    }
+    //     return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+    // }
 
     public function updatePhoto(Request $request)
     {
@@ -467,16 +515,10 @@ class AsetTetapLainnyaController extends Controller
 
     public function delete($id)
     {
-        $jembatan = DB::table('master_jembatan');
-        $old = $jembatan->where('id', $id);
-        $old->first()->foto ?? Storage::delete('public/' . $old->first()->foto);
-        $old->delete();
-
-        $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $id)->delete();
-
+        $aset = DB::table('ta_fn_kib_e')->where('id', $id)->delete();
         $color = "success";
-        $msg = "Berhasil Menghapus Data Jembatan";
-        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+        $msg = "Berhasil Menghapus Data Aset Tetap Lainnya";
+        return redirect(route('getAsetTetapLainnya'))->with(compact('color', 'msg'));
     }
 
     public function delPhoto($id)

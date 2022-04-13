@@ -362,7 +362,7 @@
         const link = $(event.relatedTarget);
         const id = link.data('id');
         console.log(id);
-        const url = `{{ url('admin/master-data/unit-organisasi/unit/delete') }}/` + id;
+        const url = `{{ url('admin/master-data/barang/intra/aset-tetap-lainnya/delete') }}/` + id;
         console.log(url);
         const modal = $(this);
         modal.find('.modal-footer #delHref').attr('href', url);

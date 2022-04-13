@@ -135,6 +135,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
                 Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
                 Route::get('aset-tetap-lainnya/add', 'MasterData\Barang\AsetTetapLainnyaController@add')->name('aset-tetap-lainnya.add');
+                Route::get('aset-tetap-lainnya/edit/{id}', 'MasterData\Barang\AsetTetapLainnyaController@edit')->name('aset-tetap-lainnya.edit');
                 Route::post('aset-tetap-lainnya/getKodePemilik', 'MasterData\Barang\AsetTetapLainnyaController@getKodePemilik')->name('aset-tetap-lainnya.kode-pemilik');
                 Route::post('aset-tetap-lainnya/get-sub-unit', 'MasterData\Barang\AsetTetapLainnyaController@getSubUnit')->name('aset-tetap-lainnya.sub-unit');
 
@@ -144,7 +145,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('aset-tetap-lainnya/save', 'MasterData\Barang\AsetTetapLainnyaController@save')->name('aset-tetap-lainnya.save');
                 Route::get('aset-tetap-lainnya/json', 'MasterData\Barang\AsetTetapLainnyaController@json')->name('getJsonAsetTetapLainnya');
                 Route::get('aset-tetap-lainnya/detail/{id}', 'MasterData\Barang\AsetTetapLainnyaController@detail')->name('getDetailKIBE');
-
+                Route::get('aset-tetap-lainnya/delete/{id}', 'MasterData\Barang\AsetTetapLainnyaController@delete')->name('deleteAsetTetapLainnyaById');
+                Route::post('aset-tetap-lainnya/update', 'MasterData\Barang\AsetTetapLainnyaController@update')->name('aset-tetap-lainnya.update');
             });
         });
 
