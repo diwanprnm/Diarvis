@@ -171,7 +171,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Luas</label>
+                        <label class="col-md-3 col-form-label">Luas (M2)</label>
    
                         <div class="col-sm-6">
                         <input class="form-control" name="luas" type="text">

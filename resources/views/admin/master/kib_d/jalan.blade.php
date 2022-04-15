@@ -113,7 +113,7 @@
                                 <th>No Register</th>
                                 <th>Tgl Pembelian</th>
                                 <th>Tgl Pembukuan</th>
-                                <th>Luas</th>
+                                <th>Luas (M2)</th>
                                 <th>Alamat</th>
                                 <th>Asal Usul</th>
                                 <th>Masa Manfaat</th>
