@@ -165,7 +165,7 @@ class TanahController extends Controller
         $kib_a['kd_sub'] = $sub_unit;
         $kib_a['kd_upb'] = $upb;
         $kib_a['kd_ka'] ='1';
-        $kib_a['kd_hapus'] ='0';
+        $kib_a['kd_hapus'] ='0'; 
         $kib_a['kd_pemilik'] = $request->kode_pemilik;
         $kib_a['kd_aset8'] = $request->kd_aset;
         $kib_a['kd_aset80'] = $request->kd_aset0; 
@@ -192,6 +192,32 @@ class TanahController extends Controller
         return redirect(route('getTanah'))->with(compact('color', 'msg'));
 
     }
+    public function getNoRegister(Request $request) {
+        if($request->ajax()){
+    $kd_aset = $request->kd_aset;
+    $kd_aset0 = $request->kd_aset0;
+    $kd_aset1 = $request->kd_aset1;
+    $kd_aset2 = $request->kd_aset2;
+    $kd_aset3 = $request->kd_aset3;
+    $kd_aset4 = $request->kd_aset4;
+    $kd_aset5 = $request->kd_aset5;
+    $no_reg = DB::table('ta_kib_a')
+    ->select(DB::raw("MAX(no_register) as max_noreg")) 
+    ->where('kd_aset8', $kd_aset)
+    ->where('kd_aset80', $kd_aset0)
+    ->where('kd_aset81', $kd_aset1)
+    ->where('kd_aset82', $kd_aset2)
+    ->where('kd_aset83', $kd_aset3)
+    ->where('kd_aset84', $kd_aset4)
+    ->where('kd_aset85', $kd_aset5)->first();
+        if(!empty($no_reg->max_noreg)){
+            $no_reg = ($no_reg->max_noreg+1);
+        }else{
+            $no_reg = 1;
+        }
+    return response()->json(['no_register'=>$no_reg]);
+}
+    } 
 
     public function getSubRincianObyek(Request $request) { 
         if($request->ajax()){

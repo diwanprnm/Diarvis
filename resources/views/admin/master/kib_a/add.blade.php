@@ -120,7 +120,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Kode Asset</label>
+                        <label class="col-md-3 col-form-label">Kode Aset</label>
                         <div class="col-md-9">
                         <div class="col separated-input d-flex row">
                             <input type="text" id="kd_aset" name="kd_aset"  class="form-control" style="width:40px"
@@ -146,7 +146,12 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">No Register</label>
                         <div class="col-md-6">
-                        <input type="number" class="form-control" readonly value="1">
+                        <div id="loader_noreg" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <input type="number" class="form-control" name="no_register"  id="no_register" readonly value="1">
                         </div>
                         <div class="col-sm-3">
                             <p><i>(Otomatis)</i></p>
@@ -177,15 +182,15 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Alamat</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <textarea class="form-control" name="alamat"></textarea> 
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Hak Tanah</label>
    
-                        <div class="col-sm-6">
-                            <select name="hak_tanah" id="hak_tanah" class="form-control"  >
+                        <div class="col-sm-9">
+                            <select name="hak_tanah" id="hak_tanah" class="form-control chosen-select">
                             <option></option>
                             <option value="Hak Pakai">Hak Pakai</option>
                             <option value="Hak Pengelolaan">Hak Pengelolaan</option>
@@ -196,7 +201,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Tgl. Sertifikat</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="tanggal_sertifikat" type="date">
                         </div>
                     </div>
@@ -204,15 +209,15 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">No Sertifikat</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="no_sertifikat" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Asal Usul</label>
    
-                        <div class="col-sm-6">
-                            <select name="asal_usul" id="asal_usul" class="form-control"  >
+                        <div class="col-sm-9">
+                            <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
                             <option></option>
                             <option value="Pembelian">Pembelian</option>
                             <option value="Hibah">Hibah</option>
@@ -223,14 +228,14 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Penggunaan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="penggunaan" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Harga</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="harga" type="number">
                         </div>
                     </div>
@@ -238,14 +243,14 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Keterangan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <textarea class="form-control" name="keterangan"></textarea> 
                         </div>
                     </div>     
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kecamatan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                          
                         </div>
                     </div>        
@@ -563,7 +568,7 @@
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_ssro').hide();
                 } 
-                });
+            });
         }); 
 
         $('#sub_sub_rincian_obyek').on('change', function()  {
@@ -579,6 +584,26 @@
             $("#kd_aset5").attr("value",dt[6]);
             $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
+            $.ajax({ 
+                url: "{{route('tanah.noregister')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_noreg').show();
+                },
+                data: {kd_aset:dt[0],kd_aset0:dt[1],kd_aset1:dt[2],kd_aset2:dt[3],kd_aset3:dt[4],kd_aset4:dt[5],kd_aset5:dt[6] },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("input[name='no_register']").attr("value",data.no_register);
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_noreg').hide();
+                } 
+            });
+
             return false;
         });    
     
