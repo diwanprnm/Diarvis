@@ -99,6 +99,9 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-block">
+             
+
+
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
                 <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
                 @endif
@@ -284,8 +287,8 @@
                     name: 'tahun'
                 },
                 {
-                    data: 'kd_pemilik',
-                    name: 'kd_pemilik'
+                    data: 'nm_pemilik',
+                    name: 'nama_pemilik'
                 },
                 {
                     data: 'kode_aset',

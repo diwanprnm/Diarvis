@@ -115,7 +115,7 @@
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <th scope="row">Kode Pemilik</th>
-                                                                                                        <td>{{$tanah->kd_pemilik}}</td>
+                                                                                                        <td>{{$tanah->kd_pemilik." ".$tanah->nm_pemilik}}</td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <th scope="row">Kode Aset</th>

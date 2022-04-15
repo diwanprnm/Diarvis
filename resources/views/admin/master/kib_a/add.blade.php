@@ -43,6 +43,8 @@
  
 
 @section('page-body') 
+<form action="{{route('tanah.save')}}" method="post">
+                    @csrf
 <div class="row">
     <div class="col-xl-6">
         <div class="card">
@@ -121,19 +123,19 @@
                         <label class="col-md-3 col-form-label">Kode Asset</label>
                         <div class="col-md-9">
                         <div class="col separated-input d-flex row">
-                            <input type="text" id="kd_aset"  class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset" name="kd_aset"  class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset0" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset0" name="kd_aset0" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset1" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset1" name="kd_aset1" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset2" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset2" name="kd_aset2" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset3" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset3" name="kd_aset3" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text"  id="kd_aset4" class="form-control" style="width:40px"
+                            <input type="text"  id="kd_aset4" name="kd_aset4" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset5" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset5" name="kd_aset5" class="form-control" style="width:40px"
                                 placeholder="...">
                             <a data-toggle="modal" href="#modalAsset"  class="btn btn-info"><i class="icofont icofont-ui-search"></i></a>
                             <span id="nama_aset"></span>
@@ -210,7 +212,7 @@
                         <label class="col-md-3 col-form-label">Asal Usul</label>
    
                         <div class="col-sm-6">
-                            <select name="hak_tanah" id="asal_usul" class="form-control"  >
+                            <select name="asal_usul" id="asal_usul" class="form-control"  >
                             <option></option>
                             <option value="Pembelian">Pembelian</option>
                             <option value="Hibah">Hibah</option>
@@ -254,9 +256,10 @@
                          
                         </div>
                     </div>                                    
-                                 
-                        </form>
+                              
+                      
                     </div>
+                    
                 </div>
             </div>
                                             <div class="col-xl-6">
@@ -289,14 +292,51 @@
                                                         </table>
                                                     </div>
                                                 </div>
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Lokasi</h5>
+                                                         
+                                                        <div class="card-header-right">
+                                                            <i class="icofont icofont-spinner-alt-5"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+                                                                        Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
+                                                                        Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
+                                                                   
+                                                    </div>
+                                                </div>
+
                                             </div>
+
+
+                                            
                                         </div>
                                     
-       <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
+       
+    </div>
+    <div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+
+    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
+                    </div>
+</div></div></div>
+                </form>
+    
+                <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action="{{route('saveUnit')}}" method="post">
-                    @csrf
+               
                     <div class="modal-header">
                         <h4 class="modal-title">Pemilihan Kode Barang</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -351,10 +391,8 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-    
-@endsection
+        </div>   
+ @endsection
 @section('script')
 
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -544,6 +582,67 @@
             return false;
         });    
     
+        $('#mapLatLong').ready(() => {
+            require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic"
+            ], function(Map, MapView, Graphic) {
+
+                const map = new Map({
+                    basemap: "osm"
+                });
+
+                const view = new MapView({
+                    container: "mapLatLong",
+                    map: map,
+                    center: [107.6191, -6.9175],
+                    zoom: 8,
+                });
+
+                let tempGraphic;
+                view.on("click", function(event){
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: event.mapPoint,
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    $("#lat").val(event.mapPoint.latitude);
+                    $("#long").val(event.mapPoint.longitude);
+
+                    view.graphics.add(graphic);
+                });
+                $("#lat, #long").keyup(function () {
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: $("#long").val(),
+                            latitude: $("#lat").val()
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                });
+            });
+        }); 
     });
 
 </script>
