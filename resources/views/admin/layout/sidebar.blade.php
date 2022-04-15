@@ -28,36 +28,23 @@
             </ul>
 
             @if (hasAccess(Auth::user()->role_id, 'Data Master', 'View'))
-
             <ul class="pcoded-item pcoded-left-item">
-                <li class="pcoded-hasmenu {{ Request::segment(2) == 'master-data' ? 'pcoded-trigger active' : '' }}">
+                <li class="active">
                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                         <span class="pcoded-micon"><i class="feather icon-grid"></i></span>
                         <span class="pcoded-mtext">Data Master</span>
                         {{-- <span class="pcoded-badge label label-warning">NEW</span> --}}
                     </a>
-                    <ul class="pcoded-submenu">
-                        <li
-                            class="  pcoded-hasmenu   {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Data Umum Pemda</span>
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li class="{{ Request::segment(4) == 'bidang' ? 'active' : '' }}">
-                                    <a href="{{ route('getBidang') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Pemda</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::segment(4) == 'user-role' ? 'active' : '' }}">
-                                    <a href="{{ route('getDataUserRole') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Data Umum</span>
-                                    </a>
-                                </li>
-                            </ul>
+                </li>
+            </ul>    
 
-                        </li>
-                    </ul>
-
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="pcoded-hasmenu {{ Request::segment(2) == 'master-data' ? 'pcoded-trigger active' : '' }}">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="feather icon-grid"></i></span>
+                        <span class="pcoded-mtext">Data User</span> 
+                    </a>
+                    <!--
                     <ul class="pcoded-submenu">
                         <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -89,6 +76,80 @@
                             </ul>
                         </li>
                     </ul>
+-->
+            </ul>       
+           
+            <ul class="pcoded-item pcoded-left-item">
+                <li class="pcoded-hasmenu {{ Request::segment(2) == 'master-data' ? 'pcoded-trigger active' : '' }}">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon"><i class="feather icon-grid"></i></span>
+                        <span class="pcoded-mtext">Data Barang</span> 
+                    </a>
+                    <ul class="pcoded-submenu">
+                        
+                        <li class="pcoded-hasmenu ">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Intra</span>
+                            </a> 
+                            <ul class="pcoded-submenu">
+                            <li>
+                                    <a href="{{ route('getTanah') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Tanah (KIB A)</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Peralatan dan Mesin (KIB B)</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Jalan Irigasi dan Lainnya</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Aset Tetap Lainnya</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Konstruksi Dalam Pengembangan</span>
+                                    </a> 
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="pcoded-hasmenu ">
+                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Ekstra</span>
+                            </a> 
+                            <ul class="pcoded-submenu">
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Peralatan dan Mesin</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Jalan Irigasi dan Lainnya</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Aset Tetap Lainnya</span>
+                                    </a> 
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Konstruksi Dalam Pengembangan</span>
+                                    </a> 
+                                </li>
+                            </ul>
+                        </li>
+                       
+                    </ul>
+
+                    
                     <ul class="pcoded-submenu">
                         <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -145,63 +206,7 @@
                         </li>
                     </ul>
 
-                    <ul class="pcoded-submenu">
-                        <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Kode Rekening</span>
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li class="{{ Request::segment(4) == 'bidang' ? 'active' : '' }}">
-                                    <a href="{{ route('getBidang') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Akun</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::segment(4) == 'bidang' ? 'active' : '' }}">
-                                    <a href="{{ route('getBidang') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Kelompok</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::segment(4) == 'bidang' ? 'active' : '' }}">
-                                    <a href="{{ route('getBidang') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext">Jenis</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::segment(4) == 'bidang' ? 'active' : '' }}">
-                                    <a href="{{ route('getBidang') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext"> Object</span>
-                                    </a>
-                                </li>
-                                <li class="{{ Request::segment(4) == 'bidang' ? 'active' : '' }}">
-                                    <a href="{{ route('getBidang') }}" class="waves-effect waves-dark">
-                                        <span class="pcoded-mtext"> RIncian</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </li>
-                    </ul>
-                    <ul class="pcoded-submenu">
-                        <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">kebijakan Penyusutan dan Umumr</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="pcoded-submenu">
-                        <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">kebijakan Akuntansi</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="pcoded-submenu">
-                        <li class=" pcoded-hasmenu  {{ Request::segment(3) == 'user' ? 'pcoded-trigger active' : '' }}">
-                            <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                <span class="pcoded-mtext">Copy Parameter</span>
-                            </a>
-                        </li>
-                    </ul>
-
+                     
 
 
 

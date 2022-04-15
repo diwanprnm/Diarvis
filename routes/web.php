@@ -115,6 +115,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     });
 
     Route::group(['prefix' => 'master-data'], function () {
+        Route::group(['prefix' => 'barang'], function () {
+            Route::group(['prefix' => 'intra'], function () {
+                Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
+                Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
+                Route::get('tanah/add', 'MasterData\Barang\TanahController@add')->name('tanah.add');
+                Route::post('tanah/getKodePemilik', 'MasterData\Barang\TanahController@getKodePemilik')->name('tanah.kode-pemilik');
+                Route::post('tanah/get-sub-unit', 'MasterData\Barang\TanahController@getSubUnit')->name('tanah.sub-unit');
+
+                Route::post('tanah/get-upb', 'MasterData\Barang\TanahController@getUPB')->name('tanah.upb');
+                Route::post('tanah/get-upb-filter-table', 'MasterData\Barang\TanahController@getUPBFilterTable')->name('tanah.upb.filter.table');
+                Route::post('tanah/get-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubRincianObyek')->name('tanah.sub-rincian-obyek');
+                Route::post('tanah/get-sub-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubSubRincianObyek')->name('tanah.sub-sub-rincian-obyek');
+                Route::get('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
+                Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
+                Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
+            });
+        });
+
         Route::group(['prefix' => 'unit-organisasi'], function () {
             Route::get('bidang', 'MasterData\BidangController@index')->name('getBidang');
             Route::get('bidang/json', 'MasterData\BidangController@json')->name('getJsonBidang');
