@@ -130,6 +130,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
                 Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
                 Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
+
+                Route::get('jalan', 'MasterData\Barang\JalanController@index')->name('getJalan');
+                Route::post('jalan', 'MasterData\Barang\JalanController@index')->name('getJalan');
+                Route::get('jalan/add', 'MasterData\Barang\JalanController@add')->name('jalan.add');
+                Route::get('jalan/edit/{id}', 'MasterData\Barang\JalanController@edit')->name('jalan.edit');
+                Route::post('jalan/getKodePemilik', 'MasterData\Barang\JalanController@getKodePemilik')->name('jalan.kode-pemilik');
+                Route::post('jalan/get-sub-unit', 'MasterData\Barang\JalanController@getSubUnit')->name('jalan.sub-unit');
+                Route::post('jalan/get-upb', 'MasterData\Barang\JalanController@getUPB')->name('jalan.upb');
+                Route::post('jalan/get-upb-filter-table', 'MasterData\Barang\JalanController@getUPBFilterTable')->name('jalan.upb.filter.table');
+                Route::post('jalan/get-sub-rincian-obyek', 'MasterData\Barang\JalanController@getSubRincianObyek')->name('jalan.sub-rincian-obyek');
+                Route::post('jalan/get-sub-sub-rincian-obyek', 'MasterData\Barang\JalanController@getSubSubRincianObyek')->name('jalan.sub-sub-rincian-obyek');
+                Route::post('jalan/save', 'MasterData\Barang\JalanController@save')->name('jalan.save');
+                Route::get('jalan/json', 'MasterData\Barang\JalanController@json')->name('getJsonJalan');
+                Route::get('jalan/detail/{id}', 'MasterData\Barang\JalanController@detail')->name('getDetailKIBD');
             });
         });
 
