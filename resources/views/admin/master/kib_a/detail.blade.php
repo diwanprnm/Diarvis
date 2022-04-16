@@ -84,10 +84,7 @@
                                                             <a class="nav-link active" data-toggle="tab" href="#personal" role="tab">Informasi Umum</a>
                                                             <div class="slide"></div>
                                                         </li>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" data-toggle="tab" href="#binfo" role="tab">Foto</a>
-                                                            <div class="slide"></div>
-                                                        </li>
+                                                        
                                                         
                                                     </ul>
                                                 </div>
@@ -107,7 +104,8 @@
                                                                                 <div class="row">
                                                                                     <div class="col-lg-12 col-xl-6">
                                                                                         <div class="table-responsive">
-                                                                                            <table class="table table-striped   nowrap">
+                                                                                        <h4> Informasi Detil KIB-A </h4>
+                                                                                        <table class="table table-striped   nowrap">
                                                                                                 <tbody>
                                                                                                     <tr>
                                                                                                         <th scope="row">Tahun</th>
@@ -147,15 +145,7 @@
                                                                                                         <th scope="row">Hak Tanah</th>
                                                                                                         <td>{{$tanah->hak_tanah}}</td>
                                                                                                     </tr>
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <!-- end of table col-lg-6 -->
-                                                                                    <div class="col-lg-12 col-xl-6">
-                                                                                        <div class="table-responsive">
-                                                                                            <table class="table table-striped   nowrap">
-                                                                                                <tbody>
+                                                                                                 
                                                                                                     <tr>
                                                                                                         <th scope="row">Tanggal Sertifikat</th>
                                                                                                         <td> {{$tanah->sertifikat_tanggal}}</td>
@@ -185,6 +175,35 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <!-- end of table col-lg-6 -->
+                                                                                    <div class="col-lg-12 col-xl-6">
+                                                                                        <div class="table-responsive">
+                                                                                            
+                                                                                             
+                                                                                            <h4> Dokumen</h4>
+                                                                                            <table class="table table-striped   nowrap">
+                                                                                                <thead>
+                                                                                                <tr><td>No</td><td>Filename</td><td>Aksi</td></tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach($dokumen as $dt)
+                                                                                                    <tr><td>{{$loop->index + 1}}</td>
+                                                                                                    <td>{{ $dt->filename}}</td>
+                                                                                                    <td>
+                                                                                                    <a href=""><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-download"></i></button></a>
+                                                                                                    <a href=""><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-ui-zoom-in"></i></button></a>
+                                                                                                        
+                                                                                                </td>
+                                                                                                </tr>
+                                                                                                    
+                                                                                                    @endforeach
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                            <div id="preview">
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <!-- end of table col-lg-6 -->
                                                                                 </div>
                                                                                 <!-- end of row -->
                                                                             </div>
@@ -209,8 +228,8 @@
                                                                     <div class="card-block user-desc">
                                                                         <div class="view-desc">
                                                                         <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
-                                                                        Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
-                                                                        Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
+                                                                        Lat <input id="lat" name="lat" type="text" value="{{ $tanah->latitude }}" class="form-control formatLatLong fill" required="">
+                                                                        Long <input id="long" name="lng" type="text"  value="{{ $tanah->longitude }}" class="form-control formatLatLong fill" required="">     
                                                                     </div>
                                                                          
                                                                     </div>
@@ -447,24 +466,7 @@
                                                                         <h4 class="card-title">Contacts<span class="f-15"> (100)</span></h4>
                                                                     </div>
                                                                     <div class="card-block">
-                                                                        <div class="connection-list">
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-1.jpg" alt="f-1" data-toggle="tooltip" data-placement="top" data-original-title="Airi Satou">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-2.jpg" alt="f-2" data-toggle="tooltip" data-placement="top" data-original-title="Angelica Ramos">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-3.jpg" alt="f-3" data-toggle="tooltip" data-placement="top" data-original-title="Ashton Cox">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-4.jpg" alt="f-4" data-toggle="tooltip" data-placement="top" data-original-title="Cara Stevens">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-5.jpg" alt="f-5" data-toggle="tooltip" data-placement="top" data-original-title="Garrett Winters">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-1.jpg" alt="f-6" data-toggle="tooltip" data-placement="top" data-original-title="Cedric Kelly">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-3.jpg" alt="f-7" data-toggle="tooltip" data-placement="top" data-original-title="Brielle Williamson">
-                                                                            </a>
-                                                                            <a href="#"><img class="img-fluid img-radius" src="..\files\assets\images\user-profile\follower\f-5.jpg" alt="f-8" data-toggle="tooltip" data-placement="top" data-original-title="Jena Gaines">
-                                                                            </a>
-                                                                        </div>
+                                                                         
                                                                     </div>
                                                                 </div>
                                                                 <!-- user contact card left side end -->
@@ -1740,19 +1742,20 @@
             "esri/Map",
             "esri/views/MapView",
             "esri/Graphic"
-            ], function(Map, MapView, Graphic) {
+            ], function(Map, MapView, Graphic ) {
 
                 const map = new Map({
                     basemap: "osm"
                 });
 
+               
                 const view = new MapView({
                     container: "mapLatLong",
                     map: map,
                     center: [107.6191, -6.9175],
-                    zoom: 8,
+                    zoom: 15,
                 });
-
+ 
                 let tempGraphic;
                 view.on("click", function(event){
                     if($("#lat").val() != '' && $("#long").val() != ''){

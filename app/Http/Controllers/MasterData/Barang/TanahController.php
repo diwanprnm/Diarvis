@@ -87,10 +87,15 @@ class TanahController extends Controller
 
         ->select('a.idpemda as id','b.nm_aset5','a.tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 
            'a.no_register', 'a.harga', 'a.luas_m2',  'a.kd_pemilik','c.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
-            'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka' )
+            'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka','a.latitude','a.longitude' )
             ->join('ref_pemilik as c','a.kd_pemilik','=','c.kd_pemilik')
             ->where('a.idpemda',$id)->first(); 
-            return view('admin.master.kib_a.detail', compact('tanah'));
+
+        $dokumen = DB::table('ta_kib_a as a')
+                ->select('b.filename','b.id_dokumen')
+                   ->join('ta_kib_a_dokumen as b','a.idpemda','=','b.idpemda')
+                   ->where('a.idpemda',$id)->get();
+            return view('admin.master.kib_a.detail', compact('tanah','dokumen'));
     }
 
     public function getSubUnit(Request $request){
