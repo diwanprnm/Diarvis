@@ -9,8 +9,32 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 <link rel="stylesheet" href="{{ asset('assets/css/style_kib.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-<style>
-    
+ 
+
+<style type="text/css">
+ 
+ input[type=file]{
+
+   display: inline;
+
+ }
+
+ #imgPreview{
+
+    border:1px solid #ccc;
+    margin-top:10px;
+   padding: 10px;
+
+ }
+
+ #imgPreview img{
+
+   width: 200px;
+
+   padding: 5px;
+
+ }
+
 </style>
 @endsection
 
@@ -31,9 +55,9 @@
                                                     <li class="breadcrumb-item">
                                                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">intra</a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">Tanah</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -43,6 +67,8 @@
  
 
 @section('page-body') 
+<form action="{{route('tanah.save')}}" method="post">
+                    @csrf
 <div class="row">
     <div class="col-xl-6">
         <div class="card">
@@ -58,7 +84,7 @@
                 <form action="{{route('tanah.save')}}" method="post">
                         @csrf 
                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                        <h4 class="sub-title">Unit Organisasi</h4>
+                     
                         <div class="form-group row">
                         <label class="col-md-3 col-form-label">Unit</label>
                         <div class="col-md-9">
@@ -98,12 +124,12 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kode Pemilik</label>
-                        <div class="col-md-5">
+                        <div class="col-md-9">
                              
                             <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                             <option>-</option>
                                 @foreach ($kode_pemilik as $data)
-                                <option value="{{ $data->kd_pemilik }}">{{ $data->nm_pemilik }}</option>
+                                <option value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -113,27 +139,27 @@
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
-                                <span id="show_pemilik"></span>
+                            
                         </div>    
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Kode Asset</label>
+                        <label class="col-md-3 col-form-label">Kode Aset</label>
                         <div class="col-md-9">
                         <div class="col separated-input d-flex row">
-                            <input type="text" id="kd_aset"  class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset" name="kd_aset"  class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset0" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset0" name="kd_aset0" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset1" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset1" name="kd_aset1" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset2" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset2" name="kd_aset2" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset3" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset3" name="kd_aset3" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text"  id="kd_aset4" class="form-control" style="width:40px"
+                            <input type="text"  id="kd_aset4" name="kd_aset4" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset5" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset5" name="kd_aset5" class="form-control" style="width:40px"
                                 placeholder="...">
                             <a data-toggle="modal" href="#modalAsset"  class="btn btn-info"><i class="icofont icofont-ui-search"></i></a>
                             <span id="nama_aset"></span>
@@ -144,30 +170,35 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">No Register</label>
                         <div class="col-md-6">
-                        <input type="number" class="form-control" readonly value="1">
+                        <div id="loader_noreg" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <input type="number" class="form-control" name="no_register"  id="no_register" readonly value="1">
                         </div>
                         <div class="col-sm-3">
                             <p><i>(Otomatis)</i></p>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Tgl. Pembelian</label>
+                        <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="tanggal_pembelian" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Tgl. Pembukuan</label>
+                        <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="tanggal_pembukuan" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Luas (M2)</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="luas" type="text">
                         </div>
                     </div>
@@ -175,15 +206,15 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Alamat</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <textarea class="form-control" name="alamat"></textarea> 
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Hak Tanah</label>
    
-                        <div class="col-sm-6">
-                            <select name="hak_tanah" id="hak_tanah" class="form-control"  >
+                        <div class="col-sm-9">
+                            <select name="hak_tanah" id="hak_tanah" class="form-control chosen-select">
                             <option></option>
                             <option value="Hak Pakai">Hak Pakai</option>
                             <option value="Hak Pengelolaan">Hak Pengelolaan</option>
@@ -192,9 +223,9 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Tgl. Sertifikat</label>
+                        <label class="col-md-3 col-form-label">Tanggal Sertifikat</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="tanggal_sertifikat" type="date">
                         </div>
                     </div>
@@ -202,15 +233,15 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">No Sertifikat</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="no_sertifikat" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Asal Usul</label>
    
-                        <div class="col-sm-6">
-                            <select name="hak_tanah" id="asal_usul" class="form-control"  >
+                        <div class="col-sm-9">
+                            <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
                             <option></option>
                             <option value="Pembelian">Pembelian</option>
                             <option value="Hibah">Hibah</option>
@@ -221,14 +252,14 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Penggunaan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="penggunaan" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Harga</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="harga" type="number">
                         </div>
                     </div>
@@ -236,29 +267,58 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Keterangan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <textarea class="form-control" name="keterangan"></textarea> 
                         </div>
                     </div>     
                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
+   
+                        <div class="col-sm-9">
+                        <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
+                            <option>-</option>
+                                @foreach ($kab_kota as $data)
+                                <option value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>   
+                    <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kecamatan</label>
    
-                        <div class="col-sm-6">
-                         
+                        <div class="col-sm-9">
+                        <div id="loader_kec" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <select name="kecamatan" id="kecamatan" class="form-control chosen-select">
+                            <option>-</option>
+                             </select>
                         </div>
-                    </div>        
+                    </div>      
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Kelurahan</label>
+                        <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
    
-                        <div class="col-sm-6">
-                         
+                        <div class="col-sm-9">
+                        <div id="loader_desa" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <select name="desa" id="desa" class="form-control chosen-select">
+                            <option>-</option>
+                             </select>
                         </div>
                     </div>                                    
-                                 
-                        </form>
+                              
+                      
                     </div>
+                    
                 </div>
             </div>
+
+            
                                             <div class="col-xl-6">
                                                 <div class="card">
                                                     <div class="card-header">
@@ -289,14 +349,71 @@
                                                         </table>
                                                     </div>
                                                 </div>
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Lokasi</h5>
+                                                         
+                                                        <div class="card-header-right">
+                                                            <i class="icofont icofont-spinner-alt-5"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+                                                                        Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
+                                                                        Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
+                                                                   
+                                                    </div>
+                                                </div>
+ 
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Foto</h5>
+                                                         
+                                                        <div class="card-header-right">
+                                                            <i class="icofont icofont-spinner-alt-5"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                             <input type="file" id="uploadFile" name="uploadFile[]" multiple/> 
+                                                         
+                                                        <div id="imgPreview" ></div>
+                                                </div>
+
                                             </div>
+
+
+                                            
                                         </div>
                                     
-       <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
+       
+    </div>
+    <div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+
+    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
+                    </div>
+</div></div></div>
+                </form>
+    
+                <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action="{{route('saveUnit')}}" method="post">
-                    @csrf
+               
                     <div class="modal-header">
                         <h4 class="modal-title">Pemilihan Kode Barang</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -345,16 +462,10 @@
                         
                          
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
+                    
             </div>
-        </div>
-    </div>
-    
-@endsection
+        </div>   
+ @endsection
 @section('script')
 
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -365,6 +476,8 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+ 
 <script src="https://js.arcgis.com/4.18/"></script>
 <script>
     $(document).ready(function() {
@@ -457,7 +570,7 @@
 }
             
 
-        $('#kode_pemilik').on('change', function()  {
+        $('#kode_pemilik2').on('change', function()  {
             $.ajax({ 
                 url: "{{route('tanah.kode-pemilik')}}",
                 method: 'POST',
@@ -525,8 +638,80 @@
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_ssro').hide();
                 } 
-                });
+            });
         }); 
+
+        $('#imageUploadForm').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            type:'POST',
+            url: $(this).attr('action'),
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+   
+        $('#kab_kota').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.get.kecamatan')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_kec').show();
+                },
+                data: {kode_kab_kota:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='kecamatan']").html('');
+                    $("select[name='kecamatan']").html(data.options);
+                    $("select[name='kecamatan']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_kec').hide();
+                } 
+            });
+        }); 
+
+        $('#kecamatan').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.get.desa')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_desa').show();
+                },
+                data: {kode_kecamatan:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='desa']").html('');
+                    $("select[name='desa']").html(data.options);
+                    $("select[name='desa']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_desa').hide();
+                } 
+            });
+        }); 
+
 
         $('#sub_sub_rincian_obyek').on('change', function()  {
             var v = this.value;
@@ -541,9 +726,101 @@
             $("#kd_aset5").attr("value",dt[6]);
             $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
+            $.ajax({ 
+                url: "{{route('tanah.noregister')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_noreg').show();
+                },
+                data: {kd_aset:dt[0],kd_aset0:dt[1],kd_aset1:dt[2],kd_aset2:dt[3],kd_aset3:dt[4],kd_aset4:dt[5],kd_aset5:dt[6] },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("input[name='no_register']").attr("value",data.no_register);
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_noreg').hide();
+                } 
+            });
+
             return false;
         });    
     
+
+        $("#uploadFile").change(function(){  
+            $('#imgPreview').html(""); 
+            var total_file=document.getElementById("uploadFile").files.length; 
+                for(var i=0;i<total_file;i++)  { 
+                 $('#imgPreview').append("<img src='"+URL.createObjectURL(event.target.files[i])+"'>"); 
+                } 
+            }); 
+
+            
+
+        $('#mapLatLong').ready(() => {
+            require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic"
+            ], function(Map, MapView, Graphic) {
+
+                const map = new Map({
+                    basemap: "osm"
+                });
+
+                const view = new MapView({
+                    container: "mapLatLong",
+                    map: map,
+                    center: [107.6191, -6.9175],
+                    zoom: 8,
+                });
+
+                let tempGraphic;
+                view.on("click", function(event){
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: event.mapPoint,
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    $("#lat").val(event.mapPoint.latitude);
+                    $("#long").val(event.mapPoint.longitude);
+
+                    view.graphics.add(graphic);
+                });
+                $("#lat, #long").keyup(function () {
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: $("#long").val(),
+                            latitude: $("#lat").val()
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                });
+            });
+        }); 
     });
 
 </script>

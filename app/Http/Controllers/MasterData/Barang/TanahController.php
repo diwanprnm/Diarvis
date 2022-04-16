@@ -39,11 +39,13 @@ class TanahController extends Controller
 
     public function json()
     {
-        $tanah = DB::table('ta_fn_kib_a')
-                    ->select('id','tahun',DB::raw("CONCAT(ta_fn_kib_a.kd_aset,'',ta_fn_kib_a.kd_aset0,'',ta_fn_kib_a.kd_aset1,'',ta_fn_kib_a.kd_aset2,'',ta_fn_kib_a.kd_aset3,'',ta_fn_kib_a.kd_aset4,'',ta_fn_kib_a.kd_aset5) as kode_aset"), 
-                       'no_register', 'harga', 'luas_m2', 'tgl_dok', 'no_dok', 'kd_pemilik',DB::raw(" to_char( tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'tgl_pembukuan', 'alamat', 'hak_tanah', 'sertifikat_tanggal', 
-                        'sertifikat_nomor', 'penggunaan', 'asal_usul', 'kd_ka', 'tgl_d2', 'tgl_proses')
-                        ->where('kd_ka','1');
+        $tanah = DB::table('ta_kib_a as a')
+                    ->select('a.idpemda as id','tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 
+                       'a.no_register', 'a.harga', 'a.luas_m2', 'b.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
+                        'a.sertifikat_nomor', 'a.penggunaan', 'a.asal_usul', 'a.kd_ka')
+                        ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
+
+                        ->where('a.kd_ka','1');
          return DataTables::of($tanah)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -72,21 +74,22 @@ class TanahController extends Controller
     }
 
     public function detail($id) {
-        $tanah = DB::table('ta_fn_kib_a as a')->where('a.kd_ka','1')
+        $tanah = DB::table('ta_kib_a as a')->where('a.kd_ka','1')
         ->join('ref_rek5_108 as b' , function($join)
                          {
-                             $join->on('b.kd_aset5', '=', 'a.kd_aset5');
-                             $join->on('b.kd_aset4','=','a.kd_aset4');
-                             $join->on('b.kd_aset3','=','a.kd_aset3');
-                             $join->on('b.kd_aset2','=','a.kd_aset2');
-                             $join->on('b.kd_aset1','=','a.kd_aset1');
-                             $join->on('b.kd_aset0','=','a.kd_aset0');
+                             $join->on('b.kd_aset5', '=', 'a.kd_aset85');
+                             $join->on('b.kd_aset4','=','a.kd_aset84');
+                             $join->on('b.kd_aset3','=','a.kd_aset83');
+                             $join->on('b.kd_aset2','=','a.kd_aset82');
+                             $join->on('b.kd_aset1','=','a.kd_aset81');
+                             $join->on('b.kd_aset0','=','a.kd_aset80');
                           })
 
-        ->select('a.id','b.nm_aset5','a.tahun',DB::raw("CONCAT(a.kd_aset,'',a.kd_aset0,'',a.kd_aset1,'',a.kd_aset2,'',a.kd_aset3,'',a.kd_aset4,'',a.kd_aset5) as kode_aset"), 
-           'a.no_register', 'a.harga', 'a.luas_m2', 'a.tgl_dok', 'a.no_dok', 'a.kd_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
-            'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka', 'a.tgl_d2', 'a.tgl_proses')
-            ->where('id',$id)->first(); 
+        ->select('a.idpemda as id','b.nm_aset5','a.tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 
+           'a.no_register', 'a.harga', 'a.luas_m2',  'a.kd_pemilik','c.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
+            'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka' )
+            ->join('ref_pemilik as c','a.kd_pemilik','=','c.kd_pemilik')
+            ->where('a.idpemda',$id)->first(); 
             return view('admin.master.kib_a.detail', compact('tanah'));
     }
 
@@ -103,9 +106,9 @@ class TanahController extends Controller
     public function getUPB(Request $request){
         if($request->ajax()){
             $ex = explode('_',$request->kode_sub_unit);
-            $bidang = $ex[0];
-            $kode_unit = $ex[1]; 
-            $kode_sub_unit = $ex[2];
+                $bidang = $ex[0];
+                $kode_unit = $ex[1]; 
+                $kode_sub_unit = $ex[2];
             $upb = DB::table('ref_organisasi_upb')
             ->where('kode_bidang', $bidang)
             ->where('kode_unit',$kode_unit)
@@ -124,6 +127,7 @@ class TanahController extends Controller
             $kode_sub_unit = $ex[2];
             $kode_upb = $ex[3];
             $kib_a = DB::table('ta_kib_a')
+            ->select('kd_bidang','kd_unit','kd_sub','kd_upb','no_register','tgl_perolehan','harga','keterangan',DB::raw("CONCAT(kd_aset8,'.',kd_aset80,'.',kd_aset81,'.',ltrim(to_char(kd_aset82, '00')) ,'.',ltrim(to_char(kd_aset83, '000')),'.',ltrim(to_char(kd_aset84, '000')),'.',ltrim(to_char(kd_aset85, '000'))) as kode_aset"))
             ->where('kd_bidang', $bidang)
             ->where('kd_unit',$kode_unit)
             ->where('kd_sub',$kode_sub_unit)
@@ -133,6 +137,117 @@ class TanahController extends Controller
     		return response()->json(['data'=>$data]);
     	}
     }
+
+    public function generateKodePemda($kd){
+        $kib_a = DB::table('ta_kib_a')
+                    ->select(DB::raw("MAX(idpemda) as id_pemda"))
+                    ->where('idpemda','LIKE','%'.$kd.'%')->first();
+
+                    $last_code = ltrim(substr($kib_a->id_pemda,12,6),0);
+                    $newcode = $kd.''.str_pad(((int)$last_code+1),6, "0", STR_PAD_LEFT);
+        return $newcode;
+        
+    }
+    public function save(Request $request){ 
+
+
+        if ($request->hasfile('uploadFile')) {
+            $request()->validate([ 
+                'uploadFile' => 'required'
+            ]);
+             
+            foreach($request->file('uploadFile') as $file) { 
+                $imageName =  $file->getClientOriginalExtension(); 
+                $file->move(public_path('images'), $imageName); 
+            }
+        }
+        $ex = explode('_',$request->upb);
+        $bidang = $ex[0];
+        $unit = $ex[1];
+        $sub_unit = $ex[2];
+        $upb = $ex[3]; 
+        $kd_pemda = str_pad($bidang,2, "0", STR_PAD_LEFT)."".str_pad($unit,2, "0", STR_PAD_LEFT)."".str_pad($sub_unit,3, "0", STR_PAD_LEFT)."".str_pad($upb,3, "0", STR_PAD_LEFT)."".$request->kab_kota;
+        $new_kd_pemda = $this->generateKodePemda($kd_pemda);
+        $kib_a['kd_prov'] = "10";
+        $kib_a['kd_kab_kota'] = $request->kab_kota; 
+        $kib_a['idpemda'] = $new_kd_pemda; 
+        $kib_a['kd_bidang'] = $bidang;
+        $kib_a['kd_unit'] = $unit;
+        $kib_a['kd_sub'] = $sub_unit;
+        $kib_a['kd_upb'] = $upb;
+        $kib_a['kd_ka'] ='1';
+        $kib_a['kd_hapus'] ='0'; 
+        $kib_a['kd_pemilik'] = $request->kode_pemilik;
+        $kib_a['kd_aset8'] = $request->kd_aset;
+        $kib_a['kd_aset80'] = $request->kd_aset0; 
+        $kib_a['kd_aset81'] = $request->kd_aset1;
+        $kib_a['kd_aset82'] = $request->kd_aset2;
+        $kib_a['kd_aset83'] = $request->kd_aset3;
+        $kib_a['kd_aset84'] = $request->kd_aset4;
+        $kib_a['kd_aset85'] = $request->kd_aset5;
+        $kib_a['no_register'] = $request->no_register;
+        $kib_a['tgl_perolehan'] = $request->tanggal_pembelian;
+        $kib_a['tgl_pembukuan'] = $request->tanggal_pembukuan;
+        $kib_a['luas_m2'] = $request->luas;
+        $kib_a['alamat'] = $request->alamat;
+        $kib_a['hak_tanah'] = $request->hak_tanah;
+        $kib_a['sertifikat_tanggal'] = $request->tanggal_sertifikat;
+        $kib_a['sertifikat_nomor'] = $request->no_sertifikat;
+        $kib_a['asal_usul'] = $request->asal_usul;
+        $kib_a['penggunaan'] = $request->penggunaan;
+        $kib_a['harga'] = $request->harga;
+        $kib_a['keterangan'] = $request->keterangan;
+        $kib_a['kd_kecamatan'] = $request->kecamatan;
+        $kib_a['kd_desa'] = $request->desa;
+        $kib_a['latitude'] = $request->lat;
+        $kib_a['longitude'] = $request->lng;
+        DB::table('ta_kib_a')->insert($kib_a);
+        $color = "success";
+        $msg = "data Kib-A telah ditambahkan";
+        return redirect(route('getTanah'))->with(compact('color', 'msg'));
+
+    }
+
+    public function imagesUploadPost(Request $request)  {
+ 
+        request()->validate([ 
+            'uploadFile' => 'required', 
+        ]);
+         
+        foreach($request->file('uploadFile') as $file) { 
+            $imageName =  $file->getClientOriginalExtension(); 
+            $file->move(public_path('images'), $imageName); 
+        }
+        return true;
+      
+    }
+  
+    public function getNoRegister(Request $request) {
+        if($request->ajax()){
+    $kd_aset = $request->kd_aset;
+    $kd_aset0 = $request->kd_aset0;
+    $kd_aset1 = $request->kd_aset1;
+    $kd_aset2 = $request->kd_aset2;
+    $kd_aset3 = $request->kd_aset3;
+    $kd_aset4 = $request->kd_aset4;
+    $kd_aset5 = $request->kd_aset5;
+    $no_reg = DB::table('ta_kib_a')
+    ->select(DB::raw("MAX(no_register) as max_noreg")) 
+    ->where('kd_aset8', $kd_aset)
+    ->where('kd_aset80', $kd_aset0)
+    ->where('kd_aset81', $kd_aset1)
+    ->where('kd_aset82', $kd_aset2)
+    ->where('kd_aset83', $kd_aset3)
+    ->where('kd_aset84', $kd_aset4)
+    ->where('kd_aset85', $kd_aset5)->first();
+        if(!empty($no_reg->max_noreg)){
+            $no_reg = ($no_reg->max_noreg+1);
+        }else{
+            $no_reg = 1;
+        }
+    return response()->json(['no_register'=>$no_reg]);
+}
+    } 
 
     public function getSubRincianObyek(Request $request) { 
         if($request->ajax()){
@@ -147,6 +262,28 @@ class TanahController extends Controller
     		$data = view('admin.master.kib_a.ajax_select_subrincianobyek',compact('sub_rincian_obyek'))->render();
     		return response()->json(['options'=>$data]);
     	}
+    }
+
+    public function getKecamatan(Request $request) {
+        if($request->ajax()){
+            $kecamatan = DB::table('ref_organisasi_kecamatan')
+            ->where('kode_kab_kota',$request->kode_kab_kota)
+             
+            ->get();
+    		$data = view('admin.master.kib_a.ajax_select_kecamatan',compact('kecamatan'))->render();
+    		return response()->json(['options'=>$data]);
+        }
+    }
+
+    public function getDesa(Request $request) {
+        if($request->ajax()){
+            $desa = DB::table('ref_organisasi_desa')
+            ->where('kode_kecamatan',$request->kode_kecamatan)
+             
+            ->get();
+    		$data = view('admin.master.kib_a.ajax_select_desa',compact('desa'))->render();
+    		return response()->json(['options'=>$data]);
+        }
     }
 
     public function getSubSubRincianObyek(Request $request) { 
@@ -171,13 +308,14 @@ class TanahController extends Controller
     { 
 
         $kode_pemilik = DB::table('ref_pemilik')->get();
+        $kab_kota = DB::table('ref_organisasi_kab_kota')->get();
 
         $unit = DB::table('ref_organisasi_unit')->get(); 
         $rincian_object = DB::table('ref_rek3_108')
                             ->where('kd_aset1','1')
                             ->get(); 
 
-        return view('admin.master.kib_a.add', compact('kode_pemilik','unit','rincian_object'));
+        return view('admin.master.kib_a.add', compact('kode_pemilik','unit','rincian_object','kab_kota'));
     }
 
     public function store(Request $request)
