@@ -148,19 +148,16 @@ class TanahController extends Controller
         return $newcode;
         
     }
+    public function saveFileKibA($idpemda, $filename,$path){
+        $dokumen['idpemda'] = $idpemda;
+        $dokumen['filename'] =  $filename;
+        $dokumen['path'] =  $path;
+        DB::table('ta_kib_a_dokumen')->insert($dokumen);
+    }
     public function save(Request $request){ 
 
 
-        if ($request->hasfile('uploadFile')) {
-            $request()->validate([ 
-                'uploadFile' => 'required'
-            ]);
-             
-            foreach($request->file('uploadFile') as $file) { 
-                $imageName =  $file->getClientOriginalExtension(); 
-                $file->move(public_path('images'), $imageName); 
-            }
-        }
+       
         $ex = explode('_',$request->upb);
         $bidang = $ex[0];
         $unit = $ex[1];
@@ -185,7 +182,7 @@ class TanahController extends Controller
         $kib_a['kd_aset83'] = $request->kd_aset3;
         $kib_a['kd_aset84'] = $request->kd_aset4;
         $kib_a['kd_aset85'] = $request->kd_aset5;
-        $kib_a['no_register'] = $request->no_register;
+        $kib_a['no_register'] = $this->getNoRegister($request);
         $kib_a['tgl_perolehan'] = $request->tanggal_pembelian;
         $kib_a['tgl_pembukuan'] = $request->tanggal_pembukuan;
         $kib_a['luas_m2'] = $request->luas;
@@ -202,6 +199,30 @@ class TanahController extends Controller
         $kib_a['latitude'] = $request->lat;
         $kib_a['longitude'] = $request->lng;
         DB::table('ta_kib_a')->insert($kib_a);
+
+        if ($request->hasfile('uploadFile')) {
+          
+            $path_folder = "/document/kib_a/".$new_kd_pemda;
+            $path = public_path().$path_folder;
+            if (!file_exists($path)) {
+                // path does not exist
+                mkdir($path, 0755, true);
+            }
+
+            //$request()->validate([ 
+            //    'file' => 'required|mimes:pdf,jpg,png|max:2048',
+            //]);
+
+            foreach($request->file('uploadFile') as $file) { 
+              
+
+                $imageName =  $file->getClientOriginalName(); 
+                $file->move($path, $imageName); 
+                $this->saveFileKibA($new_kd_pemda,$imageName,$path_folder);
+               
+            }
+        }
+
         $color = "success";
         $msg = "data Kib-A telah ditambahkan";
         return redirect(route('getTanah'))->with(compact('color', 'msg'));
@@ -223,7 +244,7 @@ class TanahController extends Controller
     }
   
     public function getNoRegister(Request $request) {
-        if($request->ajax()){
+       
     $kd_aset = $request->kd_aset;
     $kd_aset0 = $request->kd_aset0;
     $kd_aset1 = $request->kd_aset1;
@@ -245,9 +266,8 @@ class TanahController extends Controller
         }else{
             $no_reg = 1;
         }
-    return response()->json(['no_register'=>$no_reg]);
-}
-    } 
+    return $no_reg;
+} 
 
     public function getSubRincianObyek(Request $request) { 
         if($request->ajax()){
@@ -314,7 +334,7 @@ class TanahController extends Controller
         $rincian_object = DB::table('ref_rek3_108')
                             ->where('kd_aset1','1')
                             ->get(); 
-
+ 
         return view('admin.master.kib_a.add', compact('kode_pemilik','unit','rincian_object','kab_kota'));
     }
 

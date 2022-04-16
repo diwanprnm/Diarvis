@@ -67,7 +67,7 @@
  
 
 @section('page-body') 
-<form action="{{route('tanah.save')}}" method="post">
+<form action="{{route('tanah.save')}}" method="post"  enctype="multipart/form-data">
                     @csrf
 <div class="row">
     <div class="col-xl-6">
@@ -129,7 +129,8 @@
                             <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                             <option>-</option>
                                 @foreach ($kode_pemilik as $data)
-                                <option value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
+                                if($data->kd_pemilik == "")
+                                <option {{ ($data->kd_pemilik == "12") ? "Selected" :"" }} value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -175,7 +176,7 @@
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
-                        <input type="number" class="form-control" name="no_register"  id="no_register" readonly value="1">
+                        <input type="number" class="form-control" name="no_register"  id="no_register" readonly >
                         </div>
                         <div class="col-sm-3">
                             <p><i>(Otomatis)</i></p>
@@ -334,9 +335,11 @@
                                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                                         </div>
                                                     </div>
-                                                         <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
+                                                    <div  id="content_kib_a"> 
+                                                    <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
                                                             <thead>
                                                                 <tr>
+                                                                    
                                                                     <th>No. Reg</th>
                                                                     <th>Tgl Perolehan</th>
                                                                     <th>Kode Barang</th>
@@ -344,10 +347,8 @@
                                                                     <th>Uraian Aset</th>
                                                                 </tr>
                                                             </thead>
-                                                                 <tbody id="content_kib_a">
-                                                                </tbody>
                                                         </table>
-                                                    </div>
+                                                    </div> </div>
                                                 </div>
 
                                                 <div class="card">
@@ -373,10 +374,10 @@
  
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Foto</h5>
+                                                        <h5>Dokumen</h5>
                                                          
                                                         <div class="card-header-right">
-                                                            <i class="icofont icofont-spinner-alt-5"></i>
+                                                        <i class="icofont icofont-upload"></i>
                                                         </div>
                                                     </div>
                                                     <div class="card-block" style="overflow-x: auto" >
@@ -384,11 +385,8 @@
                                                         <div class="progress">
                                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                                         </div>
-                                                    </div>
-
-                                                             <input type="file" id="uploadFile" name="uploadFile[]" multiple/> 
-                                                         
-                                                        <div id="imgPreview" ></div>
+                                                    </div>  
+                                                    <input type="file" name="uploadFile[]"  multiple class="multi"/>        
                                                 </div>
 
                                             </div>
@@ -476,7 +474,9 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script> 
+<script src="{{ asset('assets/js/jquery.MultiFile.js') }}"  type="text/javascript"></script> 
+
  
 <script src="https://js.arcgis.com/4.18/"></script>
 <script>
@@ -484,6 +484,8 @@
         $(".chosen-select").chosen({
             width: '100%'
         }); 
+ 
+
         $('#table_kib_a').dataTable( {
         "bInfo": false
         } );
@@ -726,25 +728,7 @@
             $("#kd_aset5").attr("value",dt[6]);
             $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
-            $.ajax({ 
-                url: "{{route('tanah.noregister')}}",
-                method: 'POST',
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                    $('#loader_noreg').show();
-                },
-                data: {kd_aset:dt[0],kd_aset0:dt[1],kd_aset1:dt[2],kd_aset2:dt[3],kd_aset3:dt[4],kd_aset4:dt[5],kd_aset5:dt[6] },
-
-                success: function (data) {
-                    // On Success, build our rich list up and append it to the #richList div.
-                    $("input[name='no_register']").attr("value",data.no_register);
-                    },
-                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                    $('#loader_noreg').hide();
-                } 
-            });
+            
 
             return false;
         });    
