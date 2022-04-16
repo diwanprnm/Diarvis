@@ -55,9 +55,9 @@
                                                     <li class="breadcrumb-item">
                                                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">intra</a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">Tanah</a>
                                                     </li>
                                                 </ul>
                                             </div>

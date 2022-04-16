@@ -33,9 +33,9 @@
                 <li class="breadcrumb-item">
                     <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Unit organisasi</a>
+                <li class="breadcrumb-item"><a href="#!">Intra</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">Unit</a>
+                <li class="breadcrumb-item"><a href="#">KIB-A</a>
                 </li>
             </ul>
         </div>
