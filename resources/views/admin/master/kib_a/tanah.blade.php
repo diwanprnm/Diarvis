@@ -111,6 +111,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tahun</th>
+                                <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
                                 <th>No Register</th>
@@ -285,6 +286,9 @@
                 {
                     data: 'tahun',
                     name: 'tahun'
+                },{
+                    data: 'id',
+                    name: 'id_pemda'
                 },
                 {
                     data: 'nm_pemilik',

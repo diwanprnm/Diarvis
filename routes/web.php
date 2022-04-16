@@ -120,6 +120,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::get('tanah/add', 'MasterData\Barang\TanahController@add')->name('tanah.add');
+                Route::post('tanah/getKecamatan', 'MasterData\Barang\TanahController@getKecamatan')->name('tanah.get.kecamatan');
+                Route::post('tanah/getDesa', 'MasterData\Barang\TanahController@getDesa')->name('tanah.get.desa');
+                Route::post('tanah/images-upload', 'ImageController@imagesUploadPost')->name('tanah/images-upload');
+
                 Route::post('tanah/getNoRegister', 'MasterData\Barang\TanahController@getNoRegister')->name('tanah.noregister');
                 Route::post('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
                 Route::post('tanah/getKodePemilik', 'MasterData\Barang\TanahController@getKodePemilik')->name('tanah.kode-pemilik');

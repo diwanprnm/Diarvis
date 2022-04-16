@@ -9,8 +9,32 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 <link rel="stylesheet" href="{{ asset('assets/css/style_kib.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-<style>
-    
+ 
+
+<style type="text/css">
+ 
+ input[type=file]{
+
+   display: inline;
+
+ }
+
+ #imgPreview{
+
+    border:1px solid #ccc;
+    margin-top:10px;
+   padding: 10px;
+
+ }
+
+ #imgPreview img{
+
+   width: 200px;
+
+   padding: 5px;
+
+ }
+
 </style>
 @endsection
 
@@ -60,7 +84,7 @@
                 <form action="{{route('tanah.save')}}" method="post">
                         @csrf 
                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                        <h4 class="sub-title">Unit Organisasi</h4>
+                     
                         <div class="form-group row">
                         <label class="col-md-3 col-form-label">Unit</label>
                         <div class="col-md-9">
@@ -100,12 +124,12 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kode Pemilik</label>
-                        <div class="col-md-5">
+                        <div class="col-md-9">
                              
                             <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                             <option>-</option>
                                 @foreach ($kode_pemilik as $data)
-                                <option value="{{ $data->kd_pemilik }}">{{ $data->nm_pemilik }}</option>
+                                <option value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -115,7 +139,7 @@
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
-                                <span id="show_pemilik"></span>
+                            
                         </div>    
                     </div>
 
@@ -158,23 +182,23 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Tgl. Pembelian</label>
+                        <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="tanggal_pembelian" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Tgl. Pembukuan</label>
+                        <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="tanggal_pembukuan" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Luas (M2)</label>
    
-                        <div class="col-sm-6">
+                        <div class="col-sm-9">
                         <input class="form-control" name="luas" type="text">
                         </div>
                     </div>
@@ -199,7 +223,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Tgl. Sertifikat</label>
+                        <label class="col-md-3 col-form-label">Tanggal Sertifikat</label>
    
                         <div class="col-sm-9">
                         <input class="form-control" name="tanggal_sertifikat" type="date">
@@ -248,17 +272,43 @@
                         </div>
                     </div>     
                     <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
+   
+                        <div class="col-sm-9">
+                        <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
+                            <option>-</option>
+                                @foreach ($kab_kota as $data)
+                                <option value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>   
+                    <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kecamatan</label>
    
                         <div class="col-sm-9">
-                         
+                        <div id="loader_kec" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <select name="kecamatan" id="kecamatan" class="form-control chosen-select">
+                            <option>-</option>
+                             </select>
                         </div>
-                    </div>        
+                    </div>      
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Kelurahan</label>
+                        <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
    
-                        <div class="col-sm-6">
-                         
+                        <div class="col-sm-9">
+                        <div id="loader_desa" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <select name="desa" id="desa" class="form-control chosen-select">
+                            <option>-</option>
+                             </select>
                         </div>
                     </div>                                    
                               
@@ -267,6 +317,8 @@
                     
                 </div>
             </div>
+
+            
                                             <div class="col-xl-6">
                                                 <div class="card">
                                                     <div class="card-header">
@@ -317,6 +369,26 @@
                                                                         Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
                                                                    
                                                     </div>
+                                                </div>
+ 
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Foto</h5>
+                                                         
+                                                        <div class="card-header-right">
+                                                            <i class="icofont icofont-spinner-alt-5"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                             <input type="file" id="uploadFile" name="uploadFile[]" multiple/> 
+                                                         
+                                                        <div id="imgPreview" ></div>
                                                 </div>
 
                                             </div>
@@ -390,11 +462,7 @@
                         
                          
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
+                    
             </div>
         </div>   
  @endsection
@@ -408,6 +476,8 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+ 
 <script src="https://js.arcgis.com/4.18/"></script>
 <script>
     $(document).ready(function() {
@@ -500,7 +570,7 @@
 }
             
 
-        $('#kode_pemilik').on('change', function()  {
+        $('#kode_pemilik2').on('change', function()  {
             $.ajax({ 
                 url: "{{route('tanah.kode-pemilik')}}",
                 method: 'POST',
@@ -571,6 +641,78 @@
             });
         }); 
 
+        $('#imageUploadForm').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            type:'POST',
+            url: $(this).attr('action'),
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+   
+        $('#kab_kota').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.get.kecamatan')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_kec').show();
+                },
+                data: {kode_kab_kota:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='kecamatan']").html('');
+                    $("select[name='kecamatan']").html(data.options);
+                    $("select[name='kecamatan']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_kec').hide();
+                } 
+            });
+        }); 
+
+        $('#kecamatan').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.get.desa')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_desa').show();
+                },
+                data: {kode_kecamatan:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='desa']").html('');
+                    $("select[name='desa']").html(data.options);
+                    $("select[name='desa']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_desa').hide();
+                } 
+            });
+        }); 
+
+
         $('#sub_sub_rincian_obyek').on('change', function()  {
             var v = this.value;
             
@@ -607,6 +749,17 @@
             return false;
         });    
     
+
+        $("#uploadFile").change(function(){  
+            $('#imgPreview').html(""); 
+            var total_file=document.getElementById("uploadFile").files.length; 
+                for(var i=0;i<total_file;i++)  { 
+                 $('#imgPreview').append("<img src='"+URL.createObjectURL(event.target.files[i])+"'>"); 
+                } 
+            }); 
+
+            
+
         $('#mapLatLong').ready(() => {
             require([
             "esri/Map",
