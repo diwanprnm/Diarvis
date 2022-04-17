@@ -226,7 +226,7 @@
     {{-- <script type="text/javascript" src="{{ asset('assets/files/assets/pages/dashboard/custom-dashboard.min.js') }}">
     </script> --}}
     <script type="text/javascript" src="{{ asset('assets/files/assets/js/script.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('assets/js/custom.js') }}"></script> -->
 
     <!-- Tombol get lokasi diatas maps
     Maps dan button di bungkus div dengan class "mapsWithGetLocationButton",

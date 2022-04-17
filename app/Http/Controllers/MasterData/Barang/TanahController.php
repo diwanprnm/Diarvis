@@ -132,7 +132,7 @@ class TanahController extends Controller
             $kode_sub_unit = $ex[2];
             $kode_upb = $ex[3];
             $kib_a = DB::table('ta_kib_a')
-            ->select('kd_bidang','kd_unit','kd_sub','kd_upb','no_register','tgl_perolehan','harga','keterangan',DB::raw("CONCAT(kd_aset8,'.',kd_aset80,'.',kd_aset81,'.',ltrim(to_char(kd_aset82, '00')) ,'.',ltrim(to_char(kd_aset83, '000')),'.',ltrim(to_char(kd_aset84, '000')),'.',ltrim(to_char(kd_aset85, '000'))) as kode_aset"))
+            ->select('kd_bidang','kd_unit','kd_sub','idpemda','kd_upb','no_register','tgl_perolehan','harga','keterangan',DB::raw("CONCAT(kd_aset8,'.',kd_aset80,'.',kd_aset81,'.',ltrim(to_char(kd_aset82, '00')) ,'.',ltrim(to_char(kd_aset83, '000')),'.',ltrim(to_char(kd_aset84, '000')),'.',ltrim(to_char(kd_aset85, '000'))) as kode_aset"))
             ->where('kd_bidang', $bidang)
             ->where('kd_unit',$kode_unit)
             ->where('kd_sub',$kode_sub_unit)
@@ -343,94 +343,37 @@ class TanahController extends Controller
         return view('admin.master.kib_a.add', compact('kode_pemilik','unit','rincian_object','kab_kota'));
     }
 
-    public function store(Request $request)
-    {
-        // $jembatan = $request->except('_token', 'foto');
-
-        $jembatan['id_jembatan'] = $request->id_jembatan;
-        $jembatan['nama_jembatan'] = $request->nama_jembatan;
-        $jembatan['uptd'] = $request->uptd;
-        $jembatan['ruas_jalan'] = $request->ruas_jalan;
-        $jembatan['sup'] = $request->sup;
-        $jembatan['lokasi'] = $request->lokasi;
-        // $jembatan['status'] = $request->status;
-        $jembatan['kondisi'] = $request->kondisi;
-        //$jembatan['debit_air'] = $request->debit_air;
-        //$jembatan['tinggi_jagaan'] = $request->tinggi_jagaan;
-        //$jembatan['id_jenis_jembatan'] = $request->id_jenis_jembatan;
-        $jembatan['tinggi_muka_air_banjir'] = $request->tinggi_muka_air_banjir;
-        $jembatan['panjang'] = $request->panjang;
-        $jembatan['lebar'] = $request->lebar;
-        $jembatan['jumlah_bentang'] = $request->jumlah_bentang;
-        $jembatan['lat'] = $request->lat;
-        $jembatan['lng'] = $request->lng;
-        $jembatan['ket'] = $request->ket;
-        $jembatan['kategori'] = "";
-        $jembatan['created_by'] = Auth::user()->id;
-        $jembatan['tipe'] = $request->tipe;
-
-        $jembatanModel = new Jembatan();
-        $result_jembatan = $jembatanModel->insert($jembatan);
-        $last3 = DB::table('master_jembatan')->latest('id')->first();
-
-        if ($result_jembatan) {
-            if ($request->foto != null) {
-                foreach ($request->foto as $i => $val) {
-                    $path = 'jembatan/' . Str::snake(date("YmdHis").'_'.$val->getClientOriginalName());
-                    $val->storeAs('public/', $path);
-                    $file['foto'] = $path;
-                    $file['nama'] = $request->nama[$i];
-                    $file['id_jembatan'] = $last3->id;
-                    DB::table('master_jembatan_foto')->insert($file);
-                }
-            }
-        }
-
-
-        for ($i = 0; $i < $jembatan['jumlah_bentang']; $i++) {
-            $textPanjang = 'panjangBentang' . $i;
-            $textTipe = 'tipe' . $i;
-
-            $dataBentang['master_jembatan_id'] = $last3->id;
-            $dataBentang['bentang'] = $i + 1;
-            $dataBentang['panjang'] = $request->$textPanjang;
-            $dataBentang['tipe_bangunan_atas_id'] = $request->$textTipe;
-
-            DB::table('master_jembatan_bentang')->insert($dataBentang);
-        }
-
-        $color = "success";
-        $msg = "Berhasil Menambah Data Jembatan";
-        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
-    }
+    
 
     public function edit($id)
-    {
-        $jembatan = Jembatan::find($id);
+    { 
 
-        $id = substr($jembatan->uptd, strlen($jembatan->uptd) - 1);
-        $id = (int) $id;
+        $tanah = DB::table('ta_kib_a as a')->where('a.kd_ka','1')
+         
 
-        $ruasJalan = DB::table('master_ruas_jalan');
-        $ruasJalan = $ruasJalan->where('uptd_id', $id);
-        $ruasJalan = $ruasJalan->get();
+        ->select('a.idpemda as id','d.nama_unit','e.nama_sub_unit','f.nama_upb', 'a.tahun','a.kd_aset8','a.kd_aset80','a.kd_aset81','a.kd_aset82', 'a.kd_aset83', 'a.kd_aset84', 'a.kd_aset85' , 
+           'a.no_register', 'a.harga', 'a.luas_m2',  'a.kd_pemilik','c.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'YYYY-MM-DD') as tgl_perolehan"), DB::raw("to_char( a.tgl_pembukuan, 'YYYY-MM-DD') as tgl_pembukuan") , 'a.alamat', 'a.hak_tanah', DB::raw("to_char( a.sertifikat_tanggal, 'YYYY-MM-DD') as sertifikat_tanggal")  , 
+            'a.keterangan','a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka','a.latitude','a.longitude' )
+            ->join('ref_pemilik as c','a.kd_pemilik','=','c.kd_pemilik')
+            ->join('ref_organisasi_unit as d','d.kode_unit','=','a.kd_unit')
+            ->join('ref_organisasi_sub_unit as e','e.kode_sub_unit','=','a.kd_sub')
+            ->join('ref_organisasi_upb as f','f.kode_upb','=','a.kd_upb')
+            ->where('a.idpemda',$id)->first(); 
 
+        $dokumen = DB::table('ta_kib_a as a')
+                ->select('b.filename','b.id_dokumen')
+                   ->join('ta_kib_a_dokumen as b','a.idpemda','=','b.idpemda')
+                   ->where('a.idpemda',$id)->get();
+                   $kode_pemilik = DB::table('ref_pemilik')->get();
+                   $kab_kota = DB::table('ref_organisasi_kab_kota')->get();
+                   
+        $unit = DB::table('ref_organisasi_unit')->get(); 
+        $rincian_object = DB::table('ref_rek3_108')
+                            ->where('kd_aset1','1')
+                            ->get(); 
+        //str_replace('',$tanah->harga)
+            return view('admin.master.kib_a.edit', compact('tanah','dokumen','unit','rincian_object','kode_pemilik','kab_kota'));
 
-        $sup = DB::table('utils_sup');
-        $sup = $sup->where('uptd_id', $id);
-        $sup = $sup->get();
-        $uptd = DB::table('landing_uptd')->get();
-        //$jenis = DB::table('utils_jenis_jembatan')->get();
-        $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $jembatan->id)->get();
-
-        $dataBentang = DB::table('master_jembatan_bentang');
-        $dataBentang = $dataBentang->where('master_jembatan_id', $jembatan->id);
-        $dataBentang = $dataBentang->get();
-
-        $tipe = DB::table('utils_tipe_bangunan_atas');
-        $tipe = $tipe->get();
-
-        return view('admin.master.jembatan.edit', compact('jembatan', 'ruasJalan', 'sup', 'uptd', 'tipe', 'dataBentang', 'foto'));
     }
 
     public function deletePhoto($id)

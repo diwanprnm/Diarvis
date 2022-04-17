@@ -12,8 +12,9 @@
     <tbody>
 @foreach($kib_a as $dt) 
 <tr>
-<td> <a href=""><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>    
-<a href="#delModal" data-id="' . $dt->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a> 
+<td>
+ <a href="{{ route('tanah.edit', $dt->idpemda)  }}" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i> </a>    
+<a href="#delModal" data-id="' . $dt->idpemda. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a> 
                 
 </td>
     

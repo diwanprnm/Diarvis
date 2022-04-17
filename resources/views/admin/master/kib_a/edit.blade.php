@@ -44,7 +44,7 @@
                                         <div class="col-lg-8">
                                             <div class="page-header-title">
                                                 <div class="d-inline">
-                                                    <h4> Tambah Data Tanah KIB/A</h4>
+                                                    <h4> Edit Data Tanah KIB/A</h4>
                                                     <span></span>
                                                 </div>
                                             </div>
@@ -88,38 +88,21 @@
                         <div class="form-group row">
                         <label class="col-md-3 col-form-label">Unit</label>
                         <div class="col-md-9">
-                        
-                        <select name="unit" id="unit" class="form-control chosen-select">
-                                <option>-</option>
-                                    @foreach ($unit as $data)
-                                    <option value="{{ $data->kode_unit.'_'.$data->kode_bidang }}">{{ $data->nama_unit }}</option>
-                                    @endforeach
-                                </select> 
+                        {{ $tanah->nama_unit }} 
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Sub Unit</label>
                         <div class="col-md-9">
-                        <div id="loader_unit" style="display:none">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <select name="sub_unit" id="sub_unit" class="form-control chosen-select">
-                        </select>
+                        
+                        {{ $tanah->nama_sub_unit }} 
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">UPB</label>
                         <div class="col-md-9">
-                        <div id="loader_upb" style="display:none">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <select name="upb" id="upb" class="form-control chosen-select">
-                        </select>
+                        {{ $tanah->nama_upb }} 
                         </div>
                     </div>
                     <div class="form-group row">
@@ -128,9 +111,8 @@
                              
                             <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                             <option>-</option>
-                                @foreach ($kode_pemilik as $data)
-                                if($data->kd_pemilik == "")
-                                <option {{ ($data->kd_pemilik == "12") ? "Selected" :"" }} value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
+                                @foreach ($kode_pemilik as $data) 
+                                <option {{ ($data->kd_pemilik == $tanah->kd_pemilik) ? "Selected" :"" }} value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -148,19 +130,19 @@
                         <label class="col-md-3 col-form-label">Kode Aset</label>
                         <div class="col-md-9">
                         <div class="col separated-input d-flex row">
-                            <input type="text" id="kd_aset" name="kd_aset"  class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset" name="kd_aset" value="{{ $tanah->kd_aset8 }}"   class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset0" name="kd_aset0" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset0" name="kd_aset0" value="{{ $tanah->kd_aset80 }}" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset1" name="kd_aset1" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset1" name="kd_aset1" value="{{ $tanah->kd_aset81 }}" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset2" name="kd_aset2" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset2" name="kd_aset2" value="{{ $tanah->kd_aset82 }}" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset3" name="kd_aset3" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset3" name="kd_aset3" value="{{ $tanah->kd_aset83 }}" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text"  id="kd_aset4" name="kd_aset4" class="form-control" style="width:40px"
+                            <input type="text"  id="kd_aset4" name="kd_aset4" value="{{ $tanah->kd_aset84 }}" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset5" name="kd_aset5" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset5" name="kd_aset5" value="{{ $tanah->kd_aset85 }}" class="form-control" style="width:40px"
                                 placeholder="...">
                             <a data-toggle="modal" href="#modalAsset"  class="btn btn-info"><i class="icofont icofont-ui-search"></i></a>
                             <span id="nama_aset"></span>
@@ -176,7 +158,7 @@
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
-                        <input type="number" class="form-control" name="no_register"  id="no_register" readonly >
+                        <input type="number" class="form-control"value="{{ $tanah->no_register }}" name="no_register"  id="no_register" readonly >
                         </div>
                         <div class="col-sm-3">
                             <p><i>(Otomatis)</i></p>
@@ -186,21 +168,21 @@
                         <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="tanggal_pembelian" type="date">
+                        <input class="form-control fill" value="{{ $tanah->tgl_perolehan}}" name="tanggal_pembelian" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="tanggal_pembukuan" type="date">
+                        <input class="form-control" value="{{ $tanah->tgl_pembukuan}}" name="tanggal_pembukuan" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Luas (M2)</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="luas" type="text">
+                        <input class="form-control" value="{{ $tanah->luas_m2}}"  name="luas" type="text">
                         </div>
                     </div>
 
@@ -208,7 +190,7 @@
                         <label class="col-md-3 col-form-label">Alamat</label>
    
                         <div class="col-sm-9">
-                        <textarea class="form-control" name="alamat"></textarea> 
+                        <textarea class="form-control" name="alamat">{{ $tanah->alamat}}</textarea> 
                         </div>
                     </div>
                     <div class="form-group row">
@@ -217,8 +199,8 @@
                         <div class="col-sm-9">
                             <select name="hak_tanah" id="hak_tanah" class="form-control chosen-select">
                             <option></option>
-                            <option value="Hak Pakai">Hak Pakai</option>
-                            <option value="Hak Pengelolaan">Hak Pengelolaan</option>
+                            <option  {{ ($tanah->hak_tanah == "Hak Pakai") ? "Selected" :"" }}  value="Hak Pakai">Hak Pakai</option>
+                            <option  {{ ($tanah->hak_tanah == "Hak Pengelolaan") ? "Selected" :"" }} value="Hak Pengelolaan">Hak Pengelolaan</option>
                             </select>
                         </div>
                     </div>
@@ -227,7 +209,7 @@
                         <label class="col-md-3 col-form-label">Tanggal Sertifikat</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="tanggal_sertifikat" type="date">
+                        <input class="form-control" value="{{ $tanah->sertifikat_tanggal }}" name="tanggal_sertifikat" type="date">
                         </div>
                     </div>
 
@@ -235,7 +217,7 @@
                         <label class="col-md-3 col-form-label">No Sertifikat</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="no_sertifikat" type="text">
+                        <input class="form-control" value="{{ $tanah->sertifikat_nomor}}" name="no_sertifikat" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -244,8 +226,8 @@
                         <div class="col-sm-9">
                             <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
                             <option></option>
-                            <option value="Pembelian">Pembelian</option>
-                            <option value="Hibah">Hibah</option>
+                            <option ($tanah->asal_usul == "Pembelian") ? "Selected" :"" }} value="Pembelian">Pembelian</option>
+                            <option ($tanah->asal_usul == "Hibah") ? "Selected" :"" }} value="Hibah">Hibah</option>
                             </select>
                         </div>
                     </div>
@@ -254,14 +236,14 @@
                         <label class="col-md-3 col-form-label">Penggunaan</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="penggunaan" type="text">
+                        <input class="form-control" value="{{ $tanah->penggunaan}}" name="penggunaan" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Harga</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" name="harga" type="number">
+                        <input class="form-control" value="{{ $tanah->harga}}" name="harga" type="number">
                         </div>
                     </div>
                                   
@@ -269,7 +251,7 @@
                         <label class="col-md-3 col-form-label">Keterangan</label>
    
                         <div class="col-sm-9">
-                        <textarea class="form-control" name="keterangan"></textarea> 
+                        <textarea class="form-control" name="keterangan">{{ $tanah->keterangan}}</textarea> 
                         </div>
                     </div>     
                     <div class="form-group row">
