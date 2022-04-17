@@ -32,6 +32,10 @@
                         <i class="full-screen feather icon-maximize"></i>
                     </a>
                 </li>
+                <li>
+                 PEMERINTAH KABUPATEN BANDUNG / {{ Session::get('bidang') }} /
+                 {{ Session::get('upb') }}
+                </li>
             </ul>
             <ul class="nav-right">
                 <li class="header-notification">

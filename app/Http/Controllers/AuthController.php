@@ -33,6 +33,21 @@ class AuthController extends Controller
         }
         
        Session::put('tahun',  $req->tahun);
+     $org =  DB::table('users as a')
+        ->select('b.nama_bidang','c.nama_unit','d.nama_sub_unit','e.nama_upb')
+       ->join('ref_organisasi_bidang as b','a.bidang','=','b.kode_bidang')
+       ->join('ref_organisasi_unit as c','a.unit','=','c.kode_unit')
+       ->join('ref_organisasi_sub_unit as d','a.sub_unit','=','d.kode_sub_unit')
+       ->join('ref_organisasi_upb as e','a.upb','=','e.kode_upb')
+       ->where('a.bidang', Auth::user()->bidang)
+       ->where('a.unit', Auth::user()->unit)
+       ->where('a.sub_unit', Auth::user()->sub_unit)
+       ->where('a.upb', Auth::user()->upb)->first();
+       // dd($internal->first());
+       Session::put('bidang',   $org->nama_bidang);
+       Session::put('unit',   $org->nama_unit); 
+       Session::put('sub_unit',   $org->nama_sub_unit);
+       Session::put('upb',   $org->nama_upb);
 
         Log::create(['activity' => 'Login', 'description' => 'User ' . Auth::user()->name . ' Logged In To Web e-BMD Explorer']);
         return redirect('admin');
