@@ -67,7 +67,7 @@
  
 
 @section('page-body') 
-<form action="{{route('tanah.save')}}" method="post"  enctype="multipart/form-data">
+<form action="{{route('tanah.update')}}" method="post"  enctype="multipart/form-data">
                     @csrf
 <div class="row">
     <div class="col-xl-6">
@@ -81,10 +81,10 @@
             </div>
             <div class="card-block">
                 
-                <form action="{{route('tanah.save')}}" method="post">
+                <form action="{{route('tanah.update')}}" method="post">
                         @csrf 
                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                     
+                     <input type="hidden" name="idpemda" value="{{ $tanah->id }} " />
                         <div class="form-group row">
                         <label class="col-md-3 col-form-label">Unit</label>
                         <div class="col-md-9">
@@ -226,8 +226,8 @@
                         <div class="col-sm-9">
                             <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
                             <option></option>
-                            <option ($tanah->asal_usul == "Pembelian") ? "Selected" :"" }} value="Pembelian">Pembelian</option>
-                            <option ($tanah->asal_usul == "Hibah") ? "Selected" :"" }} value="Hibah">Hibah</option>
+                            <option {{  ($tanah->asal_usul == "Pembelian") ? "Selected" :"" }} value="Pembelian">Pembelian</option>
+                            <option {{  ($tanah->asal_usul == "Hibah") ? "Selected" :"" }} value="Hibah">Hibah</option>
                             </select>
                         </div>
                     </div>
@@ -243,7 +243,7 @@
                         <label class="col-md-3 col-form-label">Harga</label>
    
                         <div class="col-sm-9">
-                        <input class="form-control" value="{{ $tanah->harga}}" name="harga" type="number">
+                        <input class="form-control" value="{{ $harga}}" name="harga" type="number">
                         </div>
                     </div>
                                   
@@ -261,7 +261,7 @@
                         <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
                             <option>-</option>
                                 @foreach ($kab_kota as $data)
-                                <option value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}</option>
+                                <option {{ ($tanah->kd_kab_kota == $data->kode_kab_kota) ? "selected" :""  }} value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -276,7 +276,11 @@
                                     </div>
                                 </div>
                         <select name="kecamatan" id="kecamatan" class="form-control chosen-select">
-                            <option>-</option>
+                        <option>-</option>
+                                @foreach ($kecamatan as $data)
+                                <option {{ ($tanah->kd_kecamatan == $data->kode_kecamatan) ? "selected" :""  }} value="{{ $data->kode_kecamatan }}">{{ $data->nama_kecamatan }}</option>
+                                @endforeach
+                            </select>
                              </select>
                         </div>
                     </div>      
@@ -290,7 +294,9 @@
                                     </div>
                                 </div>
                         <select name="desa" id="desa" class="form-control chosen-select">
-                            <option>-</option>
+                        @foreach ($desa as $data)
+                                <option {{ ($tanah->kd_desa == $data->kode_desa) ? "selected" :""  }} value="{{ $data->kode_desa }}">{{ $data->nama_desa }}</option>
+                                @endforeach
                              </select>
                         </div>
                     </div>                                    
@@ -348,8 +354,8 @@
                                                         </div>
                                                     </div>
                                                     <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
-                                                                        Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
-                                                                        Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
+                                                                        Lat <input id="lat" name="lat" type="text" value="{{ $tanah->latitude}}"  class="form-control formatLatLong fill" required="">
+                                                                        Long <input id="long" name="lng" type="text" value="{{ $tanah->longitude}}" class="form-control formatLatLong fill" required="">     
                                                                    
                                                     </div>
                                                 </div>
@@ -369,6 +375,14 @@
                                                         </div>
                                                     </div>  
                                                     <input type="file" name="uploadFile[]"  multiple class="multi"/>        
+                                                    
+                                                    <table class="table">
+                                                    @foreach($dokumen as $file)
+                                                        <tr><td> {{ $file->filename}}</td><td> 
+                                                            <a href="#"><i class="icofont icofont-trash"></i></a>
+                                                        </td></tr>
+                                                    @endforeach
+                                                                        </table>                                
                                                 </div>
 
                                             </div>

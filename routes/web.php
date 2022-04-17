@@ -128,6 +128,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
                 Route::post('tanah/getNoRegister', 'MasterData\Barang\TanahController@getNoRegister')->name('tanah.noregister');
                 Route::post('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
+                Route::post('tanah/update', 'MasterData\Barang\TanahController@update')->name('tanah.update');
+                
                 Route::post('tanah/getKodePemilik', 'MasterData\Barang\TanahController@getKodePemilik')->name('tanah.kode-pemilik');
                 Route::post('tanah/get-sub-unit', 'MasterData\Barang\TanahController@getSubUnit')->name('tanah.sub-unit');
 

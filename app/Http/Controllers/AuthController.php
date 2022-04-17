@@ -9,21 +9,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-
+use Session;
 class AuthController extends Controller
 {
     // Web Service
     public function login(Request $req)
     {
         $credentials = $req->only('email', 'password');
-        //$internal = DB::table('user_pegawai')->where('nip', $req->email);
+      //  $internal = DB::table('user_pegawai')->where('nip', $req->email);
         // dd($internal->first());
         //if ($internal->count() > 0) {
           //  $user = DB::table('users')->where('id', $internal->first()->user_id)->first();
           //  if ($user->count() > 0) {
-          //  $credentials['email'] = $user->email;
+           
         //}
-        
+ 
+      
         $auth = Auth::attempt($credentials);
         //dd($auth);
         //dd($credentials);
@@ -31,6 +32,7 @@ class AuthController extends Controller
             return back()->with(['msg' => 'Email/NIP atau Password Salah', 'color' => 'danger']);
         }
         
+       Session::put('tahun',  $req->tahun);
 
         Log::create(['activity' => 'Login', 'description' => 'User ' . Auth::user()->name . ' Logged In To Web e-BMD Explorer']);
         return redirect('admin');

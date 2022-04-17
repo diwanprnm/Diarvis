@@ -95,6 +95,19 @@
                                         <input type="password" name="password" class="form-control" required="" placeholder="Password">
                                         <span class="form-bar"></span>
                                     </div>
+                                    <div class="form-group form-primary">
+                                        <select   name="tahun" class="form-control" placeholder="Tahun Anggaran"required="">
+                                            <option value=""></option>
+
+                                            <option value="2016">2016</option>
+                                            <option value="2017">2017</option>
+                                            <option value="2018">2018</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+    </select>
+                                        <span class="form-bar"></span>
+                                    </div>
                                     <div class="row m-t-25 text-left">
                                         <div class="col-12">
                                             <div class="checkbox-fade fade-in-primary d-">

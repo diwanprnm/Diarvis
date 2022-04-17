@@ -110,7 +110,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tahun</th>
+                               
                                 <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
@@ -283,10 +283,7 @@
                         return +meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {
-                    data: 'tahun',
-                    name: 'tahun'
-                },{
+                 {
                     data: 'id',
                     name: 'id_pemda'
                 },
