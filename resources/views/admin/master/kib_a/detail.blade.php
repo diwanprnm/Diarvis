@@ -217,8 +217,8 @@
                                                                                        <div class="card-block user-desc">
                                                                         <div class="view-desc">
                                                                         <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
-                                                                        Lat <input id="lat" name="lat" type="text" value="{{ $tanah->latitude }}" class="form-control formatLatLong fill" required="">
-                                                                        Long <input id="long" name="lng" type="text"  value="{{ $tanah->longitude }}" class="form-control formatLatLong fill" required="">     
+                                                                          <input id="lat" style="display:none" name="lat" type="text" value="{{ $tanah->latitude }}" class="form-control formatLatLong fill" required="">
+                                                                          <input id="long" name="lng" style="display:none" type="text"  value="{{ $tanah->longitude }}" class="form-control formatLatLong fill" required="">     
                                                                     </div>
                                                                                         </div>
                                                                                     </div>
