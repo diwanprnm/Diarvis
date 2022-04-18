@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Yajra\Datatables\DataTables;
+use Illuminate\Support\Facades\Response;
+use Yajra\Datatables\DataTables; 
 use Session;
 class TanahController extends Controller
 {
@@ -96,7 +97,11 @@ class TanahController extends Controller
                 ->select('b.filename','b.id_dokumen')
                    ->join('ta_kib_a_dokumen as b','a.idpemda','=','b.idpemda')
                    ->where('a.idpemda',$id)->get();
-            return view('admin.master.kib_a.detail', compact('tanah','dokumen'));
+
+        $profile_picture =  DB::table('ta_kib_a_dokumen')
+        ->select('filename','path')
+           ->where('idpemda',$id)->where('extension','jpg')->first();           
+            return view('admin.master.kib_a.detail', compact('tanah','dokumen','profile_picture'));
     }
 
     public function getSubUnit(Request $request){
@@ -108,6 +113,29 @@ class TanahController extends Controller
     		$data = view('admin.master.kib_a.ajax_select_sub_unit',compact('sub_unit'))->render();
     		return response()->json(['options'=>$data]);
     	}
+    }
+
+    public function download($id_dokumen){
+        $dokumen =  DB::table('ta_kib_a_dokumen') 
+                ->select('filename','path','extension')
+                ->where('id_dokumen',$id_dokumen)
+                ->first();  
+       
+
+    $file = public_path()."/".$dokumen->path."/".$dokumen->filename;
+    $header ="";
+    if($dokumen->extension == "jpg") {
+        $header = "image/jpeg"; 
+    }else if($dokumen->extension == "pdf") {
+        $header = "application/pdf"; 
+    }else if($dokumen->extension == "png") {
+        $header = "image/jpeg"; 
+    }
+    $headers  = array(
+        'Content-Type: '.$header
+    );
+
+    return Response::download($file, $dokumen->filename, $headers);
     }
     public function getUPB(Request $request){
         if($request->ajax()){

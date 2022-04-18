@@ -63,7 +63,7 @@
                                     <div class="row m-b-20">
                                         <div class="col-md-12">
                                         <div class="text-center">
-                                            <img style="width:130px" src="{{ asset('assets/images/logo.png') }}" alt="logo.png">
+                                            <img style="width:300px" src="{{ asset('assets/images/logo_diarvis1.png') }}" alt="logo.png">
                                         </div>
                                         <hr/>
                                         

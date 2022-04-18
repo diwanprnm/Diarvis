@@ -121,6 +121,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::get('tanah/add', 'MasterData\Barang\TanahController@add')->name('tanah.add');
                 Route::get('tanah/edit/{id}', 'MasterData\Barang\TanahController@edit')->name('tanah.edit');
+                Route::get('tanah/dokumen/download/{id}', 'MasterData\Barang\TanahController@download')->name('tanah.dokumen.download');
 
                 Route::post('tanah/getKecamatan', 'MasterData\Barang\TanahController@getKecamatan')->name('tanah.get.kecamatan');
                 Route::post('tanah/getDesa', 'MasterData\Barang\TanahController@getDesa')->name('tanah.get.desa');

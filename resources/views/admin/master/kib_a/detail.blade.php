@@ -54,7 +54,12 @@
                                                             <div class="col-md-12">
                                                                 <div class="media-left">
                                                                     <a href="#" class="profile-image">
+                                                                        @if(!empty($profile_picture))
+                                                                        <img class="user-img img-radius" src="{{ asset($profile_picture->path.'/'.$profile_picture->filename) }}" style="width:108px;height:108px" alt="user-img">
+                                                                        @else
                                                                         <img class="user-img img-radius" src="\assets\images\kantor.jpg" style="width:108px;height:108px" alt="user-img">
+                                                                      
+                                                                        @endif
                                                                     </a>
                                                                 </div>
                                                                 <div class="media-body row">
@@ -189,9 +194,8 @@
                                                                                                     <tr><td>{{$loop->index + 1}}</td>
                                                                                                     <td>{{ $dt->filename}}</td>
                                                                                                     <td>
-                                                                                                    <a href=""><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-download"></i></button></a>
-                                                                                                    <a href=""><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-ui-zoom-in"></i></button></a>
-                                                                                                        
+                                                                                                    <a href="{{route('tanah.dokumen.download',$dt->id_dokumen)}} " id="{{$dt->id_dokumen}}"  class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-download"></i></a>
+                                                                                                         
                                                                                                 </td>
                                                                                                 </tr>
                                                                                                     
