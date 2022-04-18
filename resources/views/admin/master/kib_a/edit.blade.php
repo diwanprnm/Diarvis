@@ -756,21 +756,43 @@
             require([
             "esri/Map",
             "esri/views/MapView",
-            "esri/Graphic"
+            "esri/Graphic"  
+            
             ], function(Map, MapView, Graphic) {
-
+               // var point = { type: "point", longitude: {{ $tanah->latitude}}, latitude: {{ $tanah->longitude}} }; 
+             
+               
                 const map = new Map({
                     basemap: "osm"
                 });
-
+                 
                 const view = new MapView({
                     container: "mapLatLong",
                     map: map,
-                    center: [107.6191, -6.9175],
-                    zoom: 8,
+                    center: [{{ $tanah->longitude}},{{ $tanah->latitude}}],
+                    zoom: 16,
                 });
 
                 let tempGraphic;
+                var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: {{ $tanah->longitude}},
+                            latitude: {{ $tanah->latitude}}
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "{{ asset('assets/images/marker/marker1.png')}}",
+                            width: "16px",
+                            height: "26px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                    
+
+
                 view.on("click", function(event){
                     if($("#lat").val() != '' && $("#long").val() != ''){
                         view.graphics.remove(tempGraphic);
@@ -779,9 +801,9 @@
                         geometry: event.mapPoint,
                         symbol: {
                             type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                            width: "14px",
-                            height: "24px"
+                            url: "{{ asset('assets/images/marker/marker1.png')}}",
+                            width: "16px",
+                            height: "26px"
                         }
                     });
                     tempGraphic = graphic;
@@ -802,9 +824,9 @@
                         },
                         symbol: {
                             type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                            width: "14px",
-                            height: "24px"
+                            url: "{{ asset('assets/images/marker/marker1.png')}}",
+                            width: "16px",
+                            height: "26px"
                         }
                     });
                     tempGraphic = graphic;
