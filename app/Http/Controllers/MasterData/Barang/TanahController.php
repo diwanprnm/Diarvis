@@ -435,12 +435,25 @@ class TanahController extends Controller
         $rincian_object = DB::table('ref_rek3_108')
                             ->where('kd_aset1','1')
                             ->get(); 
+
         //str_replace('',$tanah->harga)
        $harga0 =  str_replace('Rp', '', $tanah->harga   );
        $harga =  floatval(str_replace('.', '', $harga0   ));
        $kecamatan = DB::table('ref_organisasi_kecamatan')->where('kode_kab_kota',$tanah->kd_kab_kota)->get();
        $desa = DB::table('ref_organisasi_desa')->where('kode_kab_kota',$tanah->kd_kab_kota)->get(); 
-            return view('admin.master.kib_a.edit', compact('tanah','dokumen','unit','rincian_object','kode_pemilik','kab_kota','harga','kecamatan','desa'));
+      
+       $sub_rincian_obyek = DB::table('ref_rek4_108')
+       ->where('kd_aset1',$tanah->kd_aset81)
+        ->where('kd_aset3', $tanah->kd_aset83)
+       ->get();
+
+       $sub_sub_rincian_obyek = DB::table('ref_rek5_108')
+       ->where('kd_aset1',$tanah->kd_aset81)
+        ->where('kd_aset4', $tanah->kd_aset84)
+       ->get();
+       
+       
+       return view('admin.master.kib_a.edit', compact('tanah','dokumen','unit','rincian_object','kode_pemilik','kab_kota','harga','kecamatan','desa','sub_rincian_obyek','sub_sub_rincian_obyek'));
 
     }
 

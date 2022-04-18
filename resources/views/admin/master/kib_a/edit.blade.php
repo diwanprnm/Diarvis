@@ -422,7 +422,7 @@
                             <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
                                     <option>-</option>
                                         @foreach ($rincian_object as $data)
-                                        <option value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
+                                        <option {{ (($tanah->kd_aset81."_".$tanah->kd_aset83) ==  ($data->kd_aset1.'_'.$data->kd_aset3)) ? "selected" : "" }} value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
                                         @endforeach
                                     </select> 
                             </div>
@@ -437,7 +437,12 @@
                                 </div>
                             </div>
                             <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
-                            </select> 
+                            @if(!empty($sub_rincian_obyek))
+                            @foreach ($sub_rincian_obyek as $data)                
+                            <option  {{ (($tanah->kd_aset81."_".$tanah->kd_aset84) ==  ($data->kd_aset1.'_'.$data->kd_aset4)) ? "selected" : "" }} value="{{ $data->kd_aset1.'_'.$data->kd_aset4}}">{{ $data->nm_aset4 }}</option> 
+                            @endforeach
+                            @endif   
+                        </select> 
                             </div>
                         </div>
                         <div class="form-group row">
@@ -449,6 +454,13 @@
                                 </div>
                             </div>
                             <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek" class="form-control chosen-select">
+                            @if(!empty($sub_sub_rincian_obyek))
+                            @foreach ($sub_sub_rincian_obyek as $data)     
+                            {{ $kd_aset8 = $tanah->kd_aset8.'_'.$tanah->kd_aset80.'_'.$tanah->kd_aset81.'_'.$tanah->kd_aset82.'_'.$tanah->kd_aset83.'_'.$tanah->kd_aset84.'_'.$tanah->kd_aset85  }}
+                            {{ $kd_aset = $data->kd_aset.'_'.$data->kd_aset0.'_'.$data->kd_aset1.'_'.$data->kd_aset2.'_'.$data->kd_aset3.'_'.$data->kd_aset4.'_'.$data->kd_aset5  }}           
+                            <option  {{ (($kd_aset8 == $kd_aset) ? "selected" :"") }} value="{{ $data->kd_aset.'_'.$data->kd_aset0.'_'.$data->kd_aset1.'_'.$data->kd_aset2.'_'.$data->kd_aset3.'_'.$data->kd_aset4.'_'.$data->kd_aset5.'_'.$data->nm_aset5}}">{{ $data->nm_aset5 }}</option> 
+                            @endforeach
+                            @endif
                             </select> 
                             </div>
                         </div>
