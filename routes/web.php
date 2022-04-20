@@ -123,12 +123,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::get('tanah/add', 'MasterData\Barang\TanahController@add')->name('tanah.add');
+                Route::get('tanah/edit/{id}', 'MasterData\Barang\TanahController@edit')->name('tanah.edit');
+                Route::get('tanah/dokumen/download/{id}', 'MasterData\Barang\TanahController@download')->name('tanah.dokumen.download');
+
                 Route::post('tanah/getKecamatan', 'MasterData\Barang\TanahController@getKecamatan')->name('tanah.get.kecamatan');
                 Route::post('tanah/getDesa', 'MasterData\Barang\TanahController@getDesa')->name('tanah.get.desa');
                 Route::post('tanah/images-upload', 'ImageController@imagesUploadPost')->name('tanah/images-upload');
 
                 Route::post('tanah/getNoRegister', 'MasterData\Barang\TanahController@getNoRegister')->name('tanah.noregister');
                 Route::post('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
+                Route::post('tanah/update', 'MasterData\Barang\TanahController@update')->name('tanah.update');
+                
                 Route::post('tanah/getKodePemilik', 'MasterData\Barang\TanahController@getKodePemilik')->name('tanah.kode-pemilik');
                 Route::post('tanah/get-sub-unit', 'MasterData\Barang\TanahController@getSubUnit')->name('tanah.sub-unit');
 
