@@ -117,6 +117,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::group(['prefix' => 'master-data'], function () {
         Route::group(['prefix' => 'barang'], function () {
             Route::group(['prefix' => 'intra'], function () {
+
+                // Tanah
+
                 Route::get('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::post('tanah', 'MasterData\Barang\TanahController@index')->name('getTanah');
                 Route::get('tanah/add', 'MasterData\Barang\TanahController@add')->name('tanah.add');
@@ -136,6 +139,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
                 Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
                 Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
+
+                // Peralatan dan Mesin
+
+                Route::get('peralatandanmesin', 'MasterData\Barang\PeralatanController@index')->name('getPeralatan');
+                Route::get('peralatandanmesin/add', 'MasterData\Barang\PeralatanController@add')->name('peralatan.add');
+                Route::get('peralatan/json', 'MasterData\Barang\PeralatanController@json')->name('getJsonPeralatan');
+
+                // Gedung
 
                 Route::get('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');
                 Route::post('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');

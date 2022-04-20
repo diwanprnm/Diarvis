@@ -1,6 +1,6 @@
 @extends('admin.layout.index')
 
-@section('title') Tanah (KIB A) @endsection
+@section('title') Peralatan dan Mesin (KIB A) @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
 
@@ -22,7 +22,7 @@
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
-                <h4>Tanah (KIB A)</h4>
+                <h4>Peralatan dan Mesin (KIB B)</h4>
                 <span></span>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 </li>
                 <li class="breadcrumb-item"><a href="#!">Intra</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">KIB-A</a>
+                <li class="breadcrumb-item"><a href="#">KIB-B</a>
                 </li>
             </ul>
         </div>
@@ -100,7 +100,7 @@
         <div class="card">
             <div class="card-block">
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-                <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
+                <a  href="{{route('peralatan.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Peralatan dan Mesin (KIB B)</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -109,8 +109,8 @@
                                 <th>No</th>
                                 <th>Tahun</th>
                                 <th>Id Pemda</th>
-                                <th>Kode Pemilik</th>
-                                <th>Kode Aset</th>
+                                <th>Provinsi</th>
+                                {{-- <th>Kode Aset</th>
                                 <th>No Register</th>
                                 <th>Tgl Pembelian</th>
                                 <th>Tgl Pembukuan</th>
@@ -121,8 +121,7 @@
                                 <th>No Sertifikat</th>
                                 <th>Asal Usul</th>
                                 <th>Penggunaan</th>
-                                <th>Harga</th>
-                                <!-- <th>Foto</th> -->
+                                <th>Harga</th> --}}
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -271,73 +270,25 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
+                url: "{{ url('admin/master-data/barang/intra/peralatan/json') }}",
 
             },
-
             columns: [{
                     'mRender': function(data, type, full, meta) {
-                        return +meta.row + meta.settings._iDisplayStart + 1;
+                        return + meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
                 {
                     data: 'tahun',
                     name: 'tahun'
-                },{
+                },
+                {
                     data: 'id',
                     name: 'id_pemda'
                 },
                 {
-                    data: 'nm_pemilik',
-                    name: 'nama_pemilik'
-                },
-                {
-                    data: 'kode_aset',
-                    name: 'kode Aset'
-                },
-                {
-                    data: 'no_register',
-                    name: 'no_register'
-                },
-                {
-                    data: 'tgl_perolehan',
-                    name: 'tgl_pembelian'
-                },
-                {
-                    data: 'tgl_pembukuan',
-                    name: 'tgl_pembukuan'
-                },
-                {
-                    data: 'luas_m2',
-                    name: 'luas_m2'
-                },
-                {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
-                {
-                    data: 'hak_tanah',
-                    name: 'hak_tanah'
-                },
-                {
-                    data: 'sertifikat_tanggal',
-                    name: 'tgl_sertifikat'
-                },
-                {
-                    data: 'sertifikat_nomor',
-                    name: 'no_sertifikat'
-                },
-                {
-                    data: 'asal_usul',
-                    name: 'asal_usul'
-                },
-                {
-                    data: 'penggunaan',
-                    name: 'penggunaan'
-                },
-                {
-                    data: 'harga',
-                    name: 'harga'
+                    data: 'nama_provinsi',
+                    name: 'provinsi'
                 },
                 {
                     data: 'action',
