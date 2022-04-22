@@ -45,7 +45,6 @@ class TanahController extends Controller
                        'a.no_register', 'a.harga', 'a.luas_m2', 'b.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal',
                         'a.sertifikat_nomor', 'a.penggunaan', 'a.asal_usul', 'a.kd_ka')
                         ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
-
                         ->where('a.kd_ka','1');
 
          return DataTables::of($tanah)
@@ -58,35 +57,26 @@ class TanahController extends Controller
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
                     $btn = $btn . '<a href="'. route('tanah.edit', $row->id) .' "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                 }
-
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
                     $btn = $btn . '<a href="#delModal" data-id="' . $row->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
                 }
-
-
-
-
                 $btn = $btn . '</div>';
-
                 return $btn;
             })
             ->rawColumns(['action'])
-
             ->make(true);
     }
 
     public function detail($id) {
         $tanah = DB::table('ta_kib_a as a')->where('a.kd_ka','1')
-        ->join('ref_rek5_108 as b' , function($join)
-                         {
-                             $join->on('b.kd_aset5', '=', 'a.kd_aset85');
-                             $join->on('b.kd_aset4','=','a.kd_aset84');
-                             $join->on('b.kd_aset3','=','a.kd_aset83');
-                             $join->on('b.kd_aset2','=','a.kd_aset82');
-                             $join->on('b.kd_aset1','=','a.kd_aset81');
-                             $join->on('b.kd_aset0','=','a.kd_aset80');
-                          })
-
+        ->join('ref_rek5_108 as b' , function($join){
+            $join->on('b.kd_aset5', '=', 'a.kd_aset85');
+            $join->on('b.kd_aset4','=','a.kd_aset84');
+            $join->on('b.kd_aset3','=','a.kd_aset83');
+            $join->on('b.kd_aset2','=','a.kd_aset82');
+            $join->on('b.kd_aset1','=','a.kd_aset81');
+            $join->on('b.kd_aset0','=','a.kd_aset80');
+        })
         ->select('a.idpemda as id','b.nm_aset5','a.tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"),
            'a.no_register', 'a.harga', 'a.luas_m2',  'a.kd_pemilik','c.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal',
             'a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka','a.latitude','a.longitude' )
@@ -95,13 +85,13 @@ class TanahController extends Controller
 
         $dokumen = DB::table('ta_kib_a as a')
                 ->select('b.filename','b.id_dokumen')
-                   ->join('ta_kib_a_dokumen as b','a.idpemda','=','b.idpemda')
-                   ->where('a.idpemda',$id)->get();
+                ->join('ta_kib_a_dokumen as b','a.idpemda','=','b.idpemda')
+                ->where('a.idpemda',$id)->get();
 
         $profile_picture =  DB::table('ta_kib_a_dokumen')
         ->select('filename','path')
-           ->where('idpemda',$id)->where('extension','jpg')->first();
-            return view('admin.master.kib_a.detail', compact('tanah','dokumen','profile_picture'));
+        ->where('idpemda',$id)->where('extension','jpg')->first();
+        return view('admin.master.kib_a.detail', compact('tanah','dokumen','profile_picture'));
     }
 
     public function getSubUnit(Request $request){
@@ -120,23 +110,21 @@ class TanahController extends Controller
                 ->select('filename','path','extension')
                 ->where('id_dokumen',$id_dokumen)
                 ->first();
-
-
-    $file = public_path()."/".$dokumen->path."/".$dokumen->filename;
-    $header ="";
-    if($dokumen->extension == "jpg") {
-        $header = "image/jpeg";
-    }else if($dokumen->extension == "pdf") {
-        $header = "application/pdf";
-    }else if($dokumen->extension == "png") {
-        $header = "image/jpeg";
+        $file = public_path()."/".$dokumen->path."/".$dokumen->filename;
+        $header ="";
+        if($dokumen->extension == "jpg") {
+            $header = "image/jpeg";
+        }else if($dokumen->extension == "pdf") {
+            $header = "application/pdf";
+        }else if($dokumen->extension == "png") {
+            $header = "image/jpeg";
+        }
+        $headers  = array(
+            'Content-Type: '.$header
+        );
+        return Response::download($file, $dokumen->filename, $headers);
     }
-    $headers  = array(
-        'Content-Type: '.$header
-    );
 
-    return Response::download($file, $dokumen->filename, $headers);
-    }
     public function getUPB(Request $request){
         if($request->ajax()){
             $ex = explode('_',$request->kode_sub_unit);
@@ -180,18 +168,16 @@ class TanahController extends Controller
                     $last_code = ltrim(substr($kib_a->id_pemda,12,6),0);
                     $newcode = $kd.''.str_pad(((int)$last_code+1),6, "0", STR_PAD_LEFT);
         return $newcode;
-
     }
+
     public function saveFileKibA($idpemda, $filename,$path){
         $dokumen['idpemda'] = $idpemda;
         $dokumen['filename'] =  $filename;
         $dokumen['path'] =  $path;
         DB::table('ta_kib_a_dokumen')->insert($dokumen);
     }
+
     public function save(Request $request){
-
-
-
         $ex = explode('_',$request->upb);
         $bidang = $ex[0];
         $unit = $ex[1];
@@ -253,22 +239,14 @@ class TanahController extends Controller
                 $imageName =  $file->getClientOriginalName();
                 $file->move($path, $imageName);
                 $this->saveFileKibA($new_kd_pemda,$imageName,$path_folder);
-
             }
         }
-
         $color = "success";
         $msg = "data Kib-A telah ditambahkan";
         return redirect(route('getTanah'))->with(compact('color', 'msg'));
-
     }
 
-
-
     public function update(Request $request){
-
-
-
         $kib_a['kd_pemilik'] = $request->kode_pemilik;
         $kib_a['kd_aset8'] = $request->kd_aset;
         $kib_a['kd_aset80'] = $request->kd_aset0;
@@ -501,8 +479,6 @@ class TanahController extends Controller
         return view('admin.master.jembatan.editPhoto', compact('jembatan', 'foto'));
     }
 
-
-
     public function updatePhoto(Request $request)
     {
         $oldfoto = DB::table('master_jembatan_foto')->where('id_jembatan', $request->id)->get();
@@ -542,8 +518,6 @@ class TanahController extends Controller
                 }
             }
         }
-
-
         $color = "success";
         $msg = "Berhasil Memperbaharui Foto Jembatan";
 
@@ -584,9 +558,6 @@ class TanahController extends Controller
     public function viewPhoto($id)
     {
         $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $id)->get();
-
         return view('admin.master.jembatan.viewPhoto', compact('foto'));
     }
-
-
 }

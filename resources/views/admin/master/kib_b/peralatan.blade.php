@@ -1,6 +1,6 @@
 @extends('admin.layout.index')
 
-@section('title') Peralatan dan Mesin (KIB A) @endsection
+@section('title') Peralatan dan Mesin (KIB B) @endsection
 @section('head')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
 
@@ -55,29 +55,23 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="accordion-content accordion-desc">
-                <form action="{{route('getUnitFilter')}}" method="post">
+                <form action="{{ route('getPeralatanFilter') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Bidang</label>
+                                    <label class="col-md-3 col-form-label" for="id_pemda_filter">Id Pemda</label>
                                     <div class="col-md-9">
-
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Nama Unit</label>
-                                    <div class="col-md-9">
-                                        <input name="nama_unit" id="edit_nama_unit" value=" " type="text" class="form-control"  >
+                                        <input name="id_pemda_filter" id="id_pemda_filter" value=" " type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Kode Unit</label>
+                                    <label class="col-md-3 col-form-label" for="no_register_filter">No Register</label>
                                     <div class="col-md-9">
-                                        <input name="kode_unit" type="number" value=" " id="edit_kode_unit" class="form-control"  >
+                                        <input name="no_register_filter" id="no_register_filter" value=" " type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -107,21 +101,21 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tahun</th>
                                 <th>Id Pemda</th>
-                                <th>Provinsi</th>
-                                {{-- <th>Kode Aset</th>
+                                <th>Pemilik</th>
                                 <th>No Register</th>
-                                <th>Tgl Pembelian</th>
-                                <th>Tgl Pembukuan</th>
-                                <th>Luas (m2)</th>
-                                <th>Alamat</th>
-                                <th>Hak Tanah</th>
-                                <th>Tgl Sertifikat</th>
-                                <th>No Sertifikat</th>
+                                <th>Tanggal Perolehan</th>
+                                <th>Merek</th>
+                                <th>Tipe</th>
+                                <th>CC</th>
+                                <th>Bahan</th>
+                                <th>Nomor Rangka</th>
+                                <th>Nomor Mesin</th>
+                                <th>Nomor Polisi</th>
+                                <th>Nomor BPKB</th>
                                 <th>Asal Usul</th>
-                                <th>Penggunaan</th>
-                                <th>Harga</th> --}}
+                                <th>Kondisi</th>
+                                <th>Harga</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -135,97 +129,6 @@
     </div>
 </div>
 <div class="modal-only">
-
-    @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="{{route('saveUnit')}}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Unit</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Bidang</label>
-                            <div class="col-md-9">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kode Unit</label>
-                            <div class="col-md-9">
-                                <input name="kode_unit" type="number" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Nama Unit</label>
-                            <div class="col-md-9">
-                                <input name="nama_unit" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endif
-
-    @if (hasAccess(Auth::user()->role_id, "Unit", "Update"))
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="{{route('updateUnit')}}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Ubah Data Unit</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <input type="hidden" id="unit_id" name="unit_id" />
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Bidang</label>
-                            <div class="col-md-9">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kode Unit</label>
-                            <div class="col-md-9">
-                                <input name="kode_unit" type="number" id="kode_unit2" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Nama Unit</label>
-                            <div class="col-md-9">
-                                <input name="nama_unit" id="nama_unit2" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endif
-
     @if (hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -270,8 +173,11 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-                url: "{{ url('admin/master-data/barang/intra/peralatan/json') }}",
-
+                url: "{{ url('admin/master-data/barang/intra/peralatandanmesin/json') }}",
+                data: {
+                    "id_pemda_filter" : "{{ !empty($filter['id_pemda_filter']) ? $filter['id_pemda_filter'] : ""  }}",
+                    "no_register_filter" : "{{ !empty($filter['no_register_filter']) ? $filter['no_register_filter']  : "" }}",
+                }
             },
             columns: [{
                     'mRender': function(data, type, full, meta) {
@@ -279,16 +185,64 @@
                     }
                 },
                 {
-                    data: 'tahun',
-                    name: 'tahun'
-                },
-                {
                     data: 'id',
                     name: 'id_pemda'
                 },
                 {
-                    data: 'nama_provinsi',
-                    name: 'provinsi'
+                    data: 'pemilik',
+                    name: 'pemilik'
+                },
+                {
+                    data: 'no_register',
+                    name: 'no_register'
+                },
+                {
+                    data: 'tgl_perolehan',
+                    name: 'tgl_perolehan'
+                },
+                {
+                    data: 'merk',
+                    name: 'merek'
+                },
+                {
+                    data: 'type',
+                    name: 'type'
+                },
+                {
+                    data: 'cc',
+                    name: 'cc'
+                },
+                {
+                    data: 'bahan',
+                    name: 'bahan'
+                },
+                {
+                    data: 'nomor_rangka',
+                    name: 'nomor_rangka'
+                },
+                {
+                    data: 'nomor_mesin',
+                    name: 'nomor_mesin'
+                },
+                {
+                    data: 'nomor_polisi',
+                    name: 'nomor_polisi'
+                },
+                {
+                    data: 'nomor_bpkb',
+                    name: 'nomor_bpkb'
+                },
+                {
+                    data: 'asal_usul',
+                    name: 'asal_usul'
+                },
+                {
+                    data: 'kondisi',
+                    name: 'kondisi'
+                },
+                {
+                    data: 'harga',
+                    name: 'harga'
                 },
                 {
                     data: 'action',
@@ -299,7 +253,6 @@
             ]
         });
     });
-
 
     @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))
     $('#editModal').on('show.bs.modal', function(event) {
@@ -313,25 +266,25 @@
                 showData(data);
             });
     });
-
     function showData(data) {
         $(".chosen-select").val(data.kode_bidang).trigger('chosen:updated');
         $("#kode_unit2").val(data.kode_unit);
         $("#nama_unit2").val(data.nama_unit);
         $("#unit_id").val(data.id);
     }
-
     @endif
-    @if(hasAccess(Auth::user()->role_id, "Unit", "Delete"))
+
+    @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))
     $('#delModal').on('show.bs.modal', function(event) {
         const link = $(event.relatedTarget);
         const id = link.data('id');
         console.log(id);
-        const url = `{{ url('admin/master-data/unit-organisasi/unit/delete') }}/` + id;
+        const url = `{{ url('admin/master-data/barang/intra/peralatandanmesin/delete') }}/` + id;
         console.log(url);
         const modal = $(this);
         modal.find('.modal-footer #delHref').attr('href', url);
     });
     @endif
+
 </script>
 @endsection

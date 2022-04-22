@@ -1,10 +1,9 @@
 @extends('admin.layout.index')
 
-@section('title') Tanah (KIB A) @endsection
+@section('title') Peralatan dan Mesin (KIB B) @endsection
 @section('head')
 <link rel="stylesheet" type="text/css"
     href="{{ asset('assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
-
 <link rel="stylesheet" type="text/css"
     href="{{ asset('assets/vendor/data-table/extensions/responsive/css/responsive.dataTables.css') }}">
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
@@ -12,35 +11,25 @@
 <link rel="stylesheet" href="{{ asset('assets/css/style_kib.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
 
-
 <style type="text/css">
     input[type=file] {
-
         display: inline;
-
     }
 
     #imgPreview {
-
         border: 1px solid #ccc;
         margin-top: 10px;
         padding: 10px;
-
     }
 
     #imgPreview img {
-
         width: 200px;
-
         padding: 5px;
-
     }
-
 </style>
 @endsection
 
 @section('page-header')
-
 <div class="row align-items-end">
     <div class="col-lg-8">
         <div class="page-header-title">
@@ -68,13 +57,13 @@
 
 
 @section('page-body')
-<form action="{{route('tanah.save')}}" method="post">
+<form action="{{route('tanah.save')}}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Form KIB/B</h5>
+                    <h5>Form KIB/A</h5>
 
                     <div class="card-header-right">
                         <i class="icofont icofont-spinner-alt-5"></i>
@@ -135,8 +124,10 @@
                                 <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                                     <option>-</option>
                                     @foreach ($kode_pemilik as $data)
-                                    <option value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }}
-                                        {{ $data->nm_pemilik }}</option>
+                                    if($data->kd_pemilik == "")
+                                    <option {{ ($data->kd_pemilik == "12") ? "Selected" :"" }}
+                                        value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -157,19 +148,19 @@
                             <div class="col-md-9">
                                 <div class="col separated-input d-flex row">
                                     <input type="text" id="kd_aset" name="kd_aset" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset0" name="kd_aset0" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset1" name="kd_aset1" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset2" name="kd_aset2" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset3" name="kd_aset3" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset4" name="kd_aset4" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset5" name="kd_aset5" class="form-control"
-                                        style="width:40px" placeholder="...">
+                                        style="width:40px; margin-right:2px;" placeholder="...">
                                     <a data-toggle="modal" href="#modalAsset" class="btn btn-info"><i
                                             class="icofont icofont-ui-search"></i></a>
                                     <span id="nama_aset"></span>
@@ -187,8 +178,7 @@
                                             style="width: 100%"></div>
                                     </div>
                                 </div>
-                                <input type="number" class="form-control" name="no_register" id="no_register" readonly
-                                    value="1">
+                                <input type="number" class="form-control" name="no_register" id="no_register" readonly>
                             </div>
                             <div class="col-sm-3">
                                 <p><i>(Otomatis)</i></p>
@@ -352,19 +342,20 @@
                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered able-responsive" id="table_kib_a">
-                        <thead>
-                            <tr>
-                                <th>No. Reg</th>
-                                <th>Tgl Perolehan</th>
-                                <th>Kode Barang</th>
-                                <th>Harga</th>
-                                <th>Uraian Aset</th>
-                            </tr>
-                        </thead>
-                        <tbody id="content_kib_a">
-                        </tbody>
-                    </table>
+                    <div id="content_kib_a">
+                        <table class="table table-striped table-bordered able-responsive" id="table_kib_a">
+                            <thead>
+                                <tr>
+
+                                    <th>No. Reg</th>
+                                    <th>Tgl Perolehan</th>
+                                    <th>Kode Barang</th>
+                                    <th>Harga</th>
+                                    <th>Uraian Aset</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -392,10 +383,10 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h5>Foto</h5>
+                    <h5>Dokumen</h5>
 
                     <div class="card-header-right">
-                        <i class="icofont icofont-spinner-alt-5"></i>
+                        <i class="icofont icofont-upload"></i>
                     </div>
                 </div>
                 <div class="card-block" style="overflow-x: auto">
@@ -405,10 +396,7 @@
                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                         </div>
                     </div>
-
-                    <input type="file" id="uploadFile" name="uploadFile[]" multiple />
-
-                    <div id="imgPreview"></div>
+                    <input type="file" name="uploadFile[]" multiple class="multi" />
                 </div>
 
             </div>
@@ -507,6 +495,8 @@
     <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
         type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script src="{{ asset('assets/js/jquery.MultiFile.js') }}" type="text/javascript"></script>
+
 
     <script src="https://js.arcgis.com/4.18/"></script>
     <script>
@@ -514,6 +504,8 @@
             $(".chosen-select").chosen({
                 width: '100%'
             });
+
+
             $('#table_kib_a').dataTable({
                 "bInfo": false
             });
@@ -762,7 +754,6 @@
 
             $('#sub_sub_rincian_obyek').on('change', function () {
                 var v = this.value;
-
                 var dt = v.split("_");
                 $("#kd_aset").attr("value", dt[0]);
                 $("#kd_aset0").attr("value", dt[1]);
@@ -773,37 +764,8 @@
                 $("#kd_aset5").attr("value", dt[6]);
                 $("#nama_aset").html(dt[7]);
                 $('#modalAsset').modal('toggle');
-                $.ajax({
-                    url: "{{route('tanah.noregister')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_noreg').show();
-                    },
-                    data: {
-                        kd_aset: dt[0],
-                        kd_aset0: dt[1],
-                        kd_aset1: dt[2],
-                        kd_aset2: dt[3],
-                        kd_aset3: dt[4],
-                        kd_aset4: dt[5],
-                        kd_aset5: dt[6]
-                    },
-
-                    success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("input[name='no_register']").attr("value", data.no_register);
-                    },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_noreg').hide();
-                    }
-                });
-
                 return false;
             });
-
 
             $("#uploadFile").change(function () {
                 $('#imgPreview').html("");
@@ -813,8 +775,6 @@
                         "'>");
                 }
             });
-
-
 
             $('#mapLatLong').ready(() => {
                 require([

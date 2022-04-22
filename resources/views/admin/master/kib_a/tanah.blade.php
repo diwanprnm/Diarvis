@@ -107,7 +107,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                               
+
                                 <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
@@ -370,6 +370,11 @@
     @endif
     @if(hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     $('#delModal').on('show.bs.modal', function(event) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         const link = $(event.relatedTarget);
         const id = link.data('id');
         console.log(id);
