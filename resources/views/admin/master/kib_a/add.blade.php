@@ -9,8 +9,32 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 <link rel="stylesheet" href="{{ asset('assets/css/style_kib.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-<style>
-    
+ 
+
+<style type="text/css">
+ 
+ input[type=file]{
+
+   display: inline;
+
+ }
+
+ #imgPreview{
+
+    border:1px solid #ccc;
+    margin-top:10px;
+   padding: 10px;
+
+ }
+
+ #imgPreview img{
+
+   width: 200px;
+
+   padding: 5px;
+
+ }
+
 </style>
 @endsection
 
@@ -31,9 +55,9 @@
                                                     <li class="breadcrumb-item">
                                                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">intra</a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">Tanah</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -43,6 +67,8 @@
  
 
 @section('page-body') 
+<form action="{{route('tanah.save')}}" method="post"  enctype="multipart/form-data">
+                    @csrf
 <div class="row">
     <div class="col-xl-6">
         <div class="card">
@@ -58,7 +84,7 @@
                 <form action="{{route('tanah.save')}}" method="post">
                         @csrf 
                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                        <h4 class="sub-title">Unit Organisasi</h4>
+                     
                         <div class="form-group row">
                         <label class="col-md-3 col-form-label">Unit</label>
                         <div class="col-md-9">
@@ -98,12 +124,13 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kode Pemilik</label>
-                        <div class="col-md-5">
+                        <div class="col-md-9">
                              
                             <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                             <option>-</option>
                                 @foreach ($kode_pemilik as $data)
-                                <option value="{{ $data->kd_pemilik }}">{{ $data->nm_pemilik }}</option>
+                                if($data->kd_pemilik == "")
+                                <option {{ ($data->kd_pemilik == "12") ? "Selected" :"" }} value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }} {{ $data->nm_pemilik }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -113,27 +140,27 @@
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
-                                <span id="show_pemilik"></span>
+                            
                         </div>    
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Kode Asset</label>
+                        <label class="col-md-3 col-form-label">Kode Aset</label>
                         <div class="col-md-9">
                         <div class="col separated-input d-flex row">
-                            <input type="text" id="kd_aset"  class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset" name="kd_aset"  class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset0" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset0" name="kd_aset0" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset1" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset1" name="kd_aset1" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset2" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset2" name="kd_aset2" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset3" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset3" name="kd_aset3" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text"  id="kd_aset4" class="form-control" style="width:40px"
+                            <input type="text"  id="kd_aset4" name="kd_aset4" class="form-control" style="width:40px"
                                 placeholder="...">
-                            <input type="text" id="kd_aset5" class="form-control" style="width:40px"
+                            <input type="text" id="kd_aset5" name="kd_aset5" class="form-control" style="width:40px"
                                 placeholder="...">
                             <a data-toggle="modal" href="#modalAsset"  class="btn btn-info"><i class="icofont icofont-ui-search"></i></a>
                             <span id="nama_aset"></span>
@@ -144,234 +171,175 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">No Register</label>
                         <div class="col-md-6">
-                        <input type="number" class="form-control" readonly value="1">
+                        <div id="loader_noreg" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <input type="number" class="form-control" name="no_register"  id="no_register" readonly >
                         </div>
                         <div class="col-sm-3">
                             <p><i>(Otomatis)</i></p>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="tanggal_pembelian" type="date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="tanggal_pembukuan" type="date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Luas (M2)</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="luas" type="text">
+                        </div>
+                    </div>
 
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Alamat</label>
+   
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="alamat"></textarea> 
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Hak Tanah</label>
+   
+                        <div class="col-sm-9">
+                            <select name="hak_tanah" id="hak_tanah" class="form-control chosen-select">
+                            <option></option>
+                            <option value="Hak Pakai">Hak Pakai</option>
+                            <option value="Hak Pengelolaan">Hak Pengelolaan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Tanggal Sertifikat</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="tanggal_sertifikat" type="date">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">No Sertifikat</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="no_sertifikat" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Asal Usul</label>
+   
+                        <div class="col-sm-9">
+                            <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
+                            <option></option>
+                            <option value="Pembelian">Pembelian</option>
+                            <option value="Hibah">Hibah</option>
+                            </select>
+                        </div>
+                    </div>
+                     
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Penggunaan</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="penggunaan" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Harga</label>
+   
+                        <div class="col-sm-9">
+                        <input class="form-control" name="harga" type="number">
+                        </div>
+                    </div>
                                   
-                                                              
-                                                                
-                                                             
-                                                             
-                                                            
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Ruang</label>
-                                                                <div class="col">
-                                                                    <select name="select" class="form-control">
-                                                                        <option value="opt1">Pilih Ruang</option>
-                                                                        <option value="opt2">1</option>
-                                                                        <option value="opt3">2</option>
-                                                                        <option value="opt4">3</option>
-                                                                        <option value="opt5">4</option>
-                                                                        <option value="opt6">5</option>
-                                                                        <option value="opt7">6</option>
-                                                                        <option value="opt8">7</option>
-                                                                        <option value="opt9">8</option>
-                                                                        <option value="opt10">9</option>
-                                                                        <option value="opt11">10</option>
-                                                                        <option value="opt12">11</option>
-                                                                        <option value="opt13">12</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">Tgl.
-                                                                            Pembelian</label>
-                                                                        <div class="col">
-                                                                            <input class="form-control" type="date">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">Tgl.
-                                                                            Pembukuan</label>
-                                                                        <div class="col">
-                                                                            <input class="form-control" type="date">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Merk</label>
-                                                                <div class="col">
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Masukkan Nama Merk . . .">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Type</label>
-                                                                <div class="col">
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Masukkan Nama Type . . .">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Ukuran</label>
-                                                                <div class="col">
-                                                                    <input type="number" class="form-control"
-                                                                        placeholder="Masukkan Nama Ukuran . . .">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">No
-                                                                            Pabrik</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan No Pabrik . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">No
-                                                                            Rangka</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan No Rangka . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">No
-                                                                            BPKB</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan No BPKB . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">Asal -
-                                                                            Usul</label>
-                                                                        <div class="col">
-                                                                            <select name="select" class="form-control">
-                                                                                <option value="opt1">Pilih Asal - Usul
-                                                                                </option>
-                                                                                <option value="opt2">Pembelian</option>
-                                                                                <option value="opt3">Penyewaan</option>
-                                                                                <option value="opt4">Penyitaan</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label
-                                                                            class="col-sm-4 col-form-label">Harga</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan Harga . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <div class="form-group row">
-                                                                        <label
-                                                                            class="col-sm-4 col-form-label">Bahan</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan Nama Bahan . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">No
-                                                                            Mesin</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan No Mesin . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label class="col-sm-4 col-form-label">No
-                                                                            Polisi</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan No Polisi . . .">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group row">
-                                                                        <label
-                                                                            class="col-sm-4 col-form-label">Kondisi</label>
-                                                                        <div class="col">
-                                                                            <select name="select" class="form-control">
-                                                                                <option value="opt1">Pilih Kondisi
-                                                                                </option>
-                                                                                <option value="opt2">Baik</option>
-                                                                                <option value="opt3">Buruk</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div
-                                                                        class="form-group row d-flex align-items-center">
-                                                                        <label class="col-sm-4 col-form-label">Masa
-                                                                            Manfaat</label>
-                                                                        <div class="col">
-                                                                            <input type="number" class="form-control"
-                                                                                placeholder="Masukkan Masa Manfaat . . .">
-                                                                        </div>
-                                                                        <div class="col-sm-2">
-                                                                            <p>Bulan</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Nilai Sisa</label>
-                                                                <div class="col">
-                                                                    <input type="number" class="form-control"
-                                                                        placeholder="Masukkan Nilai Sisa . . .">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Keterangan</label>
-                                                                <div class="col">
-                                                                    <textarea class="form-control" rows="4" placeholder="Masukkan Keterangan . . ."></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Kecamatan</label>
-                                                                <div class="col">
-                                                                    <input type="number" class="form-control" placeholder="Masukkan Kecamatan . . .">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-2 col-form-label">Kelurahan/Desa</label>
-                                                                <div class="col">
-                                                                    <input type="number" class="form-control"
-                                                                        placeholder="Masukkan Kelurahan/Desa . . .">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col d-flex justify-content-end">
-                                                                    <img src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image">                                                                    
-                                                                </div>
-                                                            </div>
-                                                            <div class="row d-flex justify-content-end mt-3">
-                                                                <div class="col-sm-3">
-                                                                    <input type="file" class="form-control" placeholder="Masukkan Kelurahan/Desa . . .">                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Keterangan</label>
+   
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="keterangan"></textarea> 
+                        </div>
+                    </div>     
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
+   
+                        <div class="col-sm-9">
+                        <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
+                            <option>-</option>
+                                @foreach ($kab_kota as $data)
+                                <option value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>   
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kecamatan</label>
+   
+                        <div class="col-sm-9">
+                        <div id="loader_kec" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <select name="kecamatan" id="kecamatan" class="form-control chosen-select">
+                            <option>-</option>
+                             </select>
+                        </div>
+                    </div>      
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
+   
+                        <div class="col-sm-9">
+                        <div id="loader_desa" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                        <select name="desa" id="desa" class="form-control chosen-select">
+                            <option>-</option>
+                             </select>
+                        </div>
+                    </div>                                    
+                              
+                      
+                    </div>
+                    
+                </div>
+            </div>
+
+            
                                             <div class="col-xl-6">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h5>Basic Form Inputs</h5>
-                                                        <span>Add class of <code>.form-control</code> with
-                                                            <code>&lt;input&gt;</code> tag</span>
+                                                        <h5>Data KIB - A </h5>
+                                                         
                                                         <div class="card-header-right">
                                                             <i class="icofont icofont-spinner-alt-5"></i>
                                                         </div>
                                                     </div>
-                                                    <div class="card-block">
-                                                        <h4 class="sub-title">Basic Inputs</h4>
-                                                        <table class="table table-framed ">
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div  id="content_kib_a"> 
+                                                    <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
                                                             <thead>
                                                                 <tr>
+                                                                    
                                                                     <th>No. Reg</th>
                                                                     <th>Tgl Perolehan</th>
                                                                     <th>Kode Barang</th>
@@ -379,229 +347,71 @@
                                                                     <th>Uraian Aset</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th scope="row">1</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">2</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">3</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">4</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">5</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">6</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">7</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">8</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">9</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">10</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">11</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">12</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">13</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">14</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">15</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">16</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">17</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">18</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">19</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">20</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">21</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">22</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">23</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">24</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">25</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">26</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">27</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">28</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">29</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th scope="row">30</th>
-                                                                    <td>31/12/2003</td>
-                                                                    <td>1.3.2.05.001.004.005</td>
-                                                                    <td>413.000,00</td>
-                                                                    <td>Filling Cabinet Besi</td>
-                                                                </tr>
-                                                            </tbody>
                                                         </table>
+                                                    </div> </div>
+                                                </div>
+
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Lokasi</h5>
+                                                         
+                                                        <div class="card-header-right">
+                                                            <i class="icofont icofont-spinner-alt-5"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
+                                                                        Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
+                                                                        Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
+                                                                   
                                                     </div>
                                                 </div>
+ 
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Dokumen</h5>
+                                                         
+                                                        <div class="card-header-right">
+                                                        <i class="icofont icofont-upload"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-block" style="overflow-x: auto" >
+                                                    <div id="loader_kib_a" style="display:none">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>  
+                                                    <input type="file" name="uploadFile[]"  multiple class="multi"/>        
+                                                </div>
+
                                             </div>
+
+
+                                            
                                         </div>
                                     
-       <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
+       
+    </div>
+    <div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+
+    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
+                    </div>
+</div></div></div>
+                </form>
+    
+                <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action="{{route('saveUnit')}}" method="post">
-                    @csrf
+               
                     <div class="modal-header">
                         <h4 class="modal-title">Pemilihan Kode Barang</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -650,16 +460,10 @@
                         
                          
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
+                    
             </div>
-        </div>
-    </div>
-    
-@endsection
+        </div>   
+ @endsection
 @section('script')
 
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -670,14 +474,21 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script> 
+<script src="{{ asset('assets/js/jquery.MultiFile.js') }}"  type="text/javascript"></script> 
+
+ 
 <script src="https://js.arcgis.com/4.18/"></script>
 <script>
     $(document).ready(function() {
         $(".chosen-select").chosen({
             width: '100%'
-        });
+        }); 
+ 
 
-
+        $('#table_kib_a').dataTable( {
+        "bInfo": false
+        } );
         $('#unit').on('change', function() {
        
             $.ajax({ 
@@ -727,9 +538,41 @@
                 },
             });
         });
+
+        $('#upb').on('change', function() {
+                
+                $.ajax({ 
+                url: "{{route('tanah.upb.filter.table')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_kib_a').show();
+                },
+                data: {kode_upb:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("#content_kib_a").html(data.data);
+                    //$('#content_kib_a').append(data.data);
+                   // refreshTable();
+                   //$('#table_kib_a').DataTable().ajax.reload();
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_kib_a').hide();
+                },
+            });
+        });
+        function refreshTable() {
+  $('#table_kib_a').each(function() {
+      dt = $(this).dataTable();
+      dt.fnDraw();
+  })
+}
             
 
-        $('#kode_pemilik').on('change', function()  {
+        $('#kode_pemilik2').on('change', function()  {
             $.ajax({ 
                 url: "{{route('tanah.kode-pemilik')}}",
                 method: 'POST',
@@ -797,8 +640,80 @@
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_ssro').hide();
                 } 
-                });
+            });
         }); 
+
+        $('#imageUploadForm').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            type:'POST',
+            url: $(this).attr('action'),
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log(data);
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+   
+        $('#kab_kota').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.get.kecamatan')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_kec').show();
+                },
+                data: {kode_kab_kota:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='kecamatan']").html('');
+                    $("select[name='kecamatan']").html(data.options);
+                    $("select[name='kecamatan']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_kec').hide();
+                } 
+            });
+        }); 
+
+        $('#kecamatan').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.get.desa')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_desa').show();
+                },
+                data: {kode_kecamatan:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='desa']").html('');
+                    $("select[name='desa']").html(data.options);
+                    $("select[name='desa']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_desa').hide();
+                } 
+            });
+        }); 
+
 
         $('#sub_sub_rincian_obyek').on('change', function()  {
             var v = this.value;
@@ -813,9 +728,83 @@
             $("#kd_aset5").attr("value",dt[6]);
             $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
+            
+
             return false;
         });    
     
+
+        $("#uploadFile").change(function(){  
+            $('#imgPreview').html(""); 
+            var total_file=document.getElementById("uploadFile").files.length; 
+                for(var i=0;i<total_file;i++)  { 
+                 $('#imgPreview').append("<img src='"+URL.createObjectURL(event.target.files[i])+"'>"); 
+                } 
+            }); 
+
+            
+
+        $('#mapLatLong').ready(() => {
+            require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic"
+            ], function(Map, MapView, Graphic) {
+
+                const map = new Map({
+                    basemap: "osm"
+                });
+
+                const view = new MapView({
+                    container: "mapLatLong",
+                    map: map,
+                    center: [107.6191, -6.9175],
+                    zoom: 8,
+                });
+
+                let tempGraphic;
+                view.on("click", function(event){
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: event.mapPoint,
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+                    $("#lat").val(event.mapPoint.latitude);
+                    $("#long").val(event.mapPoint.longitude);
+
+                    view.graphics.add(graphic);
+                });
+                $("#lat, #long").keyup(function () {
+                    if($("#lat").val() != '' && $("#long").val() != ''){
+                        view.graphics.remove(tempGraphic);
+                    }
+                    var graphic = new Graphic({
+                        geometry: {
+                            type: "point",
+                            longitude: $("#long").val(),
+                            latitude: $("#lat").val()
+                        },
+                        symbol: {
+                            type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+                            url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
+                            width: "14px",
+                            height: "24px"
+                        }
+                    });
+                    tempGraphic = graphic;
+
+                    view.graphics.add(graphic);
+                });
+            });
+        }); 
     });
 
 </script>

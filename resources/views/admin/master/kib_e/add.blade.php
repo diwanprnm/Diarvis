@@ -13,7 +13,30 @@
     <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style_kib.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
-    <style>
+
+
+    <style type="text/css">
+        input[type=file] {
+
+            display: inline;
+
+        }
+
+        #imgPreview {
+
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            padding: 10px;
+
+        }
+
+        #imgPreview img {
+
+            width: 200px;
+
+            padding: 5px;
+
+        }
 
     </style>
 @endsection
@@ -34,9 +57,9 @@
                     <li class="breadcrumb-item">
                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                    <li class="breadcrumb-item"><a href="#!">intra</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                    <li class="breadcrumb-item"><a href="#!">Aset-Tetap-Lainnya</a>
                     </li>
                 </ul>
             </div>
@@ -46,695 +69,700 @@
 
 
 @section('page-body')
-    <div class="row">
-        <div class="col-xl-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Form KIB/E</h5>
+    <form action="{{ route('aset-tetap-lainnya.save') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Form KIB/E</h5>
 
-                    <div class="card-header-right">
-                        <i class="icofont icofont-spinner-alt-5"></i>
+                        <div class="card-header-right">
+                            <i class="icofont icofont-spinner-alt-5"></i>
+                        </div>
+                    </div>
+                    <div class="card-block">
+
+                        <form action="{{ route('aset-tetap-lainnya.save') }}" method="post">
+                            @csrf
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Unit</label>
+                                <div class="col-md-9">
+
+                                    <select name="unit" id="unit" class="form-control chosen-select">
+                                        <option>-</option>
+                                        @foreach ($unit as $data)
+                                            <option value="{{ $data->kode_unit . '_' . $data->kode_bidang }}">
+                                                {{ $data->nama_unit }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Sub Unit</label>
+                                <div class="col-md-9">
+                                    <div id="loader_unit" style="display:none">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <select name="sub_unit" id="sub_unit" class="form-control chosen-select">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">UPB</label>
+                                <div class="col-md-9">
+                                    <div id="loader_upb" style="display:none">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <select name="upb" id="upb" class="form-control chosen-select">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Kode Pemilik</label>
+                                <div class="col-md-9">
+
+                                    <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
+                                        <option>-</option>
+                                        @foreach ($kode_pemilik as $data)
+                                            if($data->kd_pemilik == "")
+                                            <option {{ $data->kd_pemilik == '12' ? 'Selected' : '' }}
+                                                value="{{ $data->kd_pemilik }}">{{ $data->kd_pemilik }}
+                                                {{ $data->nm_pemilik }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <div id="loader" style="display:none">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 100%"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Kode Aset</label>
+                                <div class="col-md-9">
+                                    <div class="col separated-input d-flex row">
+                                        <input type="text" id="kd_aset" name="kd_aset" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <input type="text" id="kd_aset0" name="kd_aset0" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <input type="text" id="kd_aset1" name="kd_aset1" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <input type="text" id="kd_aset2" name="kd_aset2" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <input type="text" id="kd_aset3" name="kd_aset3" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <input type="text" id="kd_aset4" name="kd_aset4" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <input type="text" id="kd_aset5" name="kd_aset5" class="form-control"
+                                            style="width:40px" placeholder="...">
+                                        <a data-toggle="modal" href="#modalAsset" class="btn btn-info"><i
+                                                class="icofont icofont-ui-search"></i></a>
+                                        <span id="nama_aset"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">No Register</label>
+                                <div class="col-md-6">
+                                    <div id="loader_noreg" style="display:none">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <input type="number" class="form-control" name="no_register" id="no_register"
+                                        readonly>
+                                </div>
+                                <div class="col-sm-3">
+                                    <p><i>(Otomatis)</i></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="tanggal_pembelian" type="date">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="tanggal_pembukuan" type="date">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Judul</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="judul" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Pencipta</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="pencipta" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Bahan</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="bahan" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Ukuran</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="ukuran" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Masa Manfaat</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="masa_manfaat" type="number">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Nilai Sisa</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="nilai_sisa" type="number">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Asal Usul</label>
+
+                                <div class="col-sm-9">
+                                    <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
+                                        <option></option>
+                                        <option value="Pembelian">Pembelian</option>
+                                        <option value="Hibah">Hibah</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Harga</label>
+
+                                <div class="col-sm-9">
+                                    <input class="form-control" name="harga" type="number">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Keterangan</label>
+
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" name="keterangan"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
+
+                                <div class="col-sm-9">
+                                    <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
+                                        <option>-</option>
+                                        @foreach ($kab_kota as $data)
+                                            <option value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Kecamatan</label>
+
+                                <div class="col-sm-9">
+                                    <div id="loader_kec" style="display:none">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <select name="kecamatan" id="kecamatan" class="form-control chosen-select">
+                                        <option>-</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
+
+                                <div class="col-sm-9">
+                                    <div id="loader_desa" style="display:none">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <select name="desa" id="desa" class="form-control chosen-select">
+                                        <option>-</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Data KIB - E </h5>
+
+                        <div class="card-header-right">
+                            <i class="icofont icofont-spinner-alt-5"></i>
+                        </div>
+                    </div>
+                    <div class="card-block" style="overflow-x: auto">
+                        <div id="loader_kib_e" style="display:none">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div id="content_kib_a">
+                            <table class="table table-striped table-bordered able-responsive" id="table_kib_e">
+                                <thead>
+                                    <tr>
+
+                                        <th>No. Reg</th>
+                                        <th>Tgl Perolehan</th>
+                                        <th>Kode Barang</th>
+                                        <th>Harga</th>
+                                        <th>Uraian Aset</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="card-block">
 
-                    <form action="{{ route('aset-tetap-lainnya.save') }}" method="post">
-                        @csrf
-                        <meta name="csrf-token" content="{{ csrf_token() }}">
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kode Pemilik</label>
-                            <div class="col-md-5">
 
-                                <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
-                                    <option>-</option>
-                                    @foreach ($kode_pemilik as $data)
-                                        <option value="{{ $data->kd_pemilik }}">{{ $data->nm_pemilik }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <div id="loader" style="display:none">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
-                                    </div>
-                                </div>
-                                <span id="show_pemilik"></span>
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Dokumen</h5>
+
+                        <div class="card-header-right">
+                            <i class="icofont icofont-upload"></i>
+                        </div>
+                    </div>
+                    <div class="card-block" style="overflow-x: auto">
+                        <div id="loader_kib_a" style="display:none">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                             </div>
                         </div>
+                        <input type="file" name="uploadFile[]" multiple class="multi" />
+                    </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kode Asset</label>
-                            <div class="col-md-9">
-                                <div class="col separated-input d-flex row">
-                                    <input type="text" name="kd_aset" id="kd_aset" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <input type="text" name="kd_aset0" id="kd_aset0" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <input type="text" name="kd_aset1" id="kd_aset1" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <input type="text" name="kd_aset2" id="kd_aset2" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <input type="text" name="kd_aset3" id="kd_aset3" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <input type="text" name="kd_aset4" id="kd_aset4" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <input type="text" name="kd_aset5" id="kd_aset5" class="form-control" style="width:40px"
-                                        placeholder="...">
-                                    <a data-toggle="modal" href="#modalAsset" class="btn btn-info"><i
-                                            class="icofont icofont-ui-search"></i></a>
-                                    <span id="nama_aset"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Register</label>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control" readonly value="1">
-                            </div>
-                            <div class="col-sm-3">
-                                <p><i>(Otomatis)</i></p>
-                            </div>
-                        </div>
+                </div>
 
 
 
+            </div>
 
 
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
 
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ruang</label>
-                            <div class="col">
-                                <select name="select" id="kd_ruang" name="kd_ruang" class="form-control">
-                                    <option >Pilih Ruang</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Tgl. Pembelian</label>
-                                    <div class="col">
-                                        <input id="tgl_perolehan" name="tgl_perolehan" class="form-control" type="date">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Tgl. Pembukuan</label>
-                                    <div class="col">
-                                        <input id="tgl_pembukuan" name="tgl_pembukuan" class="form-control" type="date">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Bahan</label>
-                            <div class="col">
-                                <input id="bahan" name="bahan" type="text" class="form-control" placeholder="Masukkan Nama Bahan . . .">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ukuran</label>
-                            <div class="col">
-                                <input type="text" id="ukuran" name="ukuran" class="form-control" placeholder="Masukkan Ukuran . . .">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Asal - Usul</label>
-                                    <div class="col">
-                                        <select id="asal_usul" name="asal_usul" class="form-control">
-                                            <option>Pilih Asal - Usul</option>
-                                            <option value="Pembelian">Pembelian</option>
-                                            <option value="Penyewaan">Penyewaan</option>
-                                            <option value="Penyitaan">Penyitaan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Harga</label>
-                                    <div class="col">
-                                        <input type="number" id="harga" name="harga" class="form-control" placeholder="Masukkan Harga . . .">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">Kondisi</label>
-                                    <div class="col">
-                                        <select id="kondisi" name="kondisi" class="form-control">
-                                            <option>Pilih Kondisi</option>
-                                            <option value="1">Baik</option>
-                                            <option value="2">Buruk</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row d-flex align-items-center">
-                                    <label class="col-sm-4 col-form-label">Masa Manfaat</label>
-                                    <div class="col">
-                                        <input type="number" id="masa_manfaat" name="masa_manfaat" class="form-control" placeholder="Masukkan Masa Manfaat . . .">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <p>Bulan</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Nilai Sisa</label>
-                            <div class="col">
-                                <input type="number" id="nilai_sisa" name="nilai_sisa" class="form-control" placeholder="Masukkan Nilai Sisa . . .">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Keterangan</label>
-                            <div class="col">
-                                <textarea class="form-control" rows="4" placeholder="Masukkan Keterangan . . ."></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Kab. Kota</label>
-                            <div class="col">
-                                <input type="number" id="kab_kota" name="kab_kota" class="form-control" placeholder="Masukkan Kota . . .">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Provinsi</label>
-                            <div class="col">
-                                <input type="number" id="provinsi" name="provinsi" class="form-control" placeholder="Masukkan Provinsi . . .">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col d-flex justify-content-end">
-                                <img src="..\files\assets\images\avatar-3.jpg" alt="Generic placeholder image">
-                            </div>
-                        </div>
-                        <div class="row d-flex justify-content-end mt-3">
-                            <div class="col-sm-3">
-                                <input type="file" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row d-flex justify-content-start mt-1">
-                            <div class="col-sm-5">
-                                <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light " >Simpan</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect "
+                            data-dismiss="modal">Tutup</button>
+                        <button type="submit"
+                            class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
+                    </div>
                 </div>
             </div>
         </div>
-        {{-- <div class="col-xl-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Basic Form Inputs</h5>
-                    <span>Add class of <code>.form-control</code> with
-                        <code>&lt;input&gt;</code> tag</span>
-                    <div class="card-header-right">
-                        <i class="icofont icofont-spinner-alt-5"></i>
-                    </div>
-                </div>
-                <div class="card-block">
-                    <h4 class="sub-title">Basic Inputs</h4>
-                    <table class="table table-framed ">
-                        <thead>
-                            <tr>
-                                <th>No. Reg</th>
-                                <th>Tgl Perolehan</th>
-                                <th>Kode Barang</th>
-                                <th>Harga</th>
-                                <th>Uraian Aset</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">6</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">7</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">8</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">9</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">10</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">11</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">12</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">13</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">14</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">15</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">16</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">17</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">18</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">19</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">20</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">21</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">22</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">23</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">24</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">25</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">26</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">27</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">28</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">29</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">30</th>
-                                <td>31/12/2003</td>
-                                <td>1.3.2.05.001.004.005</td>
-                                <td>413.000,00</td>
-                                <td>Filling Cabinet Besi</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> --}}
-    </div>
+    </form>
 
     <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Pemilihan Kode Barang</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Rincian Obyek</label>
-                            <div class="col-md-8">
 
-                                <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
-                                    <option>-</option>
-                                    @foreach ($rincian_object as $data)
-                                        <option value="{{ $data->kd_aset1 . '_' . $data->kd_aset3 }}">{{ $data->nm_aset3 }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                <div class="modal-header">
+                    <h4 class="modal-title">Pemilihan Kode Barang</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Rincian Obyek</label>
+                        <div class="col-md-8">
+
+                            <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
+                                <option>-</option>
+                                @foreach ($rincian_object as $data)
+                                    <option value="{{ $data->kd_aset1 . '_' . $data->kd_aset3 }}">{{ $data->nm_aset3 }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Sub Rincian Obyek</label>
-                            <div class="col-md-8">
-                                <div id="loader_sro" style="display:none">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
-                                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Sub Rincian Obyek</label>
+                        <div class="col-md-8">
+                            <div id="loader_sro" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                 </div>
-                                <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
-                                </select>
                             </div>
+                            <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
+                            </select>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
-                            <div class="col-md-8">
-                                <div id="loader_ssro" style="display:none">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
-                                    </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
+                        <div class="col-md-8">
+                            <div id="loader_ssro" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                 </div>
-                                <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek"
-                                    class="form-control chosen-select">
-                                </select>
                             </div>
+                            <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek"
+                                class="form-control chosen-select">
+                            </select>
                         </div>
+                    </div>
 
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect "
-                            data-dismiss="modal">Tutup</button>
-                        {{-- <button type="submit"
-                            class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button> --}}
-                    </div>
-                </form>
+
+                </div>
+
             </div>
         </div>
-    </div>
-@endsection
-@section('script')
-    <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+    @endsection
+    @section('script')
+        <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
-    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
-        type="text/javascript"></script>
-    <script src="https://js.arcgis.com/4.18/"></script>
-    <script>
-        $(document).ready(function() {
-            $(".chosen-select").chosen({
-                width: '100%'
-            });
+        <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
+                type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+        <script src="{{ asset('assets/js/jquery.MultiFile.js') }}" type="text/javascript"></script>
 
 
-            $('#unit').on('change', function() {
-
-                $.ajax({
-                    url: "{{ route('tanah.sub-unit') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_unit').show();
-                    },
-                    data: {
-                        kode_unit: this.value
-                    },
-
-                    success: function(data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='sub_unit']").html('');
-                        $("select[name='sub_unit']").html(data.options);
-                        $("select[name='sub_unit']").trigger("chosen:updated");
-                    },
-                    complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_unit').hide();
-                    },
+        <script src="https://js.arcgis.com/4.18/"></script>
+        <script>
+            $(document).ready(function() {
+                $(".chosen-select").chosen({
+                    width: '100%'
                 });
-            });
 
-            $('#sub_unit').on('change', function() {
 
-                $.ajax({
-                    url: "{{ route('tanah.upb') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_upb').show();
-                    },
-                    data: {
-                        kode_sub_unit: this.value
-                    },
-
-                    success: function(data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='upb']").html('');
-                        $("select[name='upb']").html(data.options);
-                        $("select[name='upb']").trigger("chosen:updated");
-                    },
-                    complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_upb').hide();
-                    },
+                $('#table_kib_e').dataTable({
+                    "bInfo": false
                 });
-            });
+                $('#unit').on('change', function() {
+
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.sub-unit') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_unit').show();
+                        },
+                        data: {
+                            kode_unit: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("select[name='sub_unit']").html('');
+                            $("select[name='sub_unit']").html(data.options);
+                            $("select[name='sub_unit']").trigger("chosen:updated");
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_unit').hide();
+                        },
+                    });
+                });
+
+                $('#sub_unit').on('change', function() {
+
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.upb') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_upb').show();
+                        },
+                        data: {
+                            kode_sub_unit: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("select[name='upb']").html('');
+                            $("select[name='upb']").html(data.options);
+                            $("select[name='upb']").trigger("chosen:updated");
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_upb').hide();
+                        },
+                    });
+                });
+
+                $('#upb').on('change', function() {
+
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.upb.filter.table') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_kib_e').show();
+                        },
+                        data: {
+                            kode_upb: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("#content_kib_a").html(data.data);
+                            //$('#content_kib_a').append(data.data);
+                            // refreshTable();
+                            //$('#table_kib_a').DataTable().ajax.reload();
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_kib_e').hide();
+                        },
+                    });
+                });
+
+                function refreshTable() {
+                    $('#table_kib_e').each(function() {
+                        dt = $(this).dataTable();
+                        dt.fnDraw();
+                    })
+                }
 
 
-            $('#kode_pemilik').on('change', function() {
-                $.ajax({
-                    url: "{{ route('tanah.kode-pemilik') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader').show();
-                    },
-                    data: {
-                        kode_pemilik: this.value
-                    },
+                $('#kode_pemilik2').on('change', function() {
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.kode-pemilik') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader').show();
+                        },
+                        data: {
+                            kode_pemilik: this.value
+                        },
 
-                    success: function(data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("#show_pemilik").html(data);
-                    },
-                    complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader').hide();
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("#show_pemilik").html(data);
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader').hide();
+                        }
+                    });
+                });
+
+
+                $('#rincian_obyek').on('change', function() {
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.sub-rincian-obyek') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_sro').show();
+                        },
+                        data: {
+                            rincian_obyek: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("select[name='sub_rincian_obyek']").html('');
+                            $("select[name='sub_rincian_obyek']").html(data.options);
+                            $("select[name='sub_rincian_obyek']").trigger("chosen:updated");
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_sro').hide();
+                        }
+                    });
+                });
+
+                $('#sub_rincian_obyek').on('change', function() {
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.sub-sub-rincian-obyek') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_ssro').show();
+                        },
+                        data: {
+                            rincian_obyek: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("select[name='sub_sub_rincian_obyek']").html('');
+                            $("select[name='sub_sub_rincian_obyek']").html(data.options);
+                            $("select[name='sub_sub_rincian_obyek']").trigger("chosen:updated");
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_ssro').hide();
+                        }
+                    });
+                });
+
+                $('#imageUploadForm').on('submit', (function(e) {
+                    e.preventDefault();
+                    var formData = new FormData(this);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'),
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {
+                            console.log("success");
+                            console.log(data);
+                        },
+                        error: function(data) {
+                            console.log("error");
+                            console.log(data);
+                        }
+                    });
+                }));
+
+
+                $('#kab_kota').on('change', function() {
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.get.kecamatan') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_kec').show();
+                        },
+                        data: {
+                            kode_kab_kota: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("select[name='kecamatan']").html('');
+                            $("select[name='kecamatan']").html(data.options);
+                            $("select[name='kecamatan']").trigger("chosen:updated");
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_kec').hide();
+                        }
+                    });
+                });
+
+                $('#kecamatan').on('change', function() {
+                    $.ajax({
+                        url: "{{ route('aset-tetap-lainnya.get.desa') }}",
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            $('#loader_desa').show();
+                        },
+                        data: {
+                            kode_kecamatan: this.value
+                        },
+
+                        success: function(data) {
+                            // On Success, build our rich list up and append it to the #richList div.
+                            $("select[name='desa']").html('');
+                            $("select[name='desa']").html(data.options);
+                            $("select[name='desa']").trigger("chosen:updated");
+                        },
+                        complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                            $('#loader_desa').hide();
+                        }
+                    });
+                });
+
+
+                $('#sub_sub_rincian_obyek').on('change', function() {
+                    var v = this.value;
+
+                    var dt = v.split("_");
+                    $("#kd_aset").attr("value", dt[0]);
+                    $("#kd_aset0").attr("value", dt[1]);
+                    $("#kd_aset1").attr("value", dt[2]);
+                    $("#kd_aset2").attr("value", dt[3]);
+                    $("#kd_aset3").attr("value", dt[4]);
+                    $("#kd_aset4").attr("value", dt[5]);
+                    $("#kd_aset5").attr("value", dt[6]);
+                    $("#nama_aset").html(dt[7]);
+                    $('#modalAsset').modal('toggle');
+
+
+                    return false;
+                });
+
+
+                $("#uploadFile").change(function() {
+                    $('#imgPreview').html("");
+                    var total_file = document.getElementById("uploadFile").files.length;
+                    for (var i = 0; i < total_file; i++) {
+                        $('#imgPreview').append("<img src='" + URL.createObjectURL(event.target.files[i]) +
+                            "'>");
                     }
                 });
             });
-
-
-            $('#rincian_obyek').on('change', function() {
-                $.ajax({
-                    url: "{{ route('tanah.sub-rincian-obyek') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_sro').show();
-                    },
-                    data: {
-                        rincian_obyek: this.value
-                    },
-
-                    success: function(data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='sub_rincian_obyek']").html('');
-                        $("select[name='sub_rincian_obyek']").html(data.options);
-                        $("select[name='sub_rincian_obyek']").trigger("chosen:updated");
-                    },
-                    complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_sro').hide();
-                    }
-                });
-            });
-
-            $('#sub_rincian_obyek').on('change', function() {
-                $.ajax({
-                    url: "{{ route('tanah.sub-sub-rincian-obyek') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_ssro').show();
-                    },
-                    data: {
-                        rincian_obyek: this.value
-                    },
-
-                    success: function(data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='sub_sub_rincian_obyek']").html('');
-                        $("select[name='sub_sub_rincian_obyek']").html(data.options);
-                        $("select[name='sub_sub_rincian_obyek']").trigger("chosen:updated");
-                    },
-                    complete: function() { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_ssro').hide();
-                    }
-                });
-            });
-
-            $('#sub_sub_rincian_obyek').on('change', function() {
-                var v = this.value;
-
-                var dt = v.split("_");
-                $("#kd_aset").attr("value", dt[0]);
-                $("#kd_aset0").attr("value", dt[1]);
-                $("#kd_aset1").attr("value", dt[2]);
-                $("#kd_aset2").attr("value", dt[3]);
-                $("#kd_aset3").attr("value", dt[4]);
-                $("#kd_aset4").attr("value", dt[5]);
-                $("#kd_aset5").attr("value", dt[6]);
-                $("#nama_aset").html(dt[7]);
-                $('#modalAsset').modal('toggle');
-                return false;
-            });
-
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

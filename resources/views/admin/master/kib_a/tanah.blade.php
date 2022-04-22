@@ -33,9 +33,9 @@
                 <li class="breadcrumb-item">
                     <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Unit organisasi</a>
+                <li class="breadcrumb-item"><a href="#!">Intra</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">Unit</a>
+                <li class="breadcrumb-item"><a href="#">KIB-A</a>
                 </li>
             </ul>
         </div>
@@ -99,6 +99,9 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-block">
+             
+
+
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
                 <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
                 @endif
@@ -107,7 +110,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Tahun</th>
+                               
+                                <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
                                 <th>No Register</th>
@@ -279,13 +283,13 @@
                         return +meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {
-                    data: 'tahun',
-                    name: 'tahun'
+                 {
+                    data: 'id',
+                    name: 'id_pemda'
                 },
                 {
-                    data: 'kd_pemilik',
-                    name: 'kd_pemilik'
+                    data: 'nm_pemilik',
+                    name: 'nama_pemilik'
                 },
                 {
                     data: 'kode_aset',

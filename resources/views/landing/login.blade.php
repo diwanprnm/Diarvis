@@ -63,7 +63,7 @@
                                     <div class="row m-b-20">
                                         <div class="col-md-12">
                                         <div class="text-center">
-                                            <img style="width:130px" src="{{ asset('assets/images/logo.png') }}" alt="logo.png">
+                                            <img style="width:300px" src="{{ asset('assets/images/logo_diarvis1.png') }}" alt="logo.png">
                                         </div>
                                         <hr/>
                                         
@@ -93,6 +93,19 @@
                                     </div>
                                     <div class="form-group form-primary">
                                         <input type="password" name="password" class="form-control" required="" placeholder="Password">
+                                        <span class="form-bar"></span>
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <select   name="tahun" class="form-control" placeholder="Tahun Anggaran"required="">
+                                            <option value=""></option>
+
+                                            <option value="2016">2016</option>
+                                            <option value="2017">2017</option>
+                                            <option value="2018">2018</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+    </select>
                                         <span class="form-bar"></span>
                                     </div>
                                     <div class="row m-t-25 text-left">
