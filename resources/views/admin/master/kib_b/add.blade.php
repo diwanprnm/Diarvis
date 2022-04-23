@@ -63,7 +63,7 @@
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Form KIB/A</h5>
+                    <h5>Form KIB/B</h5>
 
                     <div class="card-header-right">
                         <i class="icofont icofont-spinner-alt-5"></i>
@@ -168,7 +168,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row align-vertical">
                             <label class="col-md-3 col-form-label">No Register</label>
                             <div class="col-md-6">
                                 <div id="loader_noreg" style="display:none">
@@ -181,17 +181,17 @@
                                 <input type="number" class="form-control" name="no_register" id="no_register" readonly>
                             </div>
                             <div class="col-sm-3">
-                                <p><i>(Otomatis)</i></p>
+                                <p style="margin-bottom:0;"><i>(Otomatis)</i></p>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row align-vertical">
                             <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
 
                             <div class="col-sm-9">
                                 <input class="form-control" name="tanggal_pembelian" type="date">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row align-vertical">
                             <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
 
                             <div class="col-sm-9">
@@ -199,47 +199,70 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Luas (M2)</label>
+                            <label class="col-md-3 col-form-label">Merk</label>
 
                             <div class="col-sm-9">
-                                <input class="form-control" name="luas" type="text">
+                                <input class="form-control" name="merek" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Type</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="type" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Ukuran / CC</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="cc" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Bahan</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="no_pabrik" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">No Pabrik</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="merek" type="text">
+                            </div>
+                        </div> 
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">No Rangka</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="merek" type="text">
+                            </div>
+                        </div>                                               
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">No Mesin</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="merek" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">No BPKB</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="merek" type="text">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Alamat</label>
+                            <label class="col-md-3 col-form-label">No Polisi</label>
 
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="alamat"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Hak Tanah</label>
-
-                            <div class="col-sm-9">
-                                <select name="hak_tanah" id="hak_tanah" class="form-control chosen-select">
-                                    <option></option>
-                                    <option value="Hak Pakai">Hak Pakai</option>
-                                    <option value="Hak Pengelolaan">Hak Pengelolaan</option>
-                                </select>
+                                <input class="form-control" name="merek" type="text">
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Tanggal Sertifikat</label>
-
-                            <div class="col-sm-9">
-                                <input class="form-control" name="tanggal_sertifikat" type="date">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Sertifikat</label>
-
-                            <div class="col-sm-9">
-                                <input class="form-control" name="no_sertifikat" type="text">
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Asal Usul</label>
 
@@ -253,14 +276,44 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Penggunaan</label>
+                            <label class="col-md-3 col-form-label">Kondisi</label>
 
                             <div class="col-sm-9">
-                                <input class="form-control" name="penggunaan" type="text">
+                                <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
+                                    <option>Pilih Kondisi</option>
+                                    <option value="Baik">Baik</option>
+                                    <option value="Rusak">Rusak</option>
+                                </select>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Harga</label>
+
+                            <div class="col-sm-9">
+                                <input class="form-control" name="harga" type="number">
+                            </div>
+                        </div>
+
+                        <div class="form-group row align-vertical">
+                            <label class="col-md-3 col-form-label">Masa Manfaat</label>
+                            <div class="col-md-6">
+                                <div id="loader_noreg" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <input type="number" class="form-control" name="no_register" id="no_register" readonly>
+                            </div>
+                            <div class="col-sm-3">
+                                <p style="margin-bottom:0;">Bulan</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">Nilai Sisa</label>
 
                             <div class="col-sm-9">
                                 <input class="form-control" name="harga" type="number">
@@ -325,12 +378,10 @@
             </div>
         </div>
 
-
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header">
-                    <h5>Data KIB - A </h5>
-
+                    <h5>Data KIB - B</h5>
                     <div class="card-header-right">
                         <i class="icofont icofont-spinner-alt-5"></i>
                     </div>
@@ -346,7 +397,6 @@
                         <table class="table table-striped table-bordered able-responsive" id="table_kib_a">
                             <thead>
                                 <tr>
-
                                     <th>No. Reg</th>
                                     <th>Tgl Perolehan</th>
                                     <th>Kode Barang</th>

@@ -21,7 +21,6 @@
 .profile-bg-img {
   width: 100%;
 }
-
 .user-info .media-body, .user-info .media-left {
   display: table-cell;
   vertical-align: middle;
@@ -33,7 +32,7 @@
 }
 
 .table td, .table th {
-   padding: 0.75rem 0.75rem; 
+   padding: 0.75rem 0.75rem;
 }
 
 spinner {
@@ -49,7 +48,7 @@ spinner {
   height: 100%;
   width: 6px;
   display: inline-block;
-  
+
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
   animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
@@ -75,15 +74,15 @@ spinner {
 }
 
 @-webkit-keyframes sk-stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
   20% { -webkit-transform: scaleY(1.0) }
 }
 
 @keyframes sk-stretchdelay {
-  0%, 40%, 100% { 
+  0%, 40%, 100% {
     transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
-  }  20% { 
+  }  20% {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }

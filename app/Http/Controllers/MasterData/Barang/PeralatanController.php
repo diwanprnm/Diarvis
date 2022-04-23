@@ -19,7 +19,8 @@ class PeralatanController extends Controller {
         $peralatan = DB::table('ta_fn_kib_b as a')
             ->select('a.idpemda as id','b.nm_pemilik as pemilik','a.no_register','a.tgl_perolehan','a.merk','a.type','a.cc','a.bahan','a.nomor_rangka','a.nomor_mesin','a.nomor_polisi','a.nomor_bpkb','a.asal_usul','a.kondisi','a.harga')
             ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
-            ->where('a.kd_ka','1');
+            ->where('a.kd_ka','1')
+            ->where('a.kd_hapus','0');
 
             if(!empty($request->id_pemda_filter)) {
                 $peralatan->where('a.idpemda', 'like', '%' . $request->id_pemda_filter. '%');
@@ -62,7 +63,8 @@ class PeralatanController extends Controller {
 
     public function delete($id)
     {
-        $aset = DB::table('ta_fn_kib_b')->where('idpemda', $id)->delete();
+        $kib_b['kd_hapus'] = 1;
+        DB::table('ta_fn_kib_b')->where('idpemda', $id)->update($kib_b);
         $color = "success";
         $msg = "Berhasil Menghapus Data Peralatan Dan Mesin";
         return redirect( route('getPeralatan') )->with(compact('color', 'msg'));
