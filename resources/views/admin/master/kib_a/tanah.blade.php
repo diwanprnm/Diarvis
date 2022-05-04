@@ -19,7 +19,7 @@
 @section('page-header')
 
 <div class="row align-items-end">
-    <div class="col-lg-8">
+    <div class="col-lg-10">
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Tanah (KIB A)</h4>
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
@@ -371,16 +371,15 @@
     }
 
     @endif
-    @if(hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     $('#delModal').on('show.bs.modal', function(event) {
         const link = $(event.relatedTarget);
         const id = link.data('id');
         console.log(id);
-        const url = `{{ url('admin/master-data/unit-organisasi/unit/delete') }}/` + id;
+        const url = `{{ url('admin/master-data/barang/intra/tanah/delete') }}/` + id;
         console.log(url);
         const modal = $(this);
         modal.find('.modal-footer #delHref').attr('href', url);
     });
-    @endif
+
 </script>
 @endsection

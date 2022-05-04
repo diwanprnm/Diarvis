@@ -44,9 +44,9 @@ class TanahController extends Controller
                     ->select('a.idpemda as id','tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 
                        'a.no_register', 'a.harga', 'a.luas_m2', 'b.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
                         'a.sertifikat_nomor', 'a.penggunaan', 'a.asal_usul', 'a.kd_ka')
-                        ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
-
-                        ->where('a.kd_ka','1');
+                       ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
+                       ->where('a.kd_ka','1')
+                       ->where('a.kd_hapus','0');
                         
          return DataTables::of($tanah)
             ->addIndexColumn()
@@ -550,18 +550,13 @@ class TanahController extends Controller
         return redirect(route('editPhotoJembatan',$request->id))->with(compact('color', 'msg'));
     }
 
-    public function delete($id)
-    {
-        $jembatan = DB::table('master_jembatan');
-        $old = $jembatan->where('id', $id);
-        $old->first()->foto ?? Storage::delete('public/' . $old->first()->foto);
-        $old->delete();
-
-        $foto = DB::table('master_jembatan_foto')->where('id_jembatan', $id)->delete();
-
+    public function delete($id) {
+        $kib_a['kd_hapus'] ='1';
+        DB::table('ta_kib_a')->where('idpemda', $id)->update($kib_a); 
         $color = "success";
-        $msg = "Berhasil Menghapus Data Jembatan";
-        return redirect(route('getMasterJembatan'))->with(compact('color', 'msg'));
+        
+        $msg = "Master Tanah ".$id." Berhasil Dihapus"; 
+        return redirect(route('getTanah'))->with(compact('color', 'msg'));
     }
 
     public function delPhoto($id)
