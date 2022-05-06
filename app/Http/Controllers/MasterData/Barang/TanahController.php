@@ -30,7 +30,6 @@ class TanahController extends Controller
      */
 
     public function index(Request $request){
-<<<<<<< HEAD
     
         $filter['id_pemda'] = $request->id_pemda;
         $filter['kd_aset'] = $request->kd_aset;
@@ -82,28 +81,6 @@ class TanahController extends Controller
            
         if ($request->ajax()) {
             return DataTables::of($tanah)
-=======
-
-        $filter['bidang'] = $request->bidang;
-        $filter['kode_unit'] = $request->kode_unit;
-        $filter['nama_unit'] = $request->nama_unit;
-        $bidang = DB::table('ref_organisasi_bidang')->get();
-
-        return view('admin.master.kib_a.tanah', compact('bidang','filter'));
-
-    }
-
-    public function json()
-    {
-        $tanah = DB::table('ta_kib_a as a')
-                    ->select('a.idpemda as id','tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"),
-                       'a.no_register', 'a.harga', 'a.luas_m2', 'b.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal',
-                        'a.sertifikat_nomor', 'a.penggunaan', 'a.asal_usul', 'a.kd_ka')
-                        ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
-                        ->where('a.kd_ka','1');
-
-         return DataTables::of($tanah)
->>>>>>> e0ad1e26aba42336d0ca2cf751c108869f5e621b
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<div style="min-width:200px; class="btn-group  " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
@@ -112,7 +89,6 @@ class TanahController extends Controller
             //   }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
                     $btn = $btn . '<a href="'. route('tanah.edit', $row->id) .' "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
-<<<<<<< HEAD
                 } 
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
                     $btn = $btn . '<a href="#delModal" data-id="' . $row->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
@@ -126,17 +102,6 @@ class TanahController extends Controller
 
         return view('admin.master.kib_a.tanah', compact('bidang','filter','rincian_object'));
     
-=======
-                }
-                if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
-                    $btn = $btn . '<a href="#delModal" data-id="' . $row->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
-                }
-                $btn = $btn . '</div>';
-                return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
->>>>>>> e0ad1e26aba42336d0ca2cf751c108869f5e621b
     }
 
     

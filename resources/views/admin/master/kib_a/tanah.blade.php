@@ -423,7 +423,6 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-<<<<<<< HEAD
                 url: "{{ url('admin/master-data/barang/intra/tanah') }}",
                 data: function (d) {
                     d.id_pemda = $("#id_pemda").val(),
@@ -438,10 +437,6 @@
                   
                 }
                
-=======
-                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
-
->>>>>>> e0ad1e26aba42336d0ca2cf751c108869f5e621b
             },
 
             columns: [{
