@@ -54,7 +54,7 @@ class TanahController extends Controller
            ->where('a.kd_ka','1')
            ->where('a.kd_hapus','0');
          if(!empty($request->id_pemda)){   
-            $tanah->where('a.idpemda',$request->id_pemda); 
+            $tanah->where('a.idpemda','like', '%'.$request->id_pemda.'%');
           }
           if(!empty($request->kd_aset)){   
             $tanah->where('a.kd_aset8',$request->kd_aset); 
