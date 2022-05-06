@@ -19,7 +19,7 @@
 @section('page-header')
 
 <div class="row align-items-end">
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-10">
                                             <div class="page-header-title">
                                                 <div class="d-inline">
                                                     <h4>  {{$tanah->nm_aset5}}</h4>
@@ -27,15 +27,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-2">
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item">
                                                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">Kib-A</a>
                                                     </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
+                                                    <li class="breadcrumb-item"><a href="#!">Rincian</a>
                                                     </li>
                                                 </ul>
                                             </div>
