@@ -55,36 +55,129 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="accordion-content accordion-desc">
-                <form action="{{route('getUnitFilter')}}" method="post">
+                <form action="{{route('getTanah')}}" method="post">
                     @csrf
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Bidang</label>
+                                    <label class="col-md-3 col-form-label">ID Pemda</label>
                                     <div class="col-md-9">
-                                         
+                                    <input name="id_pemda" id="id_pemda" value="{{(!empty($filter['id_pemda'])) ? $filter['id_pemda'] :''}}"  type="text" class="form-control"  >
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Nama Unit</label>
+                                    <label class="col-md-3 col-form-label">Kode Aset</label>
                                     <div class="col-md-9">
-                                        <input name="nama_unit" id="edit_nama_unit" value=" " type="text" class="form-control"  >
+                                        <div class="col separated-input d-flex row">
+                                            <input type="text" id="kd_aset" name="kd_aset" value="{{(!empty($filter['kd_aset'])) ? $filter['kd_aset'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <input type="text" id="kd_aset0" name="kd_aset0" value="{{(!empty($filter['kd_aset0'])) ? $filter['kd_aset0'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <input type="text" id="kd_aset1" name="kd_aset1" value="{{(!empty($filter['kd_aset1'])) ? $filter['kd_aset1'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <input type="text" id="kd_aset2" name="kd_aset2" value="{{(!empty($filter['kd_aset2'])) ? $filter['kd_aset2'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <input type="text" id="kd_aset3" name="kd_aset3" value="{{(!empty($filter['kd_aset3'])) ? $filter['kd_aset3'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <input type="text"  id="kd_aset4" name="kd_aset4" value="{{(!empty($filter['kd_aset4'])) ? $filter['kd_aset4'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <input type="text" id="kd_aset5" name="kd_aset5" value="{{(!empty($filter['kd_aset5'])) ? $filter['kd_aset5'] :''}}" class="form-control" style="width:40px"
+                                                placeholder="...">
+                                            <a data-toggle="modal" href="#modalAsset"  class="btn btn-info"><i class="icofont icofont-ui-search"></i></a>
+                                            <span id="nama_aset"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">No Register</label>
+                                    <div class="col-md-9">
+                                    <input name="f_no_register" id="f_no_register" value=" " type="number" class="form-control"  >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
+                                    <div class="col-md-4">
+                                    <input name="f_from_tgl_pembelian" id="f_from_tgl_pembelian" value="" placeholder="Dari" type="date" class="form-control"  >
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input name="f_to_tgl_pembelian" id="f_to_tgl_pembelian" value="" type="date" placeholder="Hingga" class="form-control"  >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
+                                    <div class="col-md-4">
+                                    <input name="f_from_tgl_pembukuan" id="f_from_tgl_pembukuan" value="" placeholder="Dari" type="date" class="form-control"  >
+                                    </div>
+                                    <div class="col-md-4">
+                                    <input name="f_to_tgl_pembukuan" id="f_to_tgl_pembukuan" value="" type="date" placeholder="Hingga" class="form-control"  >
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Kode Unit</label>
+                                    <label class="col-md-3 col-form-label">Luas (M2)</label>
                                     <div class="col-md-9">
-                                        <input name="kode_unit" type="number" value=" " id="edit_kode_unit" class="form-control"  >
+                                        <input name="f_luas" type="text"  id="f_luas" class="form-control"  >
                                     </div>
                                 </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Alamat</label>
+                                    <div class="col-md-9">
+                                        <input name="f_alamat" type="text"  id="f_alamat" class="form-control"  >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Hak Tanah</label>
+                                    <div class="col-md-9">
+                                    <select name="f_hak_tanah" id="f_hak_tanah" class="form-control chosen-select">
+                                            <option></option>
+                                            <option value="Hak Pakai">Hak Pakai</option>
+                                            <option value="Hak Pengelolaan">Hak Pengelolaan</option>
+                                            </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">Nomor Sertifikat</label>
+                                    <div class="col-md-9">
+                                        <input name="f_no_sertifikat" type="text"  id="f_no_sertifikat" class="form-control"  >
+                                    </div>
+                                </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Asal Usul</label>
+   
+                                <div class="col-sm-9">
+                                    <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
+                                    <option></option>
+                                    <option value="Pembelian">Pembelian</option>
+                                    <option value="Hibah">Hibah</option>
+                                    </select>
+                                </div>
                             </div>
+                            <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Harga</label>  
+                            <div class="col-sm-3">
+                            <select name="f_operasi" id="f_operasi" class="form-control chosen-select">
+                                    <option></option>
+                                    <option value="="> = </option>
+                                    <option value=">="> >= </option>
+                                    <option value="<="> <= </option>
+                                    </select>
+                            </div>
+                            <div class="col-sm-6">
+                            <input class="form-control" name="harga" type="number">
+                            </div>
+                        </div>    
+                        </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit"  class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-ui-search"></i> Cari</button>
+                        <button type="submit"  class="btn btn-sm btn-round btn-info mb-3"><i class="icofont icofont-ui-search"></i> Cari</button>
                     </div>
                 </form>
             </div>
@@ -103,7 +196,7 @@
 
 
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-                <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
+                <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-info mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
@@ -230,6 +323,61 @@
     </div>
     @endif
 
+    <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <h4 class="modal-title">Pemilihan Kode Barang</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Rincian Obyek</label>
+                            <div class="col-md-8">
+                            
+                            <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
+                                    <option>-</option>
+                                        @foreach ($rincian_object as $data)
+                                        <option value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
+                                        @endforeach
+                                    </select> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Sub Rincian Obyek</label>
+                            <div class="col-md-8">
+                            <div id="loader_sro" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
+                            </select> 
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
+                            <div class="col-md-8"> 
+                            <div id="loader_ssro" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek" class="form-control chosen-select">
+                            </select> 
+                            </div>
+                        </div>
+
+                        
+                         
+                    </div>
+                    
+            </div>
+        </div>   
+
     @if (hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -274,7 +422,19 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
+                url: "{{ url('admin/master-data/barang/intra/tanah') }}",
+                data: function (d) {
+                    d.id_pemda = $("#id_pemda").val(),
+                    d.kd_aset = $("#kd_aset").val(),
+                    d.kd_aset0 = $("#kd_aset0").val(),
+                    d.kd_aset1 = $("#kd_aset1").val(),
+                    d.kd_aset2 = $("#kd_aset2").val(),
+                    d.kd_aset3 = $("#kd_aset3").val(),
+                    d.kd_aset4 = $("#kd_aset4").val(),
+                    d.kd_aset5 = $("#kd_aset5").val(),
+                    d.no_register = $("#no_register").val()
+                  
+                }
                
             },
 
@@ -380,6 +540,73 @@
         const modal = $(this);
         modal.find('.modal-footer #delHref').attr('href', url);
     });
+
+    $('#rincian_obyek').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.sub-rincian-obyek')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_sro').show();
+                },
+                data: {rincian_obyek:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='sub_rincian_obyek']").html('');
+                    $("select[name='sub_rincian_obyek']").html(data.options);
+                    $("select[name='sub_rincian_obyek']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_sro').hide();
+                } 
+                });
+        }); 
+
+        $('#sub_rincian_obyek').on('change', function()  {
+            $.ajax({ 
+                url: "{{route('tanah.sub-sub-rincian-obyek')}}",
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_ssro').show();
+                },
+                data: {rincian_obyek:this.value },
+
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='sub_sub_rincian_obyek']").html('');
+                    $("select[name='sub_sub_rincian_obyek']").html(data.options);
+                    $("select[name='sub_sub_rincian_obyek']").trigger("chosen:updated");
+                    },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_ssro').hide();
+                } 
+            });
+        }); 
+
+
+    $('#sub_sub_rincian_obyek').on('change', function()  {
+            var v = this.value;
+            
+            var dt = v.split("_");
+            $("#kd_aset").attr("value",dt[0]);
+            $("#kd_aset0").attr("value",dt[1]);
+            $("#kd_aset1").attr("value",dt[2]);
+            $("#kd_aset2").attr("value",dt[3]);
+            $("#kd_aset3").attr("value",dt[4]);
+            $("#kd_aset4").attr("value",dt[5]);
+            $("#kd_aset5").attr("value",dt[6]);
+            $("#nama_aset").html(dt[7]);
+            $('#modalAsset').modal('toggle');
+            
+
+            return false;
+        });   
 
 </script>
 @endsection
