@@ -442,15 +442,15 @@
                 },
                  {
                     data: 'id',
-                    name: 'id_pemda'
+                    name: 'idpemda'
                 },
                 {
                     data: 'nm_pemilik',
-                    name: 'nama_pemilik'
+                    name: 'nm_pemilik'
                 },
                 {
                     data: 'kode_aset',
-                    name: 'kode Aset'
+                    name: 'kode_aset'
                 },
                 {
                     data: 'no_register',
@@ -458,7 +458,7 @@
                 },
                 {
                     data: 'tgl_perolehan',
-                    name: 'tgl_pembelian'
+                    name: 'tgl_perolehan'
                 },
                 {
                     data: 'tgl_pembukuan',
@@ -478,11 +478,11 @@
                 },
                 {
                     data: 'sertifikat_tanggal',
-                    name: 'tgl_sertifikat'
+                    name: 'sertifikat_tanggal'
                 },
                 {
                     data: 'sertifikat_nomor',
-                    name: 'no_sertifikat'
+                    name: 'sertifikat_nomor'
                 },
                 {
                     data: 'asal_usul',
