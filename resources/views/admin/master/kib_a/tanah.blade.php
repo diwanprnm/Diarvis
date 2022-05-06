@@ -64,11 +64,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">ID Pemda</label>
                                     <div class="col-md-9">
-<<<<<<< HEAD
                                     <input name="id_pemda" id="id_pemda" value="{{(!empty($filter['id_pemda'])) ? $filter['id_pemda'] :''}}"  type="text" class="form-control"  >
-=======
-
->>>>>>> e0ad1e26aba42336d0ca2cf751c108869f5e621b
                                     </div>
                                 </div>
                                 <div class="form-group row">
