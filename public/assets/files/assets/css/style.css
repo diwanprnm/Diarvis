@@ -24,6 +24,11 @@ a {
     transition: all .3s ease-in-out
 }
 
+.align-vertical {
+    display: flex;
+    align-items: center;
+}
+
 @media only screen and (min-width:1400px) {
     a {
         font-size: 14px
@@ -12860,11 +12865,11 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
 
 .background-info {
     background-color: #2DCEE3;
-    
+
 }
-.alert-info { 
+.alert-info {
     border-color: #2DCEE3;
-     
+
 }
 .alert {
     font-size: 15px;

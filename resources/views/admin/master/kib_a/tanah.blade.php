@@ -64,7 +64,11 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">ID Pemda</label>
                                     <div class="col-md-9">
+<<<<<<< HEAD
                                     <input name="id_pemda" id="id_pemda" value="{{(!empty($filter['id_pemda'])) ? $filter['id_pemda'] :''}}"  type="text" class="form-control"  >
+=======
+
+>>>>>>> e0ad1e26aba42336d0ca2cf751c108869f5e621b
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -192,9 +196,6 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-block">
-             
-
-
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
                 <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-info mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
                 @endif
@@ -203,7 +204,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                               
+
                                 <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
@@ -232,7 +233,7 @@
     </div>
 </div>
 <div class="modal-only">
-    
+
     @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -249,7 +250,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
-                                 
+
                             </div>
                         </div>
 
@@ -294,7 +295,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
-                                 
+
                             </div>
                         </div>
 
@@ -422,6 +423,7 @@
             serverSide: true,
             bFilter: false,
             ajax: {
+<<<<<<< HEAD
                 url: "{{ url('admin/master-data/barang/intra/tanah') }}",
                 data: function (d) {
                     d.id_pemda = $("#id_pemda").val(),
@@ -436,6 +438,10 @@
                   
                 }
                
+=======
+                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
+
+>>>>>>> e0ad1e26aba42336d0ca2cf751c108869f5e621b
             },
 
             columns: [{
@@ -490,7 +496,7 @@
                 {
                     data: 'asal_usul',
                     name: 'asal_usul'
-                }, 
+                },
                 {
                     data: 'penggunaan',
                     name: 'penggunaan'
@@ -498,7 +504,7 @@
                 {
                     data: 'harga',
                     name: 'harga'
-                }, 
+                },
                 {
                     data: 'action',
                     name: 'action',
@@ -532,6 +538,11 @@
 
     @endif
     $('#delModal').on('show.bs.modal', function(event) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         const link = $(event.relatedTarget);
         const id = link.data('id');
         console.log(id);
