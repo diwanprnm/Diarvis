@@ -11555,8 +11555,8 @@ table.table-bordered.dataTable tbody th:focus {
 }
 
 .page-item.active .page-link {
-    background-color: #4099ff;
-    border-color: #4099ff
+    background-color:#00bcd4;
+    border-color: #0ab0c5
 }
 
 .page-link {

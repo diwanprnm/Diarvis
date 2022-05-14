@@ -24,12 +24,20 @@ eBMD Explorer Website Repository
   ```
   APP_URL=http://localhost:8000/
 
-POSTGRES_HOST=127.0.0.1
-POSTGRES_PORT=5432
-POSTGRES_DATABASE=E_BMD_EXPLORER
-POSTGRES_USERNAME=postgres
-POSTGRES_PASSWORD=postgres
+  POSTGRES_HOST=127.0.0.1
+  POSTGRES_PORT=5432
+  POSTGRES_DATABASE=E_BMD_EXPLORER
+  POSTGRES_USERNAME=postgres
+  POSTGRES_PASSWORD=postgres
 
+  atau jika menggunakan database postgres pada server development:
+
+  POSTGRES_HOST=103.102.153.143
+  POSTGRES_PORT=5432
+  POSTGRES_DATABASE=db_diarvis_1
+  POSTGRES_USERNAME=jtkdev
+  POSTGRES_PASSWORD=jtkdev2022
+  ```
 5. run  
   ```
   php artisan key:generate
