@@ -30,7 +30,7 @@ class TanahController extends Controller
      */
 
     public function index(Request $request){
-    
+
         $filter['id_pemda'] = $request->id_pemda;
         $filter['kd_aset'] = $request->kd_aset;
         $filter['kd_aset0'] = $request->kd_aset0;
@@ -41,44 +41,43 @@ class TanahController extends Controller
         $filter['kd_aset5'] = $request->kd_aset5;
         $filter['no_register'] = $request->f_no_register;
 
+        $bidang = DB::table('ref_organisasi_bidang')->get();
+        $rincian_object = DB::table('ref_rek3_108')->where('kd_aset1','1')->get();
 
-        $bidang = DB::table('ref_organisasi_bidang')->get();   
-        $rincian_object = DB::table('ref_rek3_108')->where('kd_aset1','1')->get(); 
-       // echo $request->id_pemda; 
         DB::enableQueryLog();
         $tanah = DB::table('ta_kib_a as a')
-            ->select('a.idpemda as id','tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 
-                'a.no_register', 'a.harga', 'a.luas_m2', 'b.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal', 
+            ->select('a.idpemda as id','tahun',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"),
+                'a.no_register', 'a.harga', 'a.luas_m2', 'b.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'DD-MM-YYYY') as tgl_perolehan"), 'a.tgl_pembukuan', 'a.alamat', 'a.hak_tanah', 'a.sertifikat_tanggal',
                 'a.sertifikat_nomor', 'a.penggunaan', 'a.asal_usul', 'a.kd_ka')
            ->leftjoin('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
            ->where('a.kd_ka','1')
            ->where('a.kd_hapus','0');
-         if(!empty($request->id_pemda)){   
+         if(!empty($request->id_pemda)){
             $tanah->where('a.idpemda','like', '%'.$request->id_pemda.'%');
           }
-          if(!empty($request->kd_aset)){   
-            $tanah->where('a.kd_aset8',$request->kd_aset); 
+          if(!empty($request->kd_aset)){
+            $tanah->where('a.kd_aset8',$request->kd_aset);
           }
-          if(!empty($request->kd_aset0)){   
-            $tanah->where('a.kd_aset80',$request->kd_aset0); 
+          if(!empty($request->kd_aset0)){
+            $tanah->where('a.kd_aset80',$request->kd_aset0);
           }
-          if(!empty($request->kd_aset1)){   
-            $tanah->where('a.kd_aset81',$request->kd_aset1); 
+          if(!empty($request->kd_aset1)){
+            $tanah->where('a.kd_aset81',$request->kd_aset1);
           }
-          if(!empty($request->kd_aset2)){   
-            $tanah->where('a.kd_aset82',$request->kd_aset2); 
+          if(!empty($request->kd_aset2)){
+            $tanah->where('a.kd_aset82',$request->kd_aset2);
           }
-          if(!empty($request->kd_aset3)){   
-            $tanah->where('a.kd_aset83',$request->kd_aset3); 
+          if(!empty($request->kd_aset3)){
+            $tanah->where('a.kd_aset83',$request->kd_aset3);
           }
-          if(!empty($request->kd_aset4)){   
-            $tanah->where('a.kd_aset84',$request->kd_aset3); 
+          if(!empty($request->kd_aset4)){
+            $tanah->where('a.kd_aset84',$request->kd_aset3);
           }
-          if(!empty($request->kd_aset5)){   
-            $tanah->where('a.kd_aset85',$request->kd_aset5); 
+          if(!empty($request->kd_aset5)){
+            $tanah->where('a.kd_aset85',$request->kd_aset5);
           }
           //dd($tanah);
-           
+
         if ($request->ajax()) {
             return DataTables::of($tanah)
             ->addIndexColumn()
@@ -89,22 +88,16 @@ class TanahController extends Controller
             //   }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
                     $btn = $btn . '<a href="'. route('tanah.edit', $row->id) .' "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
-                } 
+                }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
                     $btn = $btn . '<a href="#delModal" data-id="' . $row->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
-                } 
-                $btn = $btn . '</div>'; 
+                }
+                $btn = $btn . '</div>';
                 return $btn;
             })->rawColumns(['action'])->make(true);
         }
-
-
-
         return view('admin.master.kib_a.tanah', compact('bidang','filter','rincian_object'));
-    
     }
-
-    
 
     public function detail($id) {
         $tanah = DB::table('ta_kib_a as a')->where('a.kd_ka','1')
@@ -565,10 +558,10 @@ class TanahController extends Controller
 
     public function delete($id) {
         $kib_a['kd_hapus'] ='1';
-        DB::table('ta_kib_a')->where('idpemda', $id)->update($kib_a); 
+        DB::table('ta_kib_a')->where('idpemda', $id)->update($kib_a);
         $color = "success";
-        
-        $msg = "Master Tanah ".$id." Berhasil Dihapus"; 
+
+        $msg = "Master Tanah ".$id." Berhasil Dihapus";
         return redirect(route('getTanah'))->with(compact('color', 'msg'));
     }
 

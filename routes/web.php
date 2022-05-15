@@ -148,11 +148,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
                 // Peralatan dan Mesin
 
-                Route::post('peralatandanmesin', 'MasterData\Barang\PeralatanController@index')->name('getPeralatanFilter');
-
                 Route::get('peralatandanmesin', 'MasterData\Barang\PeralatanController@index')->name('getPeralatan');
+                Route::post('peralatandanmesin', 'MasterData\Barang\PeralatanController@index')->name('getPeralatan');
                 Route::get('peralatandanmesin/add', 'MasterData\Barang\PeralatanController@add')->name('peralatan.add');
-                Route::get('peralatandanmesin/json', 'MasterData\Barang\PeralatanController@json')->name('getJsonPeralatan');
                 Route::get('peralatandanmesin/delete/{id}', 'MasterData\Barang\PeralatanController@delete')->name('deleteJsonPeralatan');
                 Route::get('peralatandanmesin/detail/{id}', 'MasterData\Barang\PeralatanController@detail')->name('getDetailPeralatan');
 

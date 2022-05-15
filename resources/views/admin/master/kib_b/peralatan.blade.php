@@ -55,7 +55,7 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="accordion-content accordion-desc">
-                <form action="{{ route('getPeralatanFilter') }}" method="post">
+                <form action="{{ route('getPeralatan') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -63,7 +63,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label" for="id_pemda_filter">Id Pemda</label>
                                     <div class="col-md-9">
-                                        <input name="id_pemda_filter" id="id_pemda_filter" value=" " type="text" class="form-control">
+                                        <input name="id_pemda" id="id_pemda" value="{{ !empty($filter['id_pemda']) ? $filter['id_pemda'] : ""  }}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label" for="no_register_filter">No Register</label>
                                     <div class="col-md-9">
-                                        <input name="no_register_filter" id="no_register_filter" value=" " type="text" class="form-control">
+                                        <input name="no_register" id="no_register" value="{{ !empty($filter['no_register']) ? $filter['no_register']  : "" }}" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -103,12 +103,15 @@
                                 <th>No</th>
                                 <th>Id Pemda</th>
                                 <th>Pemilik</th>
+                                <th>Kode Aset</th>
                                 <th>No Register</th>
                                 <th>Tanggal Perolehan</th>
+                                <th>Tanggal Pembukuan</th>
                                 <th>Merek</th>
                                 <th>Tipe</th>
                                 <th>CC</th>
                                 <th>Bahan</th>
+                                <th>Nomor Pabrik</th>
                                 <th>Nomor Rangka</th>
                                 <th>Nomor Mesin</th>
                                 <th>Nomor Polisi</th>
@@ -116,6 +119,9 @@
                                 <th>Asal Usul</th>
                                 <th>Kondisi</th>
                                 <th>Harga</th>
+                                <th>Masa Manfaat</th>
+                                <th>Nilai Sisa</th>
+                                <th>Keterangan</th>
                                 <th style="min-width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -173,13 +179,14 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-                url: "{{ url('admin/master-data/barang/intra/peralatandanmesin/json') }}",
-                data: {
-                    "id_pemda_filter" : "{{ !empty($filter['id_pemda_filter']) ? $filter['id_pemda_filter'] : ""  }}",
-                    "no_register_filter" : "{{ !empty($filter['no_register_filter']) ? $filter['no_register_filter']  : "" }}",
+                url: "{{ url('admin/master-data/barang/intra/peralatandanmesin') }}",
+                data: function(d) {
+                    d.id_pemda = $("#id_pemda").val(),
+                    d.no_register = $("#no_register").val()
                 }
             },
-            columns: [{
+            columns: [
+                {
                     'mRender': function(data, type, full, meta) {
                         return + meta.row + meta.settings._iDisplayStart + 1;
                     }
@@ -193,12 +200,20 @@
                     name: 'pemilik'
                 },
                 {
+                    data: 'kode_aset',
+                    name: 'kode_aset'
+                },
+                {
                     data: 'no_register',
                     name: 'no_register'
                 },
                 {
                     data: 'tgl_perolehan',
                     name: 'tgl_perolehan'
+                },
+                {
+                    data: 'tgl_pembukuan',
+                    name: 'tgl_pembukuan'
                 },
                 {
                     data: 'merk',
@@ -215,6 +230,10 @@
                 {
                     data: 'bahan',
                     name: 'bahan'
+                },
+                {
+                    data: 'nomor_pabrik',
+                    name: 'nomor_pabrik'
                 },
                 {
                     data: 'nomor_rangka',
@@ -243,6 +262,18 @@
                 {
                     data: 'harga',
                     name: 'harga'
+                },
+                {
+                    data: 'masa_manfaat',
+                    name: 'masa_manfaat'
+                },
+                {
+                    data: 'nilai_sisa',
+                    name: 'nilai_sisa'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
                 },
                 {
                     data: 'action',

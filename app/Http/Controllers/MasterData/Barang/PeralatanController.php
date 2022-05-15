@@ -12,24 +12,25 @@ class PeralatanController extends Controller {
     public function index(Request $request){
         $filter['id_pemda_filter'] = $request->id_pemda_filter;
         $filter['no_register_filter'] = $request->no_register_filter;
-        return view('admin.master.kib_b.peralatan', compact('filter'));
-    }
 
-    public function json(Request $request){
-        $peralatan = DB::table('ta_fn_kib_b as a')
-            ->select('a.idpemda as id','b.nm_pemilik as pemilik','a.no_register','a.tgl_perolehan','a.merk','a.type','a.cc','a.bahan','a.nomor_rangka','a.nomor_mesin','a.nomor_polisi','a.nomor_bpkb','a.asal_usul','a.kondisi','a.harga')
+        DB::enableQueryLog();
+        $peralatan = DB::table('ta_kib_b as a')
+            ->select('a.idpemda as id','b.nm_pemilik as pemilik',DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 'a.no_register',
+            'a.tgl_pembukuan','a.tgl_perolehan','a.merk','a.type','a.cc','a.bahan', DB::raw("COALESCE(NULLIF(a.nomor_pabrik, NULL), '-') AS nomor_pabrik") ,'a.nomor_rangka','a.nomor_mesin','a.nomor_polisi','a.nomor_bpkb','a.asal_usul','a.kondisi','a.harga', DB::raw("CONCAT(a.masa_manfaat,' Bulan') as masa_manfaat"),
+            DB::raw("COALESCE(NULLIF(a.nilai_sisa, NULL), 0) AS nilai_sisa"), DB::raw("COALESCE(NULLIF(a.keterangan, NULL), '-') AS keterangan") )
             ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
             ->where('a.kd_ka','1')
             ->where('a.kd_hapus','0');
 
-            if(!empty($request->id_pemda_filter)) {
-                $peralatan->where('a.idpemda', 'like', '%' . $request->id_pemda_filter. '%');
-            }
-            if(!empty($request->no_register_filter)) {
-                $peralatan->where('a.no_register', $request->no_register_filter);
-            }
+        if(!empty($request->id_pemda_filter)) {
+            $peralatan->where('a.idpemda', 'like', '%' . $request->id_pemda_filter. '%');
+        }
+        if(!empty($request->no_register_filter)) {
+            $peralatan->where('a.no_register', $request->no_register_filter);
+        }
 
-        return DataTables::of($peralatan)
+        if ($request->ajax()) {
+            return DataTables::of($peralatan)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<div style="min-width:200px; class="btn-group  " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
@@ -47,6 +48,9 @@ class PeralatanController extends Controller {
             })
             ->rawColumns(['action'])
             ->make(true);
+        }
+
+        return view('admin.master.kib_b.peralatan', compact('filter'));
     }
 
     public function add()
