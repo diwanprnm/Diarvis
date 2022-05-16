@@ -150,7 +150,7 @@
 
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Asal Usul</label>
-   
+
                                 <div class="col-sm-9">
                                     <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
                                     <option></option>
@@ -160,7 +160,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Harga</label>  
+                        <label class="col-md-3 col-form-label">Harga</label>
                             <div class="col-sm-3">
                             <select name="f_operasi" id="f_operasi" class="form-control chosen-select">
                                     <option></option>
@@ -172,7 +172,7 @@
                             <div class="col-sm-6">
                             <input class="form-control" name="harga" type="number">
                             </div>
-                        </div>    
+                        </div>
                         </div>
                         </div>
                     </div>
@@ -200,7 +200,6 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-
                                 <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
@@ -228,8 +227,8 @@
         </div>
     </div>
 </div>
-<div class="modal-only">
 
+<div class="modal-only">
     @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -333,16 +332,14 @@
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Rincian Obyek</label>
                             <div class="col-md-8">
-                            
                             <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
                                     <option>-</option>
                                         @foreach ($rincian_object as $data)
                                         <option value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
                                         @endforeach
-                                    </select> 
+                                    </select>
                             </div>
                         </div>
-
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Sub Rincian Obyek</label>
                             <div class="col-md-8">
@@ -352,28 +349,24 @@
                                 </div>
                             </div>
                             <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
-                            </select> 
+                            </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
-                            <div class="col-md-8"> 
+                            <div class="col-md-8">
                             <div id="loader_ssro" style="display:none">
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                 </div>
                             </div>
                             <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek" class="form-control chosen-select">
-                            </select> 
+                            </select>
                             </div>
                         </div>
-
-                        
-                         
                     </div>
-                    
             </div>
-        </div>   
+        </div>
 
     @if (hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
@@ -430,11 +423,8 @@
                     d.kd_aset4 = $("#kd_aset4").val(),
                     d.kd_aset5 = $("#kd_aset5").val(),
                     d.no_register = $("#no_register").val()
-                  
                 }
-               
             },
-
             columns: [{
                     'mRender': function(data, type, full, meta) {
                         return +meta.row + meta.settings._iDisplayStart + 1;
@@ -544,7 +534,7 @@
     });
 
     $('#rincian_obyek').on('change', function()  {
-            $.ajax({ 
+            $.ajax({
                 url: "{{route('tanah.sub-rincian-obyek')}}",
                 method: 'POST',
                 headers: {
@@ -563,12 +553,12 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_sro').hide();
-                } 
+                }
                 });
-        }); 
+        });
 
         $('#sub_rincian_obyek').on('change', function()  {
-            $.ajax({ 
+            $.ajax({
                 url: "{{route('tanah.sub-sub-rincian-obyek')}}",
                 method: 'POST',
                 headers: {
@@ -587,14 +577,14 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_ssro').hide();
-                } 
+                }
             });
-        }); 
+        });
 
 
     $('#sub_sub_rincian_obyek').on('change', function()  {
             var v = this.value;
-            
+
             var dt = v.split("_");
             $("#kd_aset").attr("value",dt[0]);
             $("#kd_aset0").attr("value",dt[1]);
@@ -605,10 +595,10 @@
             $("#kd_aset5").attr("value",dt[6]);
             $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
-            
+
 
             return false;
-        });   
+        });
 
 </script>
 @endsection

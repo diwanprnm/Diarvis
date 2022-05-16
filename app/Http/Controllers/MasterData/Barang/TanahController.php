@@ -52,40 +52,40 @@ class TanahController extends Controller
            ->leftjoin('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
            ->where('a.kd_ka','1')
            ->where('a.kd_hapus','0');
-         if(!empty($request->id_pemda)){
+
+        if(!empty($request->id_pemda)){
             $tanah->where('a.idpemda','like', '%'.$request->id_pemda.'%');
-          }
-          if(!empty($request->kd_aset)){
+        }
+        if(!empty($request->kd_aset)){
             $tanah->where('a.kd_aset8',$request->kd_aset);
-          }
-          if(!empty($request->kd_aset0)){
+        }
+        if(!empty($request->kd_aset0)){
             $tanah->where('a.kd_aset80',$request->kd_aset0);
-          }
-          if(!empty($request->kd_aset1)){
+        }
+        if(!empty($request->kd_aset1)){
             $tanah->where('a.kd_aset81',$request->kd_aset1);
-          }
-          if(!empty($request->kd_aset2)){
+        }
+        if(!empty($request->kd_aset2)){
             $tanah->where('a.kd_aset82',$request->kd_aset2);
-          }
-          if(!empty($request->kd_aset3)){
+        }
+        if(!empty($request->kd_aset3)){
             $tanah->where('a.kd_aset83',$request->kd_aset3);
-          }
-          if(!empty($request->kd_aset4)){
+        }
+        if(!empty($request->kd_aset4)){
             $tanah->where('a.kd_aset84',$request->kd_aset3);
-          }
-          if(!empty($request->kd_aset5)){
+        }
+        if(!empty($request->kd_aset5)){
             $tanah->where('a.kd_aset85',$request->kd_aset5);
-          }
-          //dd($tanah);
+        }
 
         if ($request->ajax()) {
             return DataTables::of($tanah)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<div style="min-width:200px; class="btn-group  " role="group" data-placement="top" title="" data-original-title=".btn-xlg">';
-                //  if (hasAccess(Auth::user()->role_id, "Bidang", "View")) {
-                    $btn = $btn . '<a href="' . route("getDetailKIBA", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
-            //   }
+                    //  if (hasAccess(Auth::user()->role_id, "Bidang", "View")) {
+                        $btn = $btn . '<a href="' . route("getDetailKIBA", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
+                    //  }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
                     $btn = $btn . '<a href="'. route('tanah.edit', $row->id) .' "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                 }
@@ -194,11 +194,11 @@ class TanahController extends Controller
 
     public function generateKodePemda($kd){
         $kib_a = DB::table('ta_kib_a')
-                    ->select(DB::raw("MAX(idpemda) as id_pemda"))
-                    ->where('idpemda','LIKE','%'.$kd.'%')->first();
+            ->select(DB::raw("MAX(idpemda) as id_pemda"))
+            ->where('idpemda','LIKE','%'.$kd.'%')->first();
 
-                    $last_code = ltrim(substr($kib_a->id_pemda,12,6),0);
-                    $newcode = $kd.''.str_pad(((int)$last_code+1),6, "0", STR_PAD_LEFT);
+        $last_code = ltrim(substr($kib_a->id_pemda,12,6),0);
+        $newcode = $kd.''.str_pad(((int)$last_code+1),6, "0", STR_PAD_LEFT);
         return $newcode;
     }
 
@@ -253,7 +253,6 @@ class TanahController extends Controller
         DB::table('ta_kib_a')->insert($kib_a);
 
         if ($request->hasfile('uploadFile')) {
-
             $path_folder = "/document/kib_a/".$new_kd_pemda;
             $path = public_path().$path_folder;
             if (!file_exists($path)) {
@@ -266,8 +265,6 @@ class TanahController extends Controller
             //]);
 
             foreach($request->file('uploadFile') as $file) {
-
-
                 $imageName =  $file->getClientOriginalName();
                 $file->move($path, $imageName);
                 $this->saveFileKibA($new_kd_pemda,$imageName,$path_folder);
@@ -427,6 +424,7 @@ class TanahController extends Controller
     		return response()->json(['options'=>$data]);
     	}
     }
+
     public function getKodePemilik(Request $request) {
         $kode_pemilik = DB::table('ref_pemilik')->where('kd_pemilik',$request->kode_pemilik)->first();
         return $kode_pemilik->nm_pemilik;
