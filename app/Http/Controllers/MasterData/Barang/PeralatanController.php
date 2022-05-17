@@ -133,7 +133,7 @@ class PeralatanController extends Controller {
                         $btn = $btn . '<a href="' . route("getDetailPeralatan", $row->id) . '"><button data-toggle="tooltip" title="Lihat Foto" class="btn btn-success btn-mini waves-effect waves-light"><i class="icofont icofont-eye"></i></button></a>';
                     //  }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Update")) {
-                    $btn = $btn . '<a href=" "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
+                    $btn = $btn . '<a href="'. route('peralatan.edit', $row->id) .' "><button data-toggle="tooltip" title="Edit" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-pencil"></i></button></a>';
                 }
                 if (hasAccess(Auth::user()->role_id, "Bidang", "Delete")) {
                     $btn = $btn . '<a href="#delModal" data-id="' . $row->id. '" data-toggle="modal"><button data-toggle="tooltip" title="Hapus" class="btn btn-danger btn-mini waves-effect waves-light"><i class="icofont icofont-trash"></i></button></a>';
@@ -170,9 +170,25 @@ class PeralatanController extends Controller {
     	}
     }
 
+    public function getUPB(Request $request){
+        if($request->ajax()){
+            $ex = explode('_',$request->kode_sub_unit);
+                $bidang = $ex[0];
+                $kode_unit = $ex[1];
+                $kode_sub_unit = $ex[2];
+            $upb = DB::table('ref_organisasi_upb')
+            ->where('kode_bidang', $bidang)
+            ->where('kode_unit',$kode_unit)
+            ->where('kode_sub_unit',$kode_sub_unit)
+            ->get();
+    		$data = view('admin.master.kib_b.ajax_select_upb',compact('upb'))->render();
+    		return response()->json(['options'=>$data]);
+    	}
+    }
+
     public function getUPBFilterTable(Request $request){
         if($request->ajax()){
-            $ex = explode('_',$request->kode_upb);
+            $ex = explode('_', $request->kode_upb);
             $bidang = $ex[0];
             $kode_unit = $ex[1];
             $kode_sub_unit = $ex[2];
@@ -189,12 +205,17 @@ class PeralatanController extends Controller {
     	}
     }
 
+    public function getKodePemilik(Request $request) {
+        $kode_pemilik = DB::table('ref_pemilik')->where('kd_pemilik',$request->kode_pemilik)->first();
+        return $kode_pemilik->nm_pemilik;
+    }
+
     public function save(Request $request){
         // $request()->validate([
         //     'file' => 'required|mimes:pdf,jpg,png|max:2048',
         // ]);
 
-        $ex = explode('_',$request->upb);
+        $ex = explode('_', $request->upb);
 
         $bidang = $ex[0];
         $unit = $ex[1];
@@ -321,7 +342,6 @@ class PeralatanController extends Controller {
     }
 
     public function detail($id) {
-
         $peralatan = DB::table('ta_kib_b as a')
             ->join('ref_rek5_108 as c' , function($join){
                 $join->on('c.kd_aset5','=','a.kd_aset85');
@@ -393,6 +413,122 @@ class PeralatanController extends Controller {
     		$data = view('admin.master.kib_b.ajax_select_subsubrincianobyek',compact('sub_sub_rincian_obyek'))->render();
     		return response()->json(['options'=>$data]);
     	}
+    }
+
+    public function edit($id){
+        $peralatan = DB::table('ta_kib_b as a')->where('a.kd_ka','1')
+            ->select('a.idpemda as id', 'a.*','c.nm_pemilik as pemilik', 'd.nama_unit', 'e.nama_sub_unit', 'f.nama_upb', DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"),
+                DB::raw("COALESCE(NULLIF(a.type, NULL), '-') AS type"), DB::raw("COALESCE(NULLIF(a.cc, NULL), '-') AS cc"), DB::raw("COALESCE(NULLIF(a.nomor_pabrik, NULL), '-') AS nomor_pabrik"), DB::raw("COALESCE(NULLIF(a.nomor_rangka, NULL), '-') AS nomor_rangka"),
+                DB::raw("COALESCE(NULLIF(a.nomor_mesin, NULL), '-') AS nomor_mesin"), DB::raw("COALESCE(NULLIF(a.nomor_polisi, NULL), '-') AS nomor_polisi"), DB::raw("COALESCE(NULLIF(a.nomor_bpkb, NULL), '-') AS nomor_bpkb"),'a.asal_usul', DB::raw("CASE WHEN (a.kondisi = '1') THEN 'Baik' WHEN (a.kondisi = '0') THEN 'Rusak' END AS kondisi"),
+                DB::raw("CONCAT('Rp. ', a.harga) as harga"), DB::raw("CONCAT(a.masa_manfaat,' Bulan') as masa_manfaat"), DB::raw("COALESCE(NULLIF(a.nilai_sisa, NULL), 0) AS nilai_sisa"), DB::raw("COALESCE(NULLIF(a.keterangan, NULL), '-') AS keterangan") )
+            ->join('ref_pemilik as c','a.kd_pemilik','=','c.kd_pemilik')
+            ->join('ref_organisasi_unit as d','d.kode_unit','=','a.kd_unit')
+            ->join('ref_organisasi_sub_unit as e','e.kode_sub_unit','=','a.kd_sub')
+            ->join('ref_organisasi_upb as f','f.kode_upb','=','a.kd_upb')
+            ->where('a.idpemda',$id)->first();
+
+        $dokumen = DB::table('ta_kib_b as a')
+            ->select('b.filename','b.id_dokumen')
+            ->join('ta_kib_b_dokumen as b','a.idpemda','=','b.idpemda')
+            ->where('a.idpemda',$id)->get();
+
+        $kode_pemilik = DB::table('ref_pemilik')->get();
+        $kab_kota = DB::table('ref_organisasi_kab_kota')->get();
+
+        $unit = DB::table('ref_organisasi_unit')->get();
+        $rincian_object = DB::table('ref_rek3_108')
+            ->where('kd_aset1','1')
+            ->get();
+
+        $harga0 =  str_replace('Rp', '', $peralatan->harga);
+        $harga =  floatval(str_replace('.', '', $harga0));
+        $kecamatan = DB::table('ref_organisasi_kecamatan')->where('kode_kab_kota',$peralatan->kd_kab_kota)->get();
+        $desa = DB::table('ref_organisasi_desa')->where('kode_kab_kota',$peralatan->kd_kab_kota)->get();
+
+        $sub_rincian_obyek = DB::table('ref_rek4_108')
+            ->where('kd_aset1',$peralatan->kd_aset81)
+            ->where('kd_aset3', $peralatan->kd_aset83)
+            ->get();
+
+        $sub_sub_rincian_obyek = DB::table('ref_rek5_108')
+            ->where('kd_aset1',$peralatan->kd_aset81)
+            ->where('kd_aset4', $peralatan->kd_aset84)
+            ->get();
+
+        return view('admin.master.kib_b.edit', compact('peralatan','dokumen','unit','rincian_object','kode_pemilik','kab_kota','harga','kecamatan','desa','sub_rincian_obyek','sub_sub_rincian_obyek'));
+    }
+
+    public function update(Request $request){
+
+        $id = $request->idpemda;
+        $kib_b['kd_pemilik'] = $request->kode_pemilik;
+        $kib_b['kd_aset8'] = $request->kd_aset;
+        $kib_b['kd_aset80'] = $request->kd_aset0;
+        $kib_b['kd_aset81'] = $request->kd_aset1;
+        $kib_b['kd_aset82'] = $request->kd_aset2;
+        $kib_b['kd_aset83'] = $request->kd_aset3;
+        $kib_b['kd_aset84'] = $request->kd_aset4;
+        $kib_b['kd_aset85'] = $request->kd_aset5;
+        $kib_b['tgl_perolehan'] = $request->tanggal_pembelian;
+        $kib_b['tgl_pembukuan'] = $request->tanggal_pembukuan;
+        $kib_b['merk'] = $request->merk;
+        $kib_b['type'] = $request->type;
+        $kib_b['cc'] = $request->cc;
+        $kib_b['bahan'] = $request->bahan;
+        $kib_b['nomor_pabrik'] = $request->no_pabrik;
+        $kib_b['nomor_rangka'] = $request->no_rangka;
+        $kib_b['nomor_mesin'] = $request->no_mesin;
+        $kib_b['nomor_bpkb'] = $request->no_bpkb;
+        $kib_b['nomor_polisi'] = $request->no_polisi;
+        $kib_b['asal_usul'] = $request->asal_usul;
+        $kib_b['kondisi'] = $request->kondisi;
+        $kib_b['harga'] = $request->harga;
+        $kib_b['masa_manfaat'] = $request->masa_manfaat;
+        $kib_b['nilai_sisa'] = $request->nilai_sisa;
+        $kib_b['keterangan'] = $request->keterangan;
+        $kib_b['kd_kab_kota'] = $request->kab_kota;
+        $kib_b['kd_kecamatan'] = $request->kecamatan;
+        $kib_b['kd_desa'] = $request->desa;
+
+        DB::table('ta_kib_b')->where('idpemda', $id)->update($kib_b);
+
+        if ($request->hasfile('uploadFile')) {
+            $path_folder = "/document/kib_b/". $id;
+            $path = public_path().$path_folder;
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+            foreach($request->file('uploadFile') as $file) {
+                $imageName =  $file->getClientOriginalName();
+                $file->move($path, $imageName);
+                $this->saveFileKibA($id, $imageName, $path_folder);
+            }
+        }
+        $color = "success";
+        $msg = " Data Id Pemda " . $id . " telah diperbaharui";
+        return redirect(route('getPeralatan'))->with(compact('color', 'msg'));
+    }
+
+    public function getKecamatan(Request $request) {
+        if($request->ajax()){
+            $kecamatan = DB::table('ref_organisasi_kecamatan')
+            ->where('kode_kab_kota',$request->kode_kab_kota)
+            ->get();
+    		$data = view('admin.master.kib_b.ajax_select_kecamatan',compact('kecamatan'))->render();
+    		return response()->json(['options'=>$data]);
+        }
+    }
+
+    public function getDesa(Request $request) {
+        if($request->ajax()){
+            $desa = DB::table('ref_organisasi_desa')
+            ->where('kode_kecamatan',$request->kode_kecamatan)
+
+            ->get();
+    		$data = view('admin.master.kib_b.ajax_select_desa',compact('desa'))->render();
+    		return response()->json(['options'=>$data]);
+        }
     }
 
 }

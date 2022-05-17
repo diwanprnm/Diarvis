@@ -115,7 +115,7 @@
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated"
                                         role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                        style="width: 100%">\
+                                        style="width: 100%">
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                 <input type="number" class="form-control" name="no_register" id="no_register" readonly>
                             </div>
                             <div class="col-sm-3">
-                                <p style="margin-bottom:0;"><i>(Otomatis)</i></p>
+                                <p style="margin-bottom: 0;"><i>(Otomatis)</i></p>
                             </div>
                         </div>
                         <div class="form-group row align-vertical">
@@ -359,7 +359,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header">
@@ -438,7 +437,6 @@
                 <div class="form-group row">
                     <label class="col-md-4 col-form-label">Rincian Obyek</label>
                     <div class="col-md-8">
-
                         <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
                             <option>-</option>
                             @foreach ($rincian_object as $data)
@@ -478,344 +476,275 @@
             </div>
         </div>
     </div>
-    @endsection
-    @section('script')
+</div>
+@endsection
+@section('script')
 
-    <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/datatables.net/js/dataTables.bootstrap4.min.js') }}"></script>
 
-    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}">
-    </script>
-    <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
-        type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
-    <script src="{{ asset('assets/js/jquery.MultiFile.js') }}" type="text/javascript"></script>
-    <script src="https://js.arcgis.com/4.18/"></script>
-    <script>
-        $(document).ready(function () {
-            $(".chosen-select").chosen({
-                width: '100%'
-            });
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/dataTables.responsive.min.js') }}">
+</script>
+<script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}">
+</script>
+<script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}"
+    type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+<script src="{{ asset('assets/js/jquery.MultiFile.js') }}" type="text/javascript"></script>
+<script src="https://js.arcgis.com/4.18/"></script>
+<script>
+    $(document).ready(function () {
+        $(".chosen-select").chosen({
+            width: '100%'
+        });
+        $('#table_kib_b').dataTable({
+            "bInfo": false
+        });
 
-            $('#table_kib_b').dataTable({
-                "bInfo": false
-            });
-            $('#unit').on('change', function () {
-                $.ajax({
-                    url: "{{route('tanah.sub-unit')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () {
-                        $('#loader_unit').show();
-                    },
-                    data: {
-                        kode_unit: this.value
-                    },
-                    success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='sub_unit']").html('');
-                        $("select[name='sub_unit']").html(data.options);
-                        $("select[name='sub_unit']").trigger("chosen:updated");
-                    },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_unit').hide();
-                    },
-                });
-            });
-
-            $('#sub_unit').on('change', function () {
-                $.ajax({
-                    url: "{{route('tanah.upb')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_upb').show();
-                    },
-                    data: {
-                        kode_sub_unit: this.value
-                    },
-                    success: function (data) {
-                        $("select[name='upb']").html('');
-                        $("select[name='upb']").html(data.options);
-                        $("select[name='upb']").trigger("chosen:updated");
-                    },
-                    complete: function () {
-                        $('#loader_upb').hide();
-                    },
-                });
-            });
-
-            $('#upb').on('change', function () {
-                $.ajax({
-                    url: "{{ route('peralatan.upb.filter.table') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () {
-                        $('#loader_kib_b').show();
-                    },
-                    data: {
-                        kode_upb: this.value
-                    },
-                    success: function (data) {
-                        $("#content_kib_b").html(data.data);
-                    },
-                    complete: function () {
-                        $('#loader_kib_b').hide();
-                    },
-                });
-            });
-
-            function refreshTable() {
-                $('#table_kib_b').each(function () {
-                    dt = $(this).dataTable();
-                    dt.fnDraw();
-                })
-            }
-
-            $('#kode_pemilik2').on('change', function () {
-                $.ajax({
-                    url: "{{ route('tanah.kode-pemilik') }}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () {
-                        $('#loader').show();
-                    },
-                    data: {
-                        kode_pemilik: this.value
-                    },
-                    success: function (data) {
-                        $("#show_pemilik").html(data);
-                    },
-                    complete: function () {
-                        $('#loader').hide();
-                    }
-                });
-            });
-
-            $('#rincian_obyek').on('change', function () {
-                $.ajax({
-                    url: "{{route('tanah.sub-rincian-obyek')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () {
-                        $('#loader_sro').show();
-                    },
-                    data: {
-                        rincian_obyek: this.value
-                    },
-
-                    success: function (data) {
-                        $("select[name='sub_rincian_obyek']").html('');
-                        $("select[name='sub_rincian_obyek']").html(data.options);
-                        $("select[name='sub_rincian_obyek']").trigger("chosen:updated");
-                    },
-
-                    complete: function () {
-                        $('#loader_sro').hide();
-                    }
-                });
-            });
-
-            $('#sub_rincian_obyek').on('change', function () {
-                $.ajax({
-                    url: "{{route('tanah.sub-sub-rincian-obyek')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_ssro').show();
-                    },
-                    data: {
-                        rincian_obyek: this.value
-                    },
-
-                    success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='sub_sub_rincian_obyek']").html('');
-                        $("select[name='sub_sub_rincian_obyek']").html(data.options);
-                        $("select[name='sub_sub_rincian_obyek']").trigger("chosen:updated");
-                    },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_ssro').hide();
-                    }
-                });
-            });
-
-            $('#imageUploadForm').on('submit', (function (e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                        console.log("success");
-                        console.log(data);
-                    },
-                    error: function (data) {
-                        console.log("error");
-                        console.log(data);
-                    }
-                });
-            }));
-
-            $('#kab_kota').on('change', function () {
-                $.ajax({
-                    url: "{{route('tanah.get.kecamatan')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_kec').show();
-                    },
-                    data: {
-                        kode_kab_kota: this.value
-                    },
-
-                    success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='kecamatan']").html('');
-                        $("select[name='kecamatan']").html(data.options);
-                        $("select[name='kecamatan']").trigger("chosen:updated");
-                    },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_kec').hide();
-                    }
-                });
-            });
-
-            $('#kecamatan').on('change', function () {
-                $.ajax({
-                    url: "{{route('tanah.get.desa')}}",
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_desa').show();
-                    },
-                    data: {
-                        kode_kecamatan: this.value
-                    },
-
-                    success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("select[name='desa']").html('');
-                        $("select[name='desa']").html(data.options);
-                        $("select[name='desa']").trigger("chosen:updated");
-                    },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_desa').hide();
-                    }
-                });
-            });
-
-            $('#sub_sub_rincian_obyek').on('change', function () {
-                var v = this.value;
-                var dt = v.split("_");
-                $("#kd_aset").attr("value", dt[0]);
-                $("#kd_aset0").attr("value", dt[1]);
-                $("#kd_aset1").attr("value", dt[2]);
-                $("#kd_aset2").attr("value", dt[3]);
-                $("#kd_aset3").attr("value", dt[4]);
-                $("#kd_aset4").attr("value", dt[5]);
-                $("#kd_aset5").attr("value", dt[6]);
-                $("#nama_aset").html(dt[7]);
-                $('#modalAsset').modal('toggle');
-                return false;
-            });
-
-            $("#uploadFile").change(function () {
-                $('#imgPreview').html("");
-                var total_file = document.getElementById("uploadFile").files.length;
-                for (var i = 0; i < total_file; i++) {
-                    $('#imgPreview').append("<img src='" + URL.createObjectURL(event.target.files[i]) +
-                        "'>");
-                }
-            });
-
-            $('#mapLatLong').ready(() => {
-                require([
-                    "esri/Map",
-                    "esri/views/MapView",
-                    "esri/Graphic"
-                ], function (Map, MapView, Graphic) {
-
-                    const map = new Map({
-                        basemap: "osm"
-                    });
-
-                    const view = new MapView({
-                        container: "mapLatLong",
-                        map: map,
-                        center: [107.6191, -6.9175],
-                        zoom: 8,
-                    });
-
-                    let tempGraphic;
-                    view.on("click", function (event) {
-                        if ($("#lat").val() != '' && $("#long").val() != '') {
-                            view.graphics.remove(tempGraphic);
-                        }
-                        var graphic = new Graphic({
-                            geometry: event.mapPoint,
-                            symbol: {
-                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                                width: "14px",
-                                height: "24px"
-                            }
-                        });
-                        tempGraphic = graphic;
-                        $("#lat").val(event.mapPoint.latitude);
-                        $("#long").val(event.mapPoint.longitude);
-
-                        view.graphics.add(graphic);
-                    });
-                    $("#lat, #long").keyup(function () {
-                        if ($("#lat").val() != '' && $("#long").val() != '') {
-                            view.graphics.remove(tempGraphic);
-                        }
-                        var graphic = new Graphic({
-                            geometry: {
-                                type: "point",
-                                longitude: $("#long").val(),
-                                latitude: $("#lat").val()
-                            },
-                            symbol: {
-                                type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
-                                url: "http://esri.github.io/quickstart-map-js/images/blue-pin.png",
-                                width: "14px",
-                                height: "24px"
-                            }
-                        });
-                        tempGraphic = graphic;
-
-                        view.graphics.add(graphic);
-                    });
-                });
+        $('#unit').on('change', function () {
+            $.ajax({
+                url: "{{ route('peralatan.sub-unit') }}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () {
+                    $('#loader_unit').show();
+                },
+                data: {
+                    kode_unit: this.value
+                },
+                success: function (data) {
+                    $("select[name='sub_unit']").html('');
+                    $("select[name='sub_unit']").html(data.options);
+                    $("select[name='sub_unit']").trigger("chosen:updated");
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_unit').hide();
+                },
             });
         });
 
-    </script>
-    @endsection
+        $('#sub_unit').on('change', function () {
+            $.ajax({
+                url: "{{route('peralatan.upb')}}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_upb').show();
+                },
+                data: {
+                    kode_sub_unit: this.value
+                },
+                success: function (data) {
+                    $("select[name='upb']").html('');
+                    $("select[name='upb']").html(data.options);
+                    $("select[name='upb']").trigger("chosen:updated");
+                },
+                complete: function () {
+                    $('#loader_upb').hide();
+                },
+            });
+        });
+
+        $('#upb').on('change', function () {
+            $.ajax({
+                url: "{{ route('peralatan.upb.filter.table') }}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () {
+                    $('#loader_kib_b').show();
+                },
+                data: {
+                    kode_upb: this.value
+                },
+                success: function (data) {
+                    $("#content_kib_b").html(data.data);
+                },
+                complete: function () {
+                    $('#loader_kib_b').hide();
+                },
+            });
+        });
+
+        function refreshTable() {
+            $('#table_kib_b').each(function () {
+                dt = $(this).dataTable();
+                dt.fnDraw();
+            })
+        }
+
+        $('#kode_pemilik2').on('change', function () {
+            $.ajax({
+                url: "{{ route('peralatan.kode-pemilik') }}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                data: {
+                    kode_pemilik: this.value
+                },
+                success: function (data) {
+                    $("#show_pemilik").html(data);
+                },
+                complete: function () {
+                    $('#loader').hide();
+                }
+            });
+        });
+
+        $('#rincian_obyek').on('change', function () {
+            $.ajax({
+                url: "{{route('peralatan.sub-rincian-obyek')}}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () {
+                    $('#loader_sro').show();
+                },
+                data: {
+                    rincian_obyek: this.value
+                },
+                success: function (data) {
+                    $("select[name='sub_rincian_obyek']").html('');
+                    $("select[name='sub_rincian_obyek']").html(data.options);
+                    $("select[name='sub_rincian_obyek']").trigger("chosen:updated");
+                },
+                complete: function () {
+                    $('#loader_sro').hide();
+                }
+            });
+        });
+
+        $('#sub_rincian_obyek').on('change', function () {
+            $.ajax({
+                url: "{{route('peralatan.sub-sub-rincian-obyek')}}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_ssro').show();
+                },
+                data: {
+                    rincian_obyek: this.value
+                },
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='sub_sub_rincian_obyek']").html('');
+                    $("select[name='sub_sub_rincian_obyek']").html(data.options);
+                    $("select[name='sub_sub_rincian_obyek']").trigger("chosen:updated");
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_ssro').hide();
+                }
+            });
+        });
+
+        $('#imageUploadForm').on('submit', (function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log("success");
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log("error");
+                    console.log(data);
+                }
+            });
+        }));
+
+        $('#kab_kota').on('change', function () {
+            $.ajax({
+                url: "{{route('peralatan.get.kecamatan')}}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_kec').show();
+                },
+                data: {
+                    kode_kab_kota: this.value
+                },
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='kecamatan']").html('');
+                    $("select[name='kecamatan']").html(data.options);
+                    $("select[name='kecamatan']").trigger("chosen:updated");
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_kec').hide();
+                }
+            });
+        });
+
+        $('#kecamatan').on('change', function () {
+            $.ajax({
+                url: "{{route('peralatan.get.desa')}}",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader_desa').show();
+                },
+                data: {
+                    kode_kecamatan: this.value
+                },
+                success: function (data) {
+                    // On Success, build our rich list up and append it to the #richList div.
+                    $("select[name='desa']").html('');
+                    $("select[name='desa']").html(data.options);
+                    $("select[name='desa']").trigger("chosen:updated");
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader_desa').hide();
+                }
+            });
+        });
+
+        $('#sub_sub_rincian_obyek').on('change', function () {
+            var v = this.value;
+            var dt = v.split("_");
+            $("#kd_aset").attr("value", dt[0]);
+            $("#kd_aset0").attr("value", dt[1]);
+            $("#kd_aset1").attr("value", dt[2]);
+            $("#kd_aset2").attr("value", dt[3]);
+            $("#kd_aset3").attr("value", dt[4]);
+            $("#kd_aset4").attr("value", dt[5]);
+            $("#kd_aset5").attr("value", dt[6]);
+            $("#nama_aset").html(dt[7]);
+            $('#modalAsset').modal('toggle');
+            return false;
+        });
+
+        $("#uploadFile").change(function () {
+            $('#imgPreview').html("");
+            var total_file = document.getElementById("uploadFile").files.length;
+            for (var i = 0; i < total_file; i++) {
+                $('#imgPreview').append("<img src='" + URL.createObjectURL(event.target.files[i]) +
+                    "'>");
+            }
+        });
+    });
+</script>
+@endsection

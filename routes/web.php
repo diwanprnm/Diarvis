@@ -150,18 +150,23 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('peralatandanmesin', 'MasterData\Barang\PeralatanController@index')->name('getPeralatan');
                 Route::post('peralatandanmesin', 'MasterData\Barang\PeralatanController@index')->name('getPeralatan');
 
+                Route::get('peralatandanmesin/add', 'MasterData\Barang\PeralatanController@add')->name('peralatan.add');
+                Route::post('peralatandanmesin/save', 'MasterData\Barang\PeralatanController@save')->name('peralatan.save');
+                Route::get('peralatandanmesin/edit/{id}', 'MasterData\Barang\PeralatanController@edit')->name('peralatan.edit');
+                Route::post('peralatandanmesin/update', 'MasterData\Barang\PeralatanController@update')->name('peralatan.update');
                 Route::get('peralatandanmesin/delete/{id}', 'MasterData\Barang\PeralatanController@delete')->name('deleteJsonPeralatan');
 
                 Route::get('peralatandanmesin/dokumen/download/{id}', 'MasterData\Barang\PeralatanController@download')->name('peralatan.dokumen.download');
                 Route::get('peralatandanmesin/detail/{id}', 'MasterData\Barang\PeralatanController@detail')->name('getDetailPeralatan');
 
-                Route::get('peralatandanmesin/add', 'MasterData\Barang\PeralatanController@add')->name('peralatan.add');
-                Route::post('peralatandanmesin/save', 'MasterData\Barang\PeralatanController@save')->name('peralatan.save');
-
+                Route::post('peralatandanmesin/getKecamatan', 'MasterData\Barang\PeralatanController@getKecamatan')->name('peralatan.get.kecamatan');
+                Route::post('peralatandanmesin/getDesa', 'MasterData\Barang\PeralatanController@getDesa')->name('peralatan.get.desa');
+                Route::post('peralatandanmesin/get-upb', 'MasterData\Barang\PeralatanController@getUPB')->name('peralatan.upb');
                 Route::post('peralatandanmesin/get-sub-unit', 'MasterData\Barang\PeralatanController@getSubUnit')->name('peralatan.sub-unit');
-                Route::post('peralatandanmesin/get-upb-filter-table', 'MasterData\Barang\TanahController@getUPBFilterTable')->name('peralatan.upb.filter.table');
+                Route::post('peralatandanmesin/get-upb-filter-table', 'MasterData\Barang\PeralatanController@getUPBFilterTable')->name('peralatan.upb.filter.table');
                 Route::post('peralatandanmesin/get-sub-rincian-obyek', 'MasterData\Barang\PeralatanController@getSubRincianObyek')->name('peralatan.sub-rincian-obyek');
                 Route::post('peralatandanmesin/get-sub-sub-rincian-obyek', 'MasterData\Barang\PeralatanController@getSubSubRincianObyek')->name('peralatan.sub-sub-rincian-obyek');
+                Route::post('peralatandanmesin/getKodePemilik', 'MasterData\Barang\PeralatanController@getKodePemilik')->name('peralatan.kode-pemilik');
 
                 // Gedung
 
