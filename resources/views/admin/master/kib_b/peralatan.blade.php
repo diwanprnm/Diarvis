@@ -285,165 +285,74 @@
 </div>
 
 <div class="modal-only">
-    @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="{{route('saveUnit')}}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Data Unit</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Bidang</label>
-                            <div class="col-md-9">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kode Unit</label>
-                            <div class="col-md-9">
-                                <input name="kode_unit" type="number" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Nama Unit</label>
-                            <div class="col-md-9">
-                                <input name="nama_unit" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endif
-
-    @if (hasAccess(Auth::user()->role_id, "Unit", "Update"))
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <form action="{{route('updateUnit')}}" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h4 class="modal-title">Ubah Data Unit</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <input type="hidden" id="unit_id" name="unit_id" />
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Bidang</label>
-                            <div class="col-md-9">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kode Unit</label>
-                            <div class="col-md-9">
-                                <input name="kode_unit" type="number" id="kode_unit2" class="form-control" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Nama Unit</label>
-                            <div class="col-md-9">
-                                <input name="nama_unit" id="nama_unit2" type="text" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect " data-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endif
-
     <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                        <h4 class="modal-title">Pemilihan Kode Barang</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Rincian Obyek</label>
-                            <div class="col-md-8">
-                            <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
-                                    <option>-</option>
-                                        @foreach ($rincian_object as $data)
-                                        <option value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
-                                        @endforeach
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Sub Rincian Obyek</label>
-                            <div class="col-md-8">
-                            <div id="loader_sro" style="display:none">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
-                            </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
-                            <div class="col-md-8">
-                            <div id="loader_ssro" style="display:none">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek" class="form-control chosen-select">
-                            </select>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-        </div>
-
-    @if (hasAccess(Auth::user()->role_id, "Unit", "Delete"))
-    <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Konfirmasi Hapus Data </h4>
+                    <h4 class="modal-title">Pemilihan Kode Barang</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Apakah anda yakin ingin menghapus data ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm waves-effect " data-dismiss="modal">Tutup</button>
-                    <a id="delHref" href="" class="btn btn-danger  btn-sm waves-effect waves-light ">Hapus</a>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Rincian Obyek</label>
+                        <div class="col-md-8">
+                            <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
+                                <option>-</option>
+                                @foreach ($rincian_object as $data)
+                                    <option value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label">Sub Rincian Obyek</label>
+                            <div class="col-md-8">
+                                <div id="loader_sro" style="display:none">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select"></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
+                        <div class="col-md-8">
+                            <div id="loader_ssro" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek" class="form-control chosen-select"></select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @if (hasAccess(Auth::user()->role_id, "Bidang", "Delete"))
+        <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Konfirmasi Hapus Data </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah anda yakin ingin menghapus data ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect " data-dismiss="modal">Tutup</button>
+                        <a id="delHref" href="" class="btn btn-danger  btn-sm waves-effect waves-light ">Hapus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 </div>
 @endsection
@@ -659,42 +568,18 @@
         return false;
     });
 
-
-
-
-
-    @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))
-    $('#editModal').on('show.bs.modal', function(event) {
-        const link = $(event.relatedTarget);
-        const id = link.data('id');
-        console.log(id);
-        const baseUrl = `{{ url('admin/master-data/unit-organisasi/unit/getUnitById/') }}` + '/' + id;
-        $.get(baseUrl,
-            function(response) {
-                const data = response.data;
-                showData(data);
-            });
-    });
-
-    function showData(data) {
-        $(".chosen-select").val(data.kode_bidang).trigger('chosen:updated');
-        $("#kode_unit2").val(data.kode_unit);
-        $("#nama_unit2").val(data.nama_unit);
-        $("#unit_id").val(data.id);
-    }
-    @endif
-
-    @if(hasAccess(Auth::user()->role_id, "Unit", "Update"))
     $('#delModal').on('show.bs.modal', function(event) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         const link = $(event.relatedTarget);
         const id = link.data('id');
-        console.log(id);
         const url = `{{ url('admin/master-data/barang/intra/peralatandanmesin/delete') }}/` + id;
-        console.log(url);
         const modal = $(this);
         modal.find('.modal-footer #delHref').attr('href', url);
     });
-    @endif
 
 </script>
 @endsection
