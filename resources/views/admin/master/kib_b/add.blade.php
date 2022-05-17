@@ -26,6 +26,16 @@
         width: 200px;
         padding: 5px;
     }
+
+    .separated-input > input {
+        margin-right: 2px;
+        text-align: center;
+    }
+
+    .col-md-3 {
+        align-items: center;
+        display: flex;
+    }
 </style>
 @endsection
 
@@ -43,11 +53,13 @@
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
-                    <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
+                    <a href="index-1.htm"><i class="feather icon-home"></i> </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">intra</a>
+                <li class="breadcrumb-item">
+                    <a href="#!">Intra</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#!">Peralatan dan Mesin</a>
+                <li class="breadcrumb-item">
+                    <a href="#!">Peralatan dan Mesin</a>
                 </li>
             </ul>
         </div>
@@ -55,72 +67,66 @@
 </div>
 @endsection
 
-
 @section('page-body')
-<form action="{{route('tanah.save')}}" method="post" enctype="multipart/form-data">
+<form action="{{ route('peralatan.save') }}" method="post" enctype="multipart/form-data">
     @csrf
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="row">
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-header">
                     <h5>Form KIB/B</h5>
-
                     <div class="card-header-right">
                         <i class="icofont icofont-spinner-alt-5"></i>
                     </div>
                 </div>
                 <div class="card-block">
-
-                    <form action="{{route('tanah.save')}}" method="post">
-                        @csrf
-                        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Unit</label>
-                            <div class="col-md-9">
-
-                                <select name="unit" id="unit" class="form-control chosen-select">
-                                    <option>-</option>
-                                    @foreach ($unit as $data)
-                                    <option value="{{ $data->kode_unit.'_'.$data->kode_bidang }}">{{ $data->nama_unit }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Unit</label>
+                        <div class="col-md-9">
+                            <select name="unit" id="unit" class="form-control chosen-select">
+                                <option>Pilih Unit</option>
+                                @foreach ($unit as $data)
+                                    <option value="{{ $data->kode_unit.'_'.$data->kode_bidang }}">{{ $data->nama_unit }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Sub Unit</label>
-                            <div class="col-md-9">
-                                <div id="loader_unit" style="display:none">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Sub Unit</label>
+                        <div class="col-md-9">
+                            <div id="loader_unit" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                        role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                        style="width: 100%">
                                     </div>
                                 </div>
-                                <select name="sub_unit" id="sub_unit" class="form-control chosen-select">
-                                </select>
                             </div>
+                            <select name="sub_unit" id="sub_unit" class="form-control chosen-select">
+                                <option>Pilih Sub Unit</option>
+                            </select>
                         </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">UPB</label>
-                            <div class="col-md-9">
-                                <div id="loader_upb" style="display:none">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">UPB</label>
+                        <div class="col-md-9">
+                            <div id="loader_upb" style="display:none">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                        role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                        style="width: 100%">\
                                     </div>
                                 </div>
-                                <select name="upb" id="upb" class="form-control chosen-select">
-                                </select>
                             </div>
+                            <select name="upb" id="upb" class="form-control chosen-select">
+                                <option>Pilih UPB</option>
+                            </select>
                         </div>
+                    </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Kode Pemilik</label>
                             <div class="col-md-9">
-
                                 <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                                     <option>-</option>
                                     @foreach ($kode_pemilik as $data)
@@ -139,14 +145,13 @@
                                             style="width: 100%"></div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Kode Aset</label>
                             <div class="col-md-9">
-                                <div class="col separated-input d-flex row">
+                                <div class="col separated-input d-flex row" style="padding: 0px !important; margin: 0px !important;">
                                     <input type="text" id="kd_aset" name="kd_aset" class="form-control"
                                         style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset0" name="kd_aset0" class="form-control"
@@ -161,8 +166,9 @@
                                         style="width:40px; margin-right:2px;" placeholder="...">
                                     <input type="text" id="kd_aset5" name="kd_aset5" class="form-control"
                                         style="width:40px; margin-right:2px;" placeholder="...">
-                                    <a data-toggle="modal" href="#modalAsset" class="btn btn-info"><i
-                                            class="icofont icofont-ui-search"></i></a>
+                                    <a data-toggle="modal" href="#modalAsset" class="btn btn-info" style="text-align: center; padding: 0px 12px !important;">
+                                        <i style="line-height: 32px; margin-right: 0px !important;" class="icofont icofont-ui-search"></i>
+                                    </a>
                                     <span id="nama_aset"></span>
                                 </div>
                             </div>
@@ -200,75 +206,67 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Merk</label>
-
                             <div class="col-sm-9">
-                                <input class="form-control" name="merek" type="text">
+                                <input class="form-control" name="merk" type="text" placeholder="Masukkan Merk . . .">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Type</label>
 
                             <div class="col-sm-9">
-                                <input class="form-control" name="type" type="text">
+                                <input class="form-control" name="type" type="text" placeholder="Masukkan Type . . .">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Ukuran / CC</label>
 
                             <div class="col-sm-9">
-                                <input class="form-control" name="cc" type="text">
+                                <input class="form-control" name="cc" type="text" placeholder="Masukkan CC . . .">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Bahan</label>
-
+                            <label class="col-md-3 col-form-label" for="bahan">Bahan</label>
                             <div class="col-sm-9">
-                                <input class="form-control" name="no_pabrik" type="text">
+                                <input class="form-control" name="bahan" id="bahan" type="text" placeholder="Masukkan Bahan">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Pabrik</label>
-
+                            <label class="col-md-3 col-form-label" for="no_pabrik">No Pabrik</label>
                             <div class="col-sm-9">
-                                <input class="form-control" name="merek" type="text">
-                            </div>
-                        </div> 
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Rangka</label>
-
-                            <div class="col-sm-9">
-                                <input class="form-control" name="merek" type="text">
-                            </div>
-                        </div>                                               
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Mesin</label>
-
-                            <div class="col-sm-9">
-                                <input class="form-control" name="merek" type="text">
+                                <input class="form-control" name="no_pabrik" id="no_pabrik" type="text" placeholder="Masukkan No Pabrik . . .">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No BPKB</label>
-
+                            <label class="col-md-3 col-form-label" for="no_rangka">No Rangka</label>
                             <div class="col-sm-9">
-                                <input class="form-control" name="merek" type="text">
+                                <input class="form-control" name="no_rangka" id="no_rangka" type="text" placeholder="Masukkan No Rangka . . .">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="no_mesin">No Mesin</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" name="no_mesin" id="no_mesin" type="text" placeholder="Masukkan No Mesin . . .">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="no_bpkb">No BPKB</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" name="no_bpkb" id="no_bpkb" type="text" placeholder="Masukkan No BPKB . . .">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">No Polisi</label>
-
+                            <label class="col-md-3 col-form-label" for="no_polisi">No Polisi</label>
                             <div class="col-sm-9">
-                                <input class="form-control" name="merek" type="text">
+                                <input class="form-control" name="no_polisi" id="no_polisi" type="text" placeholder="Masukkan No Polisi . . .">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Asal Usul</label>
-
+                            <label class="col-md-3 col-form-label" for="asal_usul">Asal Usul</label>
                             <div class="col-sm-9">
                                 <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
-                                    <option></option>
+                                    <option>Pilih Asal Usul</option>
                                     <option value="Pembelian">Pembelian</option>
                                     <option value="Hibah">Hibah</option>
                                 </select>
@@ -276,63 +274,51 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kondisi</label>
-
+                            <label class="col-md-3 col-form-label" for="kondisi">Kondisi</label>
                             <div class="col-sm-9">
-                                <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
+                                <select name="kondisi" id="kondisi" class="form-control chosen-select">
                                     <option>Pilih Kondisi</option>
-                                    <option value="Baik">Baik</option>
-                                    <option value="Rusak">Rusak</option>
+                                    <option value="1">Baik</option>
+                                    <option value="0">Rusak</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Harga</label>
-
+                            <label class="col-md-3 col-form-label" for="harga">Harga</label>
                             <div class="col-sm-9">
-                                <input class="form-control" name="harga" type="number">
+                                <input class="form-control" name="harga" id="harga" type="number" placeholder="Masukkan Harga . . .">
                             </div>
                         </div>
 
                         <div class="form-group row align-vertical">
                             <label class="col-md-3 col-form-label">Masa Manfaat</label>
                             <div class="col-md-6">
-                                <div id="loader_noreg" style="display:none">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
-                                    </div>
-                                </div>
-                                <input type="number" class="form-control" name="no_register" id="no_register" readonly>
+                                <input type="number" class="form-control" name="masa_manfaat" id="masa_manfaat" placeholder="Masukkan Masa Manfaat . . .">
                             </div>
                             <div class="col-sm-3">
-                                <p style="margin-bottom:0;">Bulan</p>
+                                <p style="margin-bottom: 0;">Bulan</p>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Nilai Sisa</label>
-
+                            <label class="col-md-3 col-form-label" for="nilai_sisa">Nilai Sisa</label>
                             <div class="col-sm-9">
-                                <input class="form-control" name="harga" type="number">
+                                <input class="form-control" name="nilai_sisa" id="nilai_sisa" type="number" placeholder="Masukkan Nilai Sisa . . .">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Keterangan</label>
-
+                            <label class="col-md-3 col-form-label" for="keterangan">Keterangan</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="keterangan"></textarea>
+                                <textarea class="form-control" name="keterangan" id="keterangan" placeholder="Masukkan Keterangan . . ."></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
-
                             <div class="col-sm-9">
                                 <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
-                                    <option>-</option>
+                                    <option>Pilih Kabupaten/Kota</option>
                                     @foreach ($kab_kota as $data)
                                     <option value="{{ $data->kode_kab_kota }}">{{ $data->nama_kab_kota }}</option>
                                     @endforeach
@@ -341,25 +327,24 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Kecamatan</label>
-
                             <div class="col-sm-9">
-                                <div id="loader_kec" style="display:none">
+                                <div id="loader_kec" style="display: none;">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated"
                                             role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 100%"></div>
+                                            style="width: 100%">
+                                        </div>
                                     </div>
                                 </div>
                                 <select name="kecamatan" id="kecamatan" class="form-control chosen-select">
-                                    <option>-</option>
+                                    <option>Pilih Kecamatan</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
-
+                            <label class="col-md-3 col-form-label" for="desa">Kelurahan/Desa</label>
                             <div class="col-sm-9">
-                                <div id="loader_desa" style="display:none">
+                                <div id="loader_desa" style="display: none;">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated"
                                             role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
@@ -367,14 +352,11 @@
                                     </div>
                                 </div>
                                 <select name="desa" id="desa" class="form-control chosen-select">
-                                    <option>-</option>
+                                    <option>Pilih Kelurahan/Desa</option>
                                 </select>
                             </div>
                         </div>
-
-
                 </div>
-
             </div>
         </div>
 
@@ -387,14 +369,14 @@
                     </div>
                 </div>
                 <div class="card-block" style="overflow-x: auto">
-                    <div id="loader_kib_a" style="display:none">
+                    <div id="loader_kib_b" style="display:none">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                         </div>
                     </div>
-                    <div id="content_kib_a">
-                        <table class="table table-striped table-bordered able-responsive" id="table_kib_a">
+                    <div id="content_kib_b">
+                        <table class="table table-striped table-bordered able-responsive" id="table_kib_b">
                             <thead>
                                 <tr>
                                     <th>No. Reg</th>
@@ -411,28 +393,6 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h5>Lokasi</h5>
-
-                    <div class="card-header-right">
-                        <i class="icofont icofont-spinner-alt-5"></i>
-                    </div>
-                </div>
-                <div class="card-block" style="overflow-x: auto">
-                    <div id="loader_kib_a" style="display:none">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                        </div>
-                    </div>
-                    <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
-                    Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
-                    Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">
-
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
                     <h5>Dokumen</h5>
 
                     <div class="card-header-right">
@@ -440,7 +400,7 @@
                     </div>
                 </div>
                 <div class="card-block" style="overflow-x: auto">
-                    <div id="loader_kib_a" style="display:none">
+                    <div id="loader_kib_b" style="display:none">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
@@ -448,24 +408,17 @@
                     </div>
                     <input type="file" name="uploadFile[]" multiple class="multi" />
                 </div>
-
             </div>
-
-
-
         </div>
-
-
     </div>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
-
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm btn-raund  waves-effect "
-                        data-dismiss="modal">Tutup</button>
+                    <button type="button"
+                        class="btn btn-default btn-sm btn-raund waves-effect" data-dismiss="modal">Tutup</button>
                     <button type="submit"
-                        class="btn btn-primary btn-sm btn-raund waves-effect waves-light ">Simpan</button>
+                        class="btn btn-primary btn-sm btn-raund waves-effect waves-light">Simpan</button>
                 </div>
             </div>
         </div>
@@ -475,7 +428,6 @@
 <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h4 class="modal-title">Pemilihan Kode Barang</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -523,11 +475,7 @@
                         </select>
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
     </div>
     @endsection
@@ -546,8 +494,6 @@
         type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
     <script src="{{ asset('assets/js/jquery.MultiFile.js') }}" type="text/javascript"></script>
-
-
     <script src="https://js.arcgis.com/4.18/"></script>
     <script>
         $(document).ready(function () {
@@ -555,25 +501,22 @@
                 width: '100%'
             });
 
-
-            $('#table_kib_a').dataTable({
+            $('#table_kib_b').dataTable({
                 "bInfo": false
             });
             $('#unit').on('change', function () {
-
                 $.ajax({
                     url: "{{route('tanah.sub-unit')}}",
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    beforeSend: function () {
                         $('#loader_unit').show();
                     },
                     data: {
                         kode_unit: this.value
                     },
-
                     success: function (data) {
                         // On Success, build our rich list up and append it to the #richList div.
                         $("select[name='sub_unit']").html('');
@@ -587,7 +530,6 @@
             });
 
             $('#sub_unit').on('change', function () {
-
                 $.ajax({
                     url: "{{route('tanah.upb')}}",
                     method: 'POST',
@@ -600,79 +542,67 @@
                     data: {
                         kode_sub_unit: this.value
                     },
-
                     success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
                         $("select[name='upb']").html('');
                         $("select[name='upb']").html(data.options);
                         $("select[name='upb']").trigger("chosen:updated");
                     },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    complete: function () {
                         $('#loader_upb').hide();
                     },
                 });
             });
 
             $('#upb').on('change', function () {
-
                 $.ajax({
-                    url: "{{route('tanah.upb.filter.table')}}",
+                    url: "{{ route('peralatan.upb.filter.table') }}",
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader_kib_a').show();
+                    beforeSend: function () {
+                        $('#loader_kib_b').show();
                     },
                     data: {
                         kode_upb: this.value
                     },
-
                     success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
-                        $("#content_kib_a").html(data.data);
-                        //$('#content_kib_a').append(data.data);
-                        // refreshTable();
-                        //$('#table_kib_a').DataTable().ajax.reload();
+                        $("#content_kib_b").html(data.data);
                     },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
-                        $('#loader_kib_a').hide();
+                    complete: function () {
+                        $('#loader_kib_b').hide();
                     },
                 });
             });
 
             function refreshTable() {
-                $('#table_kib_a').each(function () {
+                $('#table_kib_b').each(function () {
                     dt = $(this).dataTable();
                     dt.fnDraw();
                 })
             }
 
-
             $('#kode_pemilik2').on('change', function () {
                 $.ajax({
-                    url: "{{route('tanah.kode-pemilik')}}",
+                    url: "{{ route('tanah.kode-pemilik') }}",
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    beforeSend: function () {
                         $('#loader').show();
                     },
                     data: {
                         kode_pemilik: this.value
                     },
-
                     success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
                         $("#show_pemilik").html(data);
                     },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    complete: function () {
                         $('#loader').hide();
                     }
                 });
             });
-
 
             $('#rincian_obyek').on('change', function () {
                 $.ajax({
@@ -681,7 +611,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    beforeSend: function () {
                         $('#loader_sro').show();
                     },
                     data: {
@@ -689,12 +619,12 @@
                     },
 
                     success: function (data) {
-                        // On Success, build our rich list up and append it to the #richList div.
                         $("select[name='sub_rincian_obyek']").html('');
                         $("select[name='sub_rincian_obyek']").html(data.options);
                         $("select[name='sub_rincian_obyek']").trigger("chosen:updated");
                     },
-                    complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+
+                    complete: function () {
                         $('#loader_sro').hide();
                     }
                 });
@@ -748,7 +678,6 @@
                 });
             }));
 
-
             $('#kab_kota').on('change', function () {
                 $.ajax({
                     url: "{{route('tanah.get.kecamatan')}}",
@@ -800,7 +729,6 @@
                     }
                 });
             });
-
 
             $('#sub_sub_rincian_obyek').on('change', function () {
                 var v = this.value;

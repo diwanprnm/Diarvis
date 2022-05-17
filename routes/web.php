@@ -143,7 +143,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('tanah/get-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubRincianObyek')->name('tanah.sub-rincian-obyek');
                 Route::post('tanah/get-sub-sub-rincian-obyek', 'MasterData\Barang\TanahController@getSubSubRincianObyek')->name('tanah.sub-sub-rincian-obyek');
                 Route::get('tanah/save', 'MasterData\Barang\TanahController@save')->name('tanah.save');
-                Route::get('tanah/json', 'MasterData\Barang\TanahController@json')->name('getJsonTanah');
                 Route::get('tanah/detail/{id}', 'MasterData\Barang\TanahController@detail')->name('getDetailKIBA');
 
                 // Peralatan dan Mesin
@@ -156,7 +155,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('peralatandanmesin/detail/{id}', 'MasterData\Barang\PeralatanController@detail')->name('getDetailPeralatan');
 
                 Route::get('peralatandanmesin/add', 'MasterData\Barang\PeralatanController@add')->name('peralatan.add');
+                Route::post('peralatandanmesin/save', 'MasterData\Barang\PeralatanController@save')->name('peralatan.save');
 
+                Route::post('peralatandanmesin/get-sub-unit', 'MasterData\Barang\PeralatanController@getSubUnit')->name('peralatan.sub-unit');
+                Route::post('peralatandanmesin/get-upb-filter-table', 'MasterData\Barang\TanahController@getUPBFilterTable')->name('peralatan.upb.filter.table');
                 Route::post('peralatandanmesin/get-sub-rincian-obyek', 'MasterData\Barang\PeralatanController@getSubRincianObyek')->name('peralatan.sub-rincian-obyek');
                 Route::post('peralatandanmesin/get-sub-sub-rincian-obyek', 'MasterData\Barang\PeralatanController@getSubSubRincianObyek')->name('peralatan.sub-sub-rincian-obyek');
 

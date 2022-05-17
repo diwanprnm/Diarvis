@@ -97,7 +97,7 @@
                                             <input type="text" id="kd_aset5" name="kd_aset5" value="{{(!empty($filter['kd_aset5'])) ? $filter['kd_aset5'] :''}}" class="form-control" style="width:40px"
                                                 placeholder="...">
                                             <a data-toggle="modal" href="#modalAsset" class="btn btn-info" style="text-align: center; padding: 0px 10px !important;">
-                                                <i style="line-height: 32px;" class="icofont icofont-ui-search"></i>
+                                                <i style="line-height: 32px; margin-right: 0px !important;" class="icofont icofont-ui-search"></i>
                                             </a>
                                             <span id="nama_aset"></span>
                                         </div>

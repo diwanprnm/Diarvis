@@ -304,74 +304,61 @@ class TanahController extends Controller
         DB::table('ta_kib_a')->where('idpemda', $id)->update($kib_a);
 
         if ($request->hasfile('uploadFile')) {
-
             $path_folder = "/document/kib_a/".$new_kd_pemda;
             $path = public_path().$path_folder;
             if (!file_exists($path)) {
                 // path does not exist
                 mkdir($path, 0755, true);
             }
-
             //$request()->validate([
             //    'file' => 'required|mimes:pdf,jpg,png|max:2048',
             //]);
-
             foreach($request->file('uploadFile') as $file) {
-
-
                 $imageName =  $file->getClientOriginalName();
                 $file->move($path, $imageName);
                 $this->saveFileKibA($new_kd_pemda,$imageName,$path_folder);
-
             }
         }
-
         $color = "success";
         $msg = " Data Id Pemda ".$id." telah diperbaharui";
         return redirect(route('getTanah'))->with(compact('color', 'msg'));
-
     }
 
-
     public function imagesUploadPost(Request $request)  {
-
         request()->validate([
             'uploadFile' => 'required',
         ]);
-
         foreach($request->file('uploadFile') as $file) {
             $imageName =  $file->getClientOriginalExtension();
             $file->move(public_path('images'), $imageName);
         }
         return true;
-
     }
 
     public function getNoRegister(Request $request) {
-
-    $kd_aset = $request->kd_aset;
-    $kd_aset0 = $request->kd_aset0;
-    $kd_aset1 = $request->kd_aset1;
-    $kd_aset2 = $request->kd_aset2;
-    $kd_aset3 = $request->kd_aset3;
-    $kd_aset4 = $request->kd_aset4;
-    $kd_aset5 = $request->kd_aset5;
-    $no_reg = DB::table('ta_kib_a')
-    ->select(DB::raw("MAX(no_register) as max_noreg"))
-    ->where('kd_aset8', $kd_aset)
-    ->where('kd_aset80', $kd_aset0)
-    ->where('kd_aset81', $kd_aset1)
-    ->where('kd_aset82', $kd_aset2)
-    ->where('kd_aset83', $kd_aset3)
-    ->where('kd_aset84', $kd_aset4)
-    ->where('kd_aset85', $kd_aset5)->first();
+        $kd_aset = $request->kd_aset;
+        $kd_aset0 = $request->kd_aset0;
+        $kd_aset1 = $request->kd_aset1;
+        $kd_aset2 = $request->kd_aset2;
+        $kd_aset3 = $request->kd_aset3;
+        $kd_aset4 = $request->kd_aset4;
+        $kd_aset5 = $request->kd_aset5;
+        $no_reg = DB::table('ta_kib_a')
+        ->select(DB::raw("MAX(no_register) as max_noreg"))
+        ->where('kd_aset8', $kd_aset)
+        ->where('kd_aset80', $kd_aset0)
+        ->where('kd_aset81', $kd_aset1)
+        ->where('kd_aset82', $kd_aset2)
+        ->where('kd_aset83', $kd_aset3)
+        ->where('kd_aset84', $kd_aset4)
+        ->where('kd_aset85', $kd_aset5)->first();
         if(!empty($no_reg->max_noreg)){
             $no_reg = ($no_reg->max_noreg+1);
-        }else{
+        } else{
             $no_reg = 1;
         }
-    return $no_reg;
-}
+        return $no_reg;
+    }
 
     public function getSubRincianObyek(Request $request) {
         if($request->ajax()){
@@ -429,28 +416,20 @@ class TanahController extends Controller
         $kode_pemilik = DB::table('ref_pemilik')->where('kd_pemilik',$request->kode_pemilik)->first();
         return $kode_pemilik->nm_pemilik;
     }
+
     public function add()
     {
-
         $kode_pemilik = DB::table('ref_pemilik')->get();
         $kab_kota = DB::table('ref_organisasi_kab_kota')->get();
-
         $unit = DB::table('ref_organisasi_unit')->get();
         $rincian_object = DB::table('ref_rek3_108')
                             ->where('kd_aset1','1')
                             ->get();
-
         return view('admin.master.kib_a.add', compact('kode_pemilik','unit','rincian_object','kab_kota'));
     }
 
-
-
-    public function edit($id)
-    {
-
+    public function edit($id){
         $tanah = DB::table('ta_kib_a as a')->where('a.kd_ka','1')
-
-
         ->select('a.idpemda as id','d.nama_unit','e.nama_sub_unit','f.nama_upb', 'a.tahun','a.kd_aset8','a.kd_aset80','a.kd_aset81','a.kd_aset82', 'a.kd_aset83', 'a.kd_aset84', 'a.kd_aset85' ,
            'a.no_register', 'a.harga', 'a.luas_m2',  'a.kd_pemilik','c.nm_pemilik',DB::raw(" to_char( a.tgl_perolehan, 'YYYY-MM-DD') as tgl_perolehan"), DB::raw("to_char( a.tgl_pembukuan, 'YYYY-MM-DD') as tgl_pembukuan") , 'a.alamat', 'a.hak_tanah', DB::raw("to_char( a.sertifikat_tanggal, 'YYYY-MM-DD') as sertifikat_tanggal")  ,
             'a.kd_kab_kota','a.kd_kecamatan','a.kd_desa','a.keterangan','a.sertifikat_nomor', 'a.penggunaan',  'a.asal_usul', 'a.kd_ka','a.latitude','a.longitude' )
@@ -472,9 +451,8 @@ class TanahController extends Controller
                             ->where('kd_aset1','1')
                             ->get();
 
-        //str_replace('',$tanah->harga)
-       $harga0 =  str_replace('Rp', '', $tanah->harga   );
-       $harga =  floatval(str_replace('.', '', $harga0   ));
+       $harga0 =  str_replace('Rp', '', $tanah->harga);
+       $harga =  floatval(str_replace('.', '', $harga0));
        $kecamatan = DB::table('ref_organisasi_kecamatan')->where('kode_kab_kota',$tanah->kd_kab_kota)->get();
        $desa = DB::table('ref_organisasi_desa')->where('kode_kab_kota',$tanah->kd_kab_kota)->get();
 
@@ -488,9 +466,7 @@ class TanahController extends Controller
         ->where('kd_aset4', $tanah->kd_aset84)
        ->get();
 
-
        return view('admin.master.kib_a.edit', compact('tanah','dokumen','unit','rincian_object','kode_pemilik','kab_kota','harga','kecamatan','desa','sub_rincian_obyek','sub_sub_rincian_obyek'));
-
     }
 
     public function deletePhoto($id)
