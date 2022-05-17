@@ -23,7 +23,7 @@
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>{{ $peralatan->merk . ' ' . $peralatan->type }}</h4>
-                <span>Kode ...</span>
+                <span>Kode {{ $peralatan->kode_aset }}</span>
             </div>
         </div>
     </div>
@@ -109,8 +109,8 @@
                                                     <table class="table table-striped   nowrap">
                                                         <tbody>
                                                             <tr>
-                                                                <th scope="row">Tahun</th>
-                                                                <td>{{ $peralatan->tahun }}</td>
+                                                                <th scope="row">ID Pemda</th>
+                                                                <td>{{ $peralatan->id }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Kode Pemilik</th>
@@ -118,8 +118,9 @@
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Kode Aset</th>
-                                                                <td><br/>
-                                                                    <b></b>
+                                                                <td>
+                                                                    {{$peralatan->kode_aset}}<br/>
+                                                                    <b>{{$peralatan->nm_aset5}}</b>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -133,6 +134,18 @@
                                                             <tr>
                                                                 <th scope="row">Tgl Pembukuan</th>
                                                                 <td>{{ $peralatan->tgl_pembukuan }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Kondisi</th>
+                                                                <td>{{ ($peralatan->kondisi == 1) ? "Baik" : "Rusak" }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Masa Manfaat</th>
+                                                                <td>{{ $peralatan->masa_manfaat . " Bulan" }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Nilai Sisa</th>
+                                                                <td>{{ $peralatan->nilai_sisa }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Merek</th>
@@ -149,6 +162,10 @@
                                                             <tr>
                                                                 <th scope="row">Bahan</th>
                                                                 <td>{{ $peralatan->bahan }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Nomor Pabrik</th>
+                                                                <td>{{ $peralatan->nomor_pabrik }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th scope="row">Nomor Rangka</th>
@@ -171,8 +188,12 @@
                                                                 <td>{{ $peralatan->asal_usul }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <th scope="row">harga</th>
+                                                                <th scope="row">Harga</th>
                                                                 <td>{{ $peralatan->harga }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Keterangan</th>
+                                                                <td>{{ $peralatan->keterangan }}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -192,57 +213,28 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {{-- @foreach($dokumen as $dt)
+                                                            @foreach($dokumen as $dt)
                                                                 <tr>
-                                                                    <td>{{$loop->index + 1}}</td>
-                                                                    <td>{{ $dt->filename}}</td>
+                                                                    <td>{{ $loop->index + 1 }}</td>
+                                                                    <td>{{ $dt->filename }}</td>
                                                                     <td>
-                                                                        <a href="{{route('tanah.dokumen.download',$dt->id_dokumen)}} " id="{{$dt->id_dokumen}}"  class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-download"></i></a>
+                                                                        <a href="{{route('peralatan.dokumen.download',$dt->id_dokumen)}}" id="{{ $dt->id_dokumen }}" class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-download"></i></a>
                                                                     </td>
                                                                 </tr>
-                                                            @endforeach --}}
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
-                                                    <div id="preview">
+                                                    <div id="preview"></div>
                                                 </div>
                                             </div>
-                                            <div class="table-responsive">
-                                                <h4>Lokasi</h4>
-                                                <hr/>
-                                                <div class="card-block user-desc">
-                                                    <div class="view-desc">
-                                                        <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
-                                                            <input id="lat" style="display:none" name="lat" type="text" value="" class="form-control formatLatLong fill" required="">
-                                                            <input id="long" name="lng" style="display:none" type="text"  value="" class="form-control formatLatLong fill" required="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <!-- end of table col-lg-6 -->
-                                            </div>
-                                        <!-- end of row -->
                                         </div>
-                                    <!-- end of general info -->
                                     </div>
-                                <!-- end of col-lg-12 -->
                                 </div>
-                            <!-- end of row -->
                             </div>
-                        <!-- end of view-info -->
                         </div>
-                    <!-- end of card-block -->
                     </div>
-                <!-- personal card end-->
                 </div>
-                <!-- tab pane personal end -->
-                <!-- tab pane info start -->
-                <div class="tab-pane" id="binfo" role="tabpanel">
-                    <!-- info card start -->
-                    <!-- info card end -->
-                </div>
-                <!-- tab pane info end -->
-            <!-- tab pane contact start -->
             </div>
-        <!-- tab content end -->
         </div>
     </div>
 @endsection

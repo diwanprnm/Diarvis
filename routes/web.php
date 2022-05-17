@@ -152,6 +152,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
                 Route::get('peralatandanmesin/delete/{id}', 'MasterData\Barang\PeralatanController@delete')->name('deleteJsonPeralatan');
 
+                Route::get('peralatandanmesin/dokumen/download/{id}', 'MasterData\Barang\PeralatanController@download')->name('peralatan.dokumen.download');
                 Route::get('peralatandanmesin/detail/{id}', 'MasterData\Barang\PeralatanController@detail')->name('getDetailPeralatan');
 
                 Route::get('peralatandanmesin/add', 'MasterData\Barang\PeralatanController@add')->name('peralatan.add');

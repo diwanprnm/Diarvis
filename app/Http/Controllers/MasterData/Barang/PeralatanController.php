@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Yajra\Datatables\DataTables;
 
 class PeralatanController extends Controller {
@@ -252,8 +253,9 @@ class PeralatanController extends Controller {
             }
             foreach($request->file('uploadFile') as $file) {
                 $imageName =  $file->getClientOriginalName();
+                $extension = $file->extension();
                 $file->move($path, $imageName);
-                $this->saveFileKibB($new_kd_pemda,$imageName,$path_folder);
+                $this->saveFileKibB($new_kd_pemda, $imageName, $path_folder, $extension);
             }
         }
         $color = "success";
@@ -261,10 +263,11 @@ class PeralatanController extends Controller {
         return redirect( route('getPeralatan') )->with(compact('color', 'msg'));
     }
 
-    public function saveFileKibB($idpemda, $filename,$path){
+    public function saveFileKibB($idpemda, $filename, $path, $extension){
         $dokumen['idpemda'] = $idpemda;
         $dokumen['filename'] =  $filename;
         $dokumen['path'] =  $path;
+        $dokumen['extension'] = $extension;
         DB::table('ta_kib_b_dokumen')->insert($dokumen);
     }
 
@@ -318,21 +321,30 @@ class PeralatanController extends Controller {
     }
 
     public function detail($id) {
-        $peralatan = DB::table('ta_kib_b as a')->where('a.kd_ka','1')
-            ->select('a.idpemda as id','a.kd_pemilik','b.nm_pemilik as pemilik','a.no_register','a.tgl_perolehan','a.tgl_pembukuan','a.merk','a.type','a.cc','a.bahan','a.nomor_rangka','a.nomor_mesin','a.nomor_polisi','a.nomor_bpkb','a.asal_usul','a.kondisi','a.harga','a.tahun')
-            ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
-            ->where('a.idpemda', $id)->first();
 
-        // $dokumen = DB::table('ta_fn_kib_b as a')
-        //         ->select('b.filename','b.id_dokumen')
-        //         ->join('ta_kib_b_dokumen as b','a.idpemda','=','b.idpemda')
-        //         ->where('a.idpemda',$id)->get();
+        $peralatan = DB::table('ta_kib_b as a')
+            ->join('ref_rek5_108 as c' , function($join){
+                $join->on('c.kd_aset5','=','a.kd_aset85');
+                $join->on('c.kd_aset4','=','a.kd_aset84');
+                $join->on('c.kd_aset3','=','a.kd_aset83');
+                $join->on('c.kd_aset2','=','a.kd_aset82');
+                $join->on('c.kd_aset1','=','a.kd_aset81');
+                $join->on('c.kd_aset0','=','a.kd_aset80');
+            })
+            ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
+            ->select('a.idpemda as id','c.nm_aset5','a.kd_pemilik','b.nm_pemilik as pemilik','a.no_register','a.tgl_perolehan','a.tgl_pembukuan','a.merk','a.type','a.cc','a.bahan','a.nomor_pabrik','a.nomor_rangka','a.kondisi','a.keterangan','a.masa_manfaat','a.nilai_sisa',
+                DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"),
+                'a.nomor_mesin','a.nomor_polisi','a.nomor_bpkb','a.asal_usul','a.kondisi','a.harga','a.tahun')
+            ->where('a.idpemda', $id)
+            ->where('a.kd_ka','1')->first();
+
+        $dokumen = DB::table('ta_kib_b_dokumen')->where('idpemda', $id)->get();
 
         // $profile_picture =  DB::table('ta_kib_b_dokumen')
         //     ->select('filename','path')
         //     ->where('idpemda',$id)->where('extension','jpg')->first();
 
-        return view('admin.master.kib_b.detail', compact('peralatan'));
+        return view('admin.master.kib_b.detail', compact('peralatan', 'dokumen'));
     }
 
     public function getSubRincianObyek(Request $request) {
@@ -347,6 +359,26 @@ class PeralatanController extends Controller {
     		$data = view('admin.master.kib_b.ajax_select_subrincianobyek',compact('sub_rincian_obyek'))->render();
     		return response()->json(['options'=>$data]);
     	}
+    }
+
+    public function download($id_dokumen){
+        $dokumen =  DB::table('ta_kib_b_dokumen')
+                ->select('filename','path','extension')
+                ->where('id_dokumen',$id_dokumen)
+                ->first();
+        $file = public_path()."/".$dokumen->path."/".$dokumen->filename;
+        $header ="";
+        if($dokumen->extension == "jpg") {
+            $header = "image/jpeg";
+        }else if($dokumen->extension == "pdf") {
+            $header = "application/pdf";
+        }else if($dokumen->extension == "png") {
+            $header = "image/jpeg";
+        }
+        $headers  = array(
+            'Content-Type: '.$header
+        );
+        return Response::download($file, $dokumen->filename, $headers);
     }
 
     public function getSubSubRincianObyek(Request $request) {

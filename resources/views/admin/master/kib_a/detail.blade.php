@@ -112,7 +112,7 @@
                                                                                         <h4> Informasi Detil KIB-A </h4>
                                                                                         <table class="table table-striped   nowrap">
                                                                                                 <tbody>
-                                                                                                    
+
                                                                                                     <tr>
                                                                                                         <th scope="row">Kode Pemilik</th>
                                                                                                         <td>{{$tanah->kd_pemilik." ".$tanah->nm_pemilik}}</td>
