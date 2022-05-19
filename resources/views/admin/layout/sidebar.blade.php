@@ -113,10 +113,11 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <a href="{{ route('getAsetTetapLainnya') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Aset Tetap Lainnya</span>
-                                    </a>
+                                    </a> 
                                 </li>
+
                                 <li>
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Konstruksi Dalam Pengembangan</span>

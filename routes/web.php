@@ -183,6 +183,52 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('gedung/json', 'MasterData\Barang\GedungController@json')->name('getJsonGedung');
                 Route::get('gedung/detail/{id}', 'MasterData\Barang\GedungController@detail')->name('getDetailKIBC');
 
+
+                // jalan
+
+                Route::get('jalan', 'MasterData\Barang\JalanController@index')->name('getJalan');
+                Route::post('jalan', 'MasterData\Barang\JalanController@index')->name('getJalan');
+                Route::get('jalan/add', 'MasterData\Barang\JalanController@add')->name('jalan.add');
+                Route::get('jalan/edit/{id}', 'MasterData\Barang\JalanController@edit')->name('jalan.edit');
+                Route::post('jalan/getKodePemilik', 'MasterData\Barang\JalanController@getKodePemilik')->name('jalan.kode-pemilik');
+                Route::post('jalan/get-sub-unit', 'MasterData\Barang\JalanController@getSubUnit')->name('jalan.sub-unit');
+                Route::post('jalan/get-upb', 'MasterData\Barang\JalanController@getUPB')->name('jalan.upb');
+                Route::post('jalan/get-upb-filter-table', 'MasterData\Barang\JalanController@getUPBFilterTable')->name('jalan.upb.filter.table');
+                Route::post('jalan/get-sub-rincian-obyek', 'MasterData\Barang\JalanController@getSubRincianObyek')->name('jalan.sub-rincian-obyek');
+                Route::post('jalan/get-sub-sub-rincian-obyek', 'MasterData\Barang\JalanController@getSubSubRincianObyek')->name('jalan.sub-sub-rincian-obyek');
+                Route::post('jalan/save', 'MasterData\Barang\JalanController@save')->name('jalan.save');
+                Route::get('jalan/json', 'MasterData\Barang\JalanController@json')->name('getJsonJalan');
+                Route::get('jalan/detail/{id}', 'MasterData\Barang\JalanController@detail')->name('getDetailKIBD');
+
+                // lainnya
+                 // Aset Tetap Lainnya
+                 Route::get('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnya');
+                 Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnyaFilter');
+                 Route::get('aset-tetap-lainnya/add', 'MasterData\Barang\AsetTetapLainnyaController@add')->name('aset-tetap-lainnya.add');
+                 Route::get('aset-tetap-lainnya/edit/{id}', 'MasterData\Barang\AsetTetapLainnyaController@edit')->name('aset-tetap-lainnya.edit');
+                 Route::get('aset-tetap-lainnya/dokumen/download/{id}', 'MasterData\Barang\AsetTetapLainnyaController@download')->name('tanah.dokumen.download');
+ 
+                 Route::post('aset-tetap-lainnya/getKecamatan', 'MasterData\Barang\AsetTetapLainnyaController@getKecamatan')->name('aset-tetap-lainnya.get.kecamatan');
+                 Route::post('aset-tetap-lainnya/getDesa', 'MasterData\Barang\AsetTetapLainnyaController@getDesa')->name('aset-tetap-lainnya.get.desa');
+                 Route::post('aset-tetap-lainnya/images-upload', 'ImageController@imagesUploadPost')->name('aset-tetap-lainnya/images-upload');
+ 
+                 Route::post('aset-tetap-lainnya/getNoRegister', 'MasterData\Barang\AsetTetapLainnyaController@getNoRegister')->name('aset-tetap-lainnya.noregister');
+                 Route::post('aset-tetap-lainnya/save', 'MasterData\Barang\AsetTetapLainnyaController@save')->name('aset-tetap-lainnya.save');
+                 Route::post('aset-tetap-lainnya/update', 'MasterData\Barang\AsetTetapLainnyaController@update')->name('aset-tetap-lainnya.update');
+                 
+                 Route::post('aset-tetap-lainnya/getKodePemilik', 'MasterData\Barang\AsetTetapLainnyaController@getKodePemilik')->name('aset-tetap-lainnya.kode-pemilik');
+                 Route::post('aset-tetap-lainnya/get-sub-unit', 'MasterData\Barang\AsetTetapLainnyaController@getSubUnit')->name('aset-tetap-lainnya.sub-unit');
+ 
+                 Route::post('aset-tetap-lainnya/get-upb', 'MasterData\Barang\AsetTetapLainnyaController@getUPB')->name('aset-tetap-lainnya.upb');
+                 Route::post('aset-tetap-lainnya/get-upb-filter-table', 'MasterData\Barang\AsetTetapLainnyaController@getUPBFilterTable')->name('aset-tetap-lainnya.upb.filter.table');
+                 Route::post('aset-tetap-lainnya/get-sub-rincian-obyek', 'MasterData\Barang\AsetTetapLainnyaController@getSubRincianObyek')->name('aset-tetap-lainnya.sub-rincian-obyek');
+                 Route::post('aset-tetap-lainnya/get-sub-sub-rincian-obyek', 'MasterData\Barang\AsetTetapLainnyaController@getSubSubRincianObyek')->name('aset-tetap-lainnya.sub-sub-rincian-obyek');
+                 Route::get('aset-tetap-lainnya/save', 'MasterData\Barang\AsetTetapLainnyaController@save')->name('aset-tetap-lainnya.save');
+                 Route::get('aset-tetap-lainnya/delete/{id}', 'MasterData\Barang\AsetTetapLainnyaController@delete')->name('deleteAsetById');
+                 Route::get('aset-tetap-lainnya/json', 'MasterData\Barang\AsetTetapLainnyaController@json')->name('getJsonAsetTetapLainnya');
+                 Route::get('aset-tetap-lainnya/detail/{id}', 'MasterData\Barang\AsetTetapLainnyaController@detail')->name('getDetailKIBE');
+ 
+
             });
         });
 
