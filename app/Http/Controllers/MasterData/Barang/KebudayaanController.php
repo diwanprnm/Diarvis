@@ -116,7 +116,7 @@ class KebudayaanController extends Controller
                 ->make(true);
         }
 
-        return view('admin.master.kib_f.kebudayaan', compact('bidang', 'filter', 'rincian_object'));
+        return view('admin.master.kib_f.kebudayaan.kebudayaan', compact('bidang', 'filter', 'rincian_object'));
     }
 
     public function add()
@@ -132,7 +132,7 @@ class KebudayaanController extends Controller
             ->where('kd_aset1', '1')
             ->get();
 
-        return view('admin.master.kib_f.add', compact('kode_pemilik', 'unit', 'rincian_object', 'kab_kota'));
+        return view('admin.master.kib_f.kebudayaan.add', compact('kode_pemilik', 'unit', 'rincian_object', 'kab_kota'));
     }
     public function edit($id)
     {
@@ -203,7 +203,7 @@ class KebudayaanController extends Controller
             ->get();
 
 
-        return view('admin.master.kib_f.edit', compact('kebudayaan', 'dokumen', 'unit', 'rincian_object', 'kode_pemilik', 'kab_kota', 'harga', 'kecamatan', 'desa', 'sub_rincian_obyek', 'sub_sub_rincian_obyek'));
+        return view('admin.master.kib_f.kebudayaan.edit', compact('kebudayaan', 'dokumen', 'unit', 'rincian_object', 'kode_pemilik', 'kab_kota', 'harga', 'kecamatan', 'desa', 'sub_rincian_obyek', 'sub_sub_rincian_obyek'));
     }
     public function download($id_dokumen)
     {
@@ -271,7 +271,7 @@ class KebudayaanController extends Controller
             ->select('filename', 'path')
             ->where('idpemda', $decryptId)->where('extension', 'jpg')->first();
 
-        return view('admin.master.kib_f.detail', compact('kebudayaan', 'dokumen', 'profile_picture'));
+        return view('admin.master.kib_f.kebudayaan.detail', compact('kebudayaan', 'dokumen', 'profile_picture'));
     }
     public function update(Request $request)
     {

@@ -128,7 +128,11 @@
                                         <span class="pcoded-mtext">Kebudayaan (KIB F)</span>
                                     </a> 
                                 </li>
-
+                                <li>
+                                    <a href="{{ route('getBuku') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Buku (KIB-F)</span>
+                                    </a> 
+                                </li>
                             </ul>
                         </li>
                         <li class="pcoded-hasmenu ">
