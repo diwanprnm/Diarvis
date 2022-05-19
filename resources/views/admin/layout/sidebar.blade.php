@@ -108,7 +108,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <a href="{{ route('getJalan') }}" class="waves-effect waves-dark">
                                         <span class="pcoded-mtext">Jalan Irigasi dan Lainnya</span>
                                     </a>
                                 </li>
