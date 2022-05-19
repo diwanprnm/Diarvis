@@ -19,11 +19,7 @@
 @section('page-header')
 
 <div class="row align-items-end">
-<<<<<<< HEAD
                                         <div class="col-lg-10">
-=======
-                                        <div class="col-lg-8">
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                             <div class="page-header-title">
                                                 <div class="d-inline">
                                                     <h4>  {{$tanah->nm_aset5}}</h4>
@@ -31,36 +27,21 @@
                                                 </div>
                                             </div>
                                         </div>
-<<<<<<< HEAD
                                         <div class="col-lg-2">
-=======
-                                        <div class="col-lg-4">
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item">
                                                         <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
                                                     </li>
-<<<<<<< HEAD
                                                     <li class="breadcrumb-item"><a href="#!">Kib-A</a>
                                                     </li>
                                                     <li class="breadcrumb-item"><a href="#!">Rincian</a>
-=======
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
-                                                    </li>
-                                                    <li class="breadcrumb-item"><a href="#!">User Profile</a>
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
 @endsection
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 
 @section('page-body')
 <div class="row">
@@ -76,11 +57,6 @@
                                                                         <img class="user-img img-radius" src="{{ asset($profile_picture->path.'/'.$profile_picture->filename) }}" style="width:108px;height:108px" alt="user-img">
                                                                         @else
                                                                         <img class="user-img img-radius" src="\assets\images\kantor.jpg" style="width:108px;height:108px" alt="user-img">
-<<<<<<< HEAD
-
-=======
-                                                                      
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                         @endif
                                                                     </a>
                                                                 </div>
@@ -92,11 +68,6 @@
                                                                         </div>
                                                                     </div>
                                                                     <div>
-<<<<<<< HEAD
-
-=======
-                                                                       
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -115,13 +86,8 @@
                                                             <a class="nav-link active" data-toggle="tab" href="#personal" role="tab">Informasi Umum</a>
                                                             <div class="slide"></div>
                                                         </li>
-<<<<<<< HEAD
 
 
-=======
-                                                        
-                                                        
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                     </ul>
                                                 </div>
                                                 <!-- tab header end -->
@@ -131,11 +97,6 @@
                                                     <div class="tab-pane active" id="personal" role="tabpanel">
                                                         <!-- personal card start -->
                                                         <div class="card">
-<<<<<<< HEAD
-
-=======
-                                                             
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                             <div class="card-block">
                                                                 <div class="view-info">
                                                                     <div class="row">
@@ -147,14 +108,6 @@
                                                                                         <h4> Informasi Detil KIB-A </h4>
                                                                                         <table class="table table-striped   nowrap">
                                                                                                 <tbody>
-<<<<<<< HEAD
-
-=======
-                                                                                                    <tr>
-                                                                                                        <th scope="row">Tahun</th>
-                                                                                                        <td>{{$tanah->tahun}}</td>
-                                                                                                    </tr>
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                                                     <tr>
                                                                                                         <th scope="row">Kode Pemilik</th>
                                                                                                         <td>{{$tanah->kd_pemilik." ".$tanah->nm_pemilik}}</td>
@@ -189,11 +142,6 @@
                                                                                                         <th scope="row">Hak Tanah</th>
                                                                                                         <td>{{$tanah->hak_tanah}}</td>
                                                                                                     </tr>
-<<<<<<< HEAD
-
-=======
-                                                                                                 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                                                     <tr>
                                                                                                         <th scope="row">Tanggal Sertifikat</th>
                                                                                                         <td> {{$tanah->sertifikat_tanggal}}</td>
@@ -225,13 +173,8 @@
                                                                                     <!-- end of table col-lg-6 -->
                                                                                     <div class="col-lg-12 col-xl-6">
                                                                                         <div class="table-responsive">
-<<<<<<< HEAD
 
 
-=======
-                                                                                            
-                                                                                             
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                                             <h4> Dokumen</h4>
                                                                                             <table class="table table-striped   nowrap">
                                                                                                 <thead>
@@ -243,17 +186,10 @@
                                                                                                     <td>{{ $dt->filename}}</td>
                                                                                                     <td>
                                                                                                     <a href="{{route('tanah.dokumen.download',$dt->id_dokumen)}} " id="{{$dt->id_dokumen}}"  class="btn btn-primary btn-mini  waves-effect waves-light"><i class="icofont icofont-download"></i></a>
-<<<<<<< HEAD
 
                                                                                                 </td>
                                                                                                 </tr>
 
-=======
-                                                                                                         
-                                                                                                </td>
-                                                                                                </tr>
-                                                                                                    
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                                                     @endforeach
                                                                                                 </tbody>
                                                                                             </table>
@@ -264,13 +200,8 @@
 
 
                                                                                         <div class="table-responsive">
-<<<<<<< HEAD
 
 
-=======
-                                                                                            
-                                                                                             
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                                             <h4>Lokasi</h4>
                                                                                        <hr/>
 
@@ -278,11 +209,7 @@
                                                                         <div class="view-desc">
                                                                         <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
                                                                           <input id="lat" style="display:none" name="lat" type="text" value="{{ $tanah->latitude }}" class="form-control formatLatLong fill" required="">
-<<<<<<< HEAD
                                                                           <input id="long" name="lng" style="display:none" type="text"  value="{{ $tanah->longitude }}" class="form-control formatLatLong fill" required="">
-=======
-                                                                          <input id="long" name="lng" style="display:none" type="text"  value="{{ $tanah->longitude }}" class="form-control formatLatLong fill" required="">     
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                     </div>
                                                                                         </div>
                                                                                     </div>
@@ -297,50 +224,27 @@
                                                                     <!-- end of row -->
                                                                 </div>
                                                                 <!-- end of view-info -->
-<<<<<<< HEAD
 
                                                             </div>
                                                             <!-- end of card-block -->
                                                         </div>
 
-=======
-                                                                 
-                                                            </div>
-                                                            <!-- end of card-block -->
-                                                        </div>
-                                                         
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                         <!-- personal card end-->
                                                     </div>
                                                     <!-- tab pane personal end -->
                                                     <!-- tab pane info start -->
                                                     <div class="tab-pane" id="binfo" role="tabpanel">
                                                         <!-- info card start -->
-<<<<<<< HEAD
 
 
-=======
-                                                         
-                                                         
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                         <!-- info card end -->
                                                     </div>
                                                     <!-- tab pane info end -->
                                                     <!-- tab pane contact start -->
-<<<<<<< HEAD
-
-=======
-                                                  
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                 </div>
                                                 <!-- tab content end -->
                                             </div>
                                         </div>
-<<<<<<< HEAD
-
-=======
-                                   
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 @endsection
 @section('script')
 
@@ -364,11 +268,6 @@
             bFilter: false,
             ajax: {
                 url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
-<<<<<<< HEAD
-
-=======
-               
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
             },
 
             columns: [{
@@ -423,11 +322,7 @@
                 {
                     data: 'asal_usul',
                     name: 'asal_usul'
-<<<<<<< HEAD
                 },
-=======
-                }, 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 {
                     data: 'penggunaan',
                     name: 'penggunaan'
@@ -435,11 +330,7 @@
                 {
                     data: 'harga',
                     name: 'harga'
-<<<<<<< HEAD
                 },
-=======
-                }, 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 {
                     data: 'action',
                     name: 'action',
@@ -487,7 +378,6 @@
             require([
             "esri/Map",
             "esri/views/MapView",
-<<<<<<< HEAD
             "esri/Graphic"
 
             ], function(Map, MapView, Graphic) {
@@ -498,18 +388,6 @@
                     basemap: "osm"
                 });
 
-=======
-            "esri/Graphic"  
-            
-            ], function(Map, MapView, Graphic) {
-               // var point = { type: "point", longitude: {{ $tanah->latitude}}, latitude: {{ $tanah->longitude}} }; 
-             
-               
-                const map = new Map({
-                    basemap: "osm"
-                });
-                 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 const view = new MapView({
                     container: "mapLatLong",
                     map: map,
@@ -534,11 +412,6 @@
                     tempGraphic = graphic;
 
                     view.graphics.add(graphic);
-<<<<<<< HEAD
-
-=======
-                    
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 
 
                 view.on("click", function(event){
@@ -582,18 +455,10 @@
                     view.graphics.add(graphic);
                 });
             });
-<<<<<<< HEAD
 
 
 
 
 });
-=======
-         
-    
-
-    
-}); 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 </script>
 @endsection
