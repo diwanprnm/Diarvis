@@ -47,7 +47,8 @@ class PeralatanController extends Controller {
             ->select('a.idpemda as id','b.nm_pemilik as pemilik', DB::raw("CONCAT(a.kd_aset8,'.',a.kd_aset80,'.',a.kd_aset81,'.',ltrim(to_char(a.kd_aset82, '00')) ,'.',ltrim(to_char(a.kd_aset83, '000')),'.',ltrim(to_char(a.kd_aset84, '000')),'.',ltrim(to_char(a.kd_aset85, '000'))) as kode_aset"), 'a.no_register',
                 'a.tgl_pembukuan', 'a.tgl_perolehan', 'a.merk', DB::raw("COALESCE(NULLIF(a.type, NULL), '-') AS type"), DB::raw("COALESCE(NULLIF(a.cc, NULL), '-') AS cc"), 'a.bahan', DB::raw("COALESCE(NULLIF(a.nomor_pabrik, NULL), '-') AS nomor_pabrik"), DB::raw("COALESCE(NULLIF(a.nomor_rangka, NULL), '-') AS nomor_rangka"),
                 DB::raw("COALESCE(NULLIF(a.nomor_mesin, NULL), '-') AS nomor_mesin"), DB::raw("COALESCE(NULLIF(a.nomor_polisi, NULL), '-') AS nomor_polisi"), DB::raw("COALESCE(NULLIF(a.nomor_bpkb, NULL), '-') AS nomor_bpkb"),'a.asal_usul', DB::raw("CASE WHEN (a.kondisi = '1') THEN 'Baik' WHEN (a.kondisi = '0') THEN 'Rusak' END AS kondisi"),
-                DB::raw("CONCAT('Rp. ', a.harga) as harga"), DB::raw("CONCAT(a.masa_manfaat,' Bulan') as masa_manfaat"), DB::raw("COALESCE(NULLIF(a.nilai_sisa, NULL), 0) AS nilai_sisa"), DB::raw("COALESCE(NULLIF(a.keterangan, NULL), '-') AS keterangan") )
+                DB::raw("CONCAT('Rp. ', a.harga) as harga"), DB::raw("CONCAT(a.masa_manfaat,' Bulan') as masa_manfaat"), 
+                'a.nilai_sisa', DB::raw("COALESCE(NULLIF(a.keterangan, NULL), '-') AS keterangan") )
             ->join('ref_pemilik as b','a.kd_pemilik','=','b.kd_pemilik')
             ->where('a.kd_ka','1')
             ->where('a.kd_hapus','0');
