@@ -229,6 +229,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                  Route::get('aset-tetap-lainnya/detail/{id}', 'MasterData\Barang\AsetTetapLainnyaController@detail')->name('getDetailKIBE');
  
 
+                 //
+
+                 Route::get('kebudayaan', 'MasterData\Barang\KebudayaanController@index')->name('getKebudayaan');
+                 Route::post('kebudayaan', 'MasterData\Barang\KebudayaanController@index')->name('getKebudayaan');
+                 Route::get('kebudayaan/json', 'MasterData\Barang\KebudayaanController@json')->name('getJsonKebudayaan');
+                 Route::get('kebudayaan/add', 'MasterData\Barang\KebudayaanController@add')->name('kebudayaan.add');
+                 Route::post('kebudayaan/save', 'MasterData\Barang\KebudayaanController@save')->name('kebudayaan.save');
+                 Route::post('kebudayaan/get-upb-filter-table', 'MasterData\Barang\KebudayaanController@getUPBFilterTable')->name('kebudayaan.upb.filter.table');
+                 Route::get('kebudayaan/edit/{id}', 'MasterData\Barang\KebudayaanController@edit')->name('kebudayaan.edit');
+                 Route::post('kebudayaan/update', 'MasterData\Barang\KebudayaanController@update')->name('kebudayaan.update');
+                 Route::get('kebudayaan/delete/{id}', 'MasterData\Barang\KebudayaanController@delete')->name('kebudayaan.delete');
+                 Route::get('kebudayaan/detail/{id}', 'MasterData\Barang\KebudayaanController@detail')->name('getDetailKIBF');
+                 Route::get('kebudayaan/dokumen/download/{id}', 'MasterData\Barang\KebudayaanController@download')->name('kebudayaan.dokumen.download');
+      
+ 
+
             });
         });
 

@@ -123,6 +123,12 @@
                                         <span class="pcoded-mtext">Konstruksi Dalam Pengembangan</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('getKebudayaan') }}" class="waves-effect waves-dark">
+                                        <span class="pcoded-mtext">Kebudayaan (KIB F)</span>
+                                    </a> 
+                                </li>
+
                             </ul>
                         </li>
                         <li class="pcoded-hasmenu ">
