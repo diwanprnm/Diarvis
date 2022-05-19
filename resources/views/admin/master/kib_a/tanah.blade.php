@@ -19,11 +19,7 @@
 @section('page-header')
 
 <div class="row align-items-end">
-<<<<<<< HEAD
     <div class="col-lg-10">
-=======
-    <div class="col-lg-8">
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
         <div class="page-header-title">
             <div class="d-inline">
                 <h4>Tanah (KIB A)</h4>
@@ -31,11 +27,7 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
     <div class="col-lg-2">
-=======
-    <div class="col-lg-4">
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
         <div class="page-header-breadcrumb">
             <ul class="breadcrumb-title">
                 <li class="breadcrumb-item">
@@ -63,19 +55,13 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="accordion-content accordion-desc">
-<<<<<<< HEAD
                 <form action="{{route('getTanah')}}" method="post">
                     @csrf
                     <meta name="csrf-token" content="{{ csrf_token() }}">
-=======
-                <form action="{{route('getUnitFilter')}}" method="post">
-                    @csrf
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-<<<<<<< HEAD
                                     <label class="col-md-3 col-form-label">ID Pemda</label>
                                     <div class="col-md-9">
                                     <input name="id_pemda" id="id_pemda" value="{{(!empty($filter['id_pemda'])) ? $filter['id_pemda'] :''}}"  type="text" class="form-control"  >
@@ -127,23 +113,11 @@
                                     </div>
                                     <div class="col-md-4">
                                     <input name="f_to_tgl_pembukuan" id="f_to_tgl_pembukuan" value="" type="date" placeholder="Hingga" class="form-control"  >
-=======
-                                    <label class="col-md-3 col-form-label">Bidang</label>
-                                    <div class="col-md-9">
-                                         
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Nama Unit</label>
-                                    <div class="col-md-9">
-                                        <input name="nama_unit" id="edit_nama_unit" value=" " type="text" class="form-control"  >
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group row">
-<<<<<<< HEAD
                                     <label class="col-md-3 col-form-label">Luas (M2)</label>
                                     <div class="col-md-9">
                                         <input name="f_luas" type="text"  id="f_luas" class="form-control"  >
@@ -204,18 +178,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit"  class="btn btn-sm btn-round btn-info mb-3"><i class="icofont icofont-ui-search"></i> Cari</button>
-=======
-                                    <label class="col-md-3 col-form-label">Kode Unit</label>
-                                    <div class="col-md-9">
-                                        <input name="kode_unit" type="number" value=" " id="edit_kode_unit" class="form-control"  >
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit"  class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-ui-search"></i> Cari</button>
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                     </div>
                 </form>
             </div>
@@ -230,26 +192,14 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-block">
-<<<<<<< HEAD
                 @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
                 <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-info mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
-=======
-             
-
-
-                @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
-                <a  href="{{route('tanah.add')}}" class="btn btn-sm btn-round btn-primary mb-3"><i class="icofont icofont-plus-circle"></i> Tambah Tanah (KIB A)</a>
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 @endif
                 <div class="dt-responsive table-responsive">
                     <table id="dttable" class="table table-striped table-bordered able-responsive">
                         <thead>
                             <tr>
                                 <th>No</th>
-<<<<<<< HEAD
-=======
-                               
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                 <th>Id Pemda</th>
                                 <th>Kode Pemilik</th>
                                 <th>Kode Aset</th>
@@ -277,13 +227,8 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 
 <div class="modal-only">
-=======
-<div class="modal-only">
-    
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
     @if (hasAccess(Auth::user()->role_id, "Unit", "Create"))
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -300,11 +245,6 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
-<<<<<<< HEAD
-
-=======
-                                 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             </div>
                         </div>
 
@@ -349,11 +289,6 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label">Bidang</label>
                             <div class="col-md-9">
-<<<<<<< HEAD
-
-=======
-                                 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             </div>
                         </div>
 
@@ -382,7 +317,6 @@
     </div>
     @endif
 
-<<<<<<< HEAD
     <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -432,8 +366,6 @@
             </div>
         </div>
 
-=======
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
     @if (hasAccess(Auth::user()->role_id, "Unit", "Delete"))
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -478,7 +410,6 @@
             serverSide: true,
             bFilter: false,
             ajax: {
-<<<<<<< HEAD
                 url: "{{ url('admin/master-data/barang/intra/tanah') }}",
                 data: function (d) {
                     d.id_pemda = $("#id_pemda").val(),
@@ -492,12 +423,6 @@
                     d.no_register = $("#no_register").val()
                 }
             },
-=======
-                url: "{{ url('admin/master-data/barang/intra/tanah/json') }}",
-               
-            },
-
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
             columns: [{
                     'mRender': function(data, type, full, meta) {
                         return +meta.row + meta.settings._iDisplayStart + 1;
@@ -505,7 +430,6 @@
                 },
                  {
                     data: 'id',
-<<<<<<< HEAD
                     name: 'idpemda'
                 },
                 {
@@ -515,17 +439,6 @@
                 {
                     data: 'kode_aset',
                     name: 'kode_aset'
-=======
-                    name: 'id_pemda'
-                },
-                {
-                    data: 'nm_pemilik',
-                    name: 'nama_pemilik'
-                },
-                {
-                    data: 'kode_aset',
-                    name: 'kode Aset'
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 },
                 {
                     data: 'no_register',
@@ -533,11 +446,7 @@
                 },
                 {
                     data: 'tgl_perolehan',
-<<<<<<< HEAD
                     name: 'tgl_perolehan'
-=======
-                    name: 'tgl_pembelian'
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 },
                 {
                     data: 'tgl_pembukuan',
@@ -557,28 +466,16 @@
                 },
                 {
                     data: 'sertifikat_tanggal',
-<<<<<<< HEAD
                     name: 'sertifikat_tanggal'
                 },
                 {
                     data: 'sertifikat_nomor',
                     name: 'sertifikat_nomor'
-=======
-                    name: 'tgl_sertifikat'
-                },
-                {
-                    data: 'sertifikat_nomor',
-                    name: 'no_sertifikat'
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 },
                 {
                     data: 'asal_usul',
                     name: 'asal_usul'
-<<<<<<< HEAD
                 },
-=======
-                }, 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 {
                     data: 'penggunaan',
                     name: 'penggunaan'
@@ -586,11 +483,7 @@
                 {
                     data: 'harga',
                     name: 'harga'
-<<<<<<< HEAD
                 },
-=======
-                }, 
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 {
                     data: 'action',
                     name: 'action',
@@ -623,7 +516,6 @@
     }
 
     @endif
-<<<<<<< HEAD
     $('#delModal').on('show.bs.modal', function(event) {
         $.ajaxSetup({
             headers: {
@@ -634,19 +526,10 @@
         const id = link.data('id');
         console.log(id);
         const url = `{{ url('admin/master-data/barang/intra/tanah/delete') }}/` + id;
-=======
-    @if(hasAccess(Auth::user()->role_id, "Unit", "Delete"))
-    $('#delModal').on('show.bs.modal', function(event) {
-        const link = $(event.relatedTarget);
-        const id = link.data('id');
-        console.log(id);
-        const url = `{{ url('admin/master-data/unit-organisasi/unit/delete') }}/` + id;
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
         console.log(url);
         const modal = $(this);
         modal.find('.modal-footer #delHref').attr('href', url);
     });
-<<<<<<< HEAD
 
     $('#rincian_obyek').on('change', function()  {
             $.ajax({
@@ -715,8 +598,5 @@
             return false;
         });
 
-=======
-    @endif
->>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 </script>
 @endsection
