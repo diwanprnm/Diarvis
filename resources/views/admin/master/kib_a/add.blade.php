@@ -9,10 +9,17 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
 <link rel="stylesheet" href="{{ asset('assets/css/style_kib.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/vendor/chosen_v1.8.7/chosen.css') }}">
+<<<<<<< HEAD
 
 
 <style type="text/css">
 
+=======
+ 
+
+<style type="text/css">
+ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
  input[type=file]{
 
    display: inline;
@@ -41,6 +48,7 @@
 @section('page-header')
 
 <div class="row align-items-end">
+<<<<<<< HEAD
     <div class="col-lg-8">
         <div class="page-header-title">
             <div class="d-inline">
@@ -71,17 +79,52 @@
 @section('page-body')
 <form action="{{route('tanah.save')}}" method="post"  enctype="multipart/form-data">
   @csrf
+=======
+                                        <div class="col-lg-8">
+                                            <div class="page-header-title">
+                                                <div class="d-inline">
+                                                    <h4> Tambah Data Tanah KIB/A</h4>
+                                                    <span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="page-header-breadcrumb">
+                                                <ul class="breadcrumb-title">
+                                                    <li class="breadcrumb-item">
+                                                        <a href="index-1.htm"> <i class="feather icon-home"></i> </a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="#!">intra</a>
+                                                    </li>
+                                                    <li class="breadcrumb-item"><a href="#!">Tanah</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+@endsection
+ 
+
+@section('page-body') 
+<form action="{{route('tanah.save')}}" method="post"  enctype="multipart/form-data">
+                    @csrf
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 <div class="row">
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header">
                 <h5>Form KIB/A</h5>
+<<<<<<< HEAD
 
+=======
+               
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 <div class="card-header-right">
                     <i class="icofont icofont-spinner-alt-5"></i>
                 </div>
             </div>
             <div class="card-block">
+<<<<<<< HEAD
 
                 <form action="{{route('tanah.save')}}" method="post"  enctype="multipart/form-data">
                         @csrf
@@ -91,12 +134,27 @@
                         <label class="col-md-3 col-form-label">Unit</label>
                         <div class="col-md-9">
 
+=======
+                
+                <form action="{{route('tanah.save')}}" method="post">
+                        @csrf 
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                     
+                        <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Unit</label>
+                        <div class="col-md-9">
+                        
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <select name="unit" id="unit" class="form-control chosen-select">
                                 <option>-</option>
                                     @foreach ($unit as $data)
                                     <option value="{{ $data->kode_unit.'_'.$data->kode_bidang }}">{{ $data->nama_unit }}</option>
                                     @endforeach
+<<<<<<< HEAD
                                 </select>
+=======
+                                </select> 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         </div>
                     </div>
                     <div class="form-group row">
@@ -127,7 +185,11 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kode Pemilik</label>
                         <div class="col-md-9">
+<<<<<<< HEAD
 
+=======
+                             
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             <select name="kode_pemilik" id="kode_pemilik" class="form-control chosen-select">
                             <option>-</option>
                                 @foreach ($kode_pemilik as $data)
@@ -142,8 +204,13 @@
                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                     </div>
                                 </div>
+<<<<<<< HEAD
 
                         </div>
+=======
+                            
+                        </div>    
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                     </div>
 
                     <div class="form-group row">
@@ -186,21 +253,33 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Tanggal Pembelian</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="tanggal_pembelian" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Tanggal Pembukuan</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="tanggal_pembukuan" type="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Luas (M2)</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="luas" type="text">
                         </div>
@@ -208,14 +287,24 @@
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Alamat</label>
+<<<<<<< HEAD
 
                         <div class="col-sm-9">
                         <textarea class="form-control" name="alamat"></textarea>
+=======
+   
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="alamat"></textarea> 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Hak Tanah</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                             <select name="hak_tanah" id="hak_tanah" class="form-control chosen-select">
                             <option></option>
@@ -227,7 +316,11 @@
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Tanggal Sertifikat</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="tanggal_sertifikat" type="date">
                         </div>
@@ -235,14 +328,22 @@
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">No Sertifikat</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="no_sertifikat" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Asal Usul</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                             <select name="asal_usul" id="asal_usul" class="form-control chosen-select">
                             <option></option>
@@ -251,21 +352,33 @@
                             </select>
                         </div>
                     </div>
+<<<<<<< HEAD
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Penggunaan</label>
 
+=======
+                     
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Penggunaan</label>
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="penggunaan" type="text">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Harga</label>
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <input class="form-control" name="harga" type="number">
                         </div>
                     </div>
+<<<<<<< HEAD
 
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Keterangan</label>
@@ -277,6 +390,19 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
 
+=======
+                                  
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Keterangan</label>
+   
+                        <div class="col-sm-9">
+                        <textarea class="form-control" name="keterangan"></textarea> 
+                        </div>
+                    </div>     
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kabupaten/Kota</label>
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <select name="kab_kota" id="kab_kota" class="form-control chosen-select">
                             <option>-</option>
@@ -285,10 +411,17 @@
                                 @endforeach
                             </select>
                         </div>
+<<<<<<< HEAD
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kecamatan</label>
 
+=======
+                    </div>   
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kecamatan</label>
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <div id="loader_kec" style="display:none">
                                     <div class="progress">
@@ -299,10 +432,17 @@
                             <option>-</option>
                              </select>
                         </div>
+<<<<<<< HEAD
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
 
+=======
+                    </div>      
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Kelurahan/Desa</label>
+   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <div class="col-sm-9">
                         <div id="loader_desa" style="display:none">
                                     <div class="progress">
@@ -313,6 +453,7 @@
                             <option>-</option>
                              </select>
                         </div>
+<<<<<<< HEAD
                     </div>
 
 
@@ -322,11 +463,26 @@
             </div>
 
 
+=======
+                    </div>                                    
+                              
+                      
+                    </div>
+                    
+                </div>
+            </div>
+
+            
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                             <div class="col-xl-6">
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <h5>Data KIB - A </h5>
+<<<<<<< HEAD
 
+=======
+                                                         
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                         <div class="card-header-right">
                                                             <i class="icofont icofont-spinner-alt-5"></i>
                                                         </div>
@@ -337,11 +493,19 @@
                                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                                         </div>
                                                     </div>
+<<<<<<< HEAD
                                                     <div  id="content_kib_a">
                                                     <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
                                                             <thead>
                                                                 <tr>
 
+=======
+                                                    <div  id="content_kib_a"> 
+                                                    <table  class="table table-striped table-bordered able-responsive" id="table_kib_a">
+                                                            <thead>
+                                                                <tr>
+                                                                    
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                                     <th>No. Reg</th>
                                                                     <th>Tgl Perolehan</th>
                                                                     <th>Kode Barang</th>
@@ -356,7 +520,11 @@
                                                 <div class="card">
                                                     <div class="card-header">
                                                         <h5>Lokasi</h5>
+<<<<<<< HEAD
 
+=======
+                                                         
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                         <div class="card-header-right">
                                                             <i class="icofont icofont-spinner-alt-5"></i>
                                                         </div>
@@ -369,6 +537,7 @@
                                                     </div>
                                                     <div id="mapLatLong" class="full-map mb-2" style="height: 300px; width: 100%"></div>
                                                                         Lat <input id="lat" name="lat" type="text" class="form-control formatLatLong fill" required="">
+<<<<<<< HEAD
                                                                         Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">
 
                                                     </div>
@@ -378,6 +547,17 @@
                                                     <div class="card-header">
                                                         <h5>Dokumen</h5>
 
+=======
+                                                                        Long <input id="long" name="lng" type="text" class="form-control formatLatLong fill" required="">     
+                                                                   
+                                                    </div>
+                                                </div>
+ 
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5>Dokumen</h5>
+                                                         
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                         <div class="card-header-right">
                                                         <i class="icofont icofont-upload"></i>
                                                         </div>
@@ -387,17 +567,29 @@
                                                         <div class="progress">
                                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                                         </div>
+<<<<<<< HEAD
                                                     </div>
                                                     <input type="file" name="uploadFile[]"  multiple class="multi"/>
+=======
+                                                    </div>  
+                                                    <input type="file" name="uploadFile[]"  multiple class="multi"/>        
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                                                 </div>
 
                                             </div>
 
 
+<<<<<<< HEAD
 
                                         </div>
 
 
+=======
+                                            
+                                        </div>
+                                    
+       
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
     </div>
     <div class="row">
     <div class="col-xl-12">
@@ -409,11 +601,20 @@
                     </div>
 </div></div></div>
                 </form>
+<<<<<<< HEAD
 
       <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+=======
+    
+                <div class="modal fade" id="modalAsset" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               
+                    <div class="modal-header">
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                         <h4 class="modal-title">Pemilihan Kode Barang</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -423,13 +624,21 @@
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Rincian Obyek</label>
                             <div class="col-md-8">
+<<<<<<< HEAD
 
+=======
+                            
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             <select name="rincian_obyek" id="rincian_obyek" class="form-control chosen-select">
                                     <option>-</option>
                                         @foreach ($rincian_object as $data)
                                         <option value="{{ $data->kd_aset1.'_'.$data->kd_aset3}}">{{ $data->nm_aset3 }}</option>
                                         @endforeach
+<<<<<<< HEAD
                                     </select>
+=======
+                                    </select> 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             </div>
                         </div>
 
@@ -442,18 +651,27 @@
                                 </div>
                             </div>
                             <select name="sub_rincian_obyek" id="sub_rincian_obyek" class="form-control chosen-select">
+<<<<<<< HEAD
                             </select>
+=======
+                            </select> 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label">Sub Sub Rincian Obyek</label>
+<<<<<<< HEAD
                             <div class="col-md-8">
+=======
+                            <div class="col-md-8"> 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                             <div id="loader_ssro" style="display:none">
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                                 </div>
                             </div>
                             <select name="sub_sub_rincian_obyek" id="sub_sub_rincian_obyek" class="form-control chosen-select">
+<<<<<<< HEAD
                             </select>
                             </div>
                         </div>
@@ -464,6 +682,18 @@
 
             </div>
         </div>
+=======
+                            </select> 
+                            </div>
+                        </div>
+
+                        
+                         
+                    </div>
+                    
+            </div>
+        </div>   
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
  @endsection
 @section('script')
 
@@ -475,24 +705,41 @@
 <script src="{{ asset('assets/vendor/data-table/extensions/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery/js/jquery.mask.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/chosen_v1.8.7/chosen.jquery.js') }}" type="text/javascript"></script>
+<<<<<<< HEAD
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
 <script src="{{ asset('assets/js/jquery.MultiFile.js') }}"  type="text/javascript"></script>
 
 
+=======
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script> 
+<script src="{{ asset('assets/js/jquery.MultiFile.js') }}"  type="text/javascript"></script> 
+
+ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 <script src="https://js.arcgis.com/4.18/"></script>
 <script>
     $(document).ready(function() {
         $(".chosen-select").chosen({
             width: '100%'
+<<<<<<< HEAD
         });
 
+=======
+        }); 
+ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 
         $('#table_kib_a').dataTable( {
         "bInfo": false
         } );
         $('#unit').on('change', function() {
+<<<<<<< HEAD
 
             $.ajax({
+=======
+       
+            $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
             url: "{{route('tanah.sub-unit')}}",
             method: 'POST',
             headers: {
@@ -516,8 +763,13 @@
         });
 
         $('#sub_unit').on('change', function() {
+<<<<<<< HEAD
 
                 $.ajax({
+=======
+                
+                $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.upb')}}",
                 method: 'POST',
                 headers: {
@@ -541,8 +793,13 @@
         });
 
         $('#upb').on('change', function() {
+<<<<<<< HEAD
 
                 $.ajax({
+=======
+                
+                $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.upb.filter.table')}}",
                 method: 'POST',
                 headers: {
@@ -571,10 +828,17 @@
       dt.fnDraw();
   })
 }
+<<<<<<< HEAD
 
 
         $('#kode_pemilik2').on('change', function()  {
             $.ajax({
+=======
+            
+
+        $('#kode_pemilik2').on('change', function()  {
+            $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.kode-pemilik')}}",
                 method: 'POST',
                 headers: {
@@ -591,6 +855,7 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader').hide();
+<<<<<<< HEAD
                 }
                 });
         });
@@ -598,6 +863,15 @@
 
         $('#rincian_obyek').on('change', function()  {
             $.ajax({
+=======
+                } 
+                });
+        }); 
+
+
+        $('#rincian_obyek').on('change', function()  {
+            $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.sub-rincian-obyek')}}",
                 method: 'POST',
                 headers: {
@@ -616,12 +890,21 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_sro').hide();
+<<<<<<< HEAD
                 }
                 });
         });
 
         $('#sub_rincian_obyek').on('change', function()  {
             $.ajax({
+=======
+                } 
+                });
+        }); 
+
+        $('#sub_rincian_obyek').on('change', function()  {
+            $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.sub-sub-rincian-obyek')}}",
                 method: 'POST',
                 headers: {
@@ -640,9 +923,15 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_ssro').hide();
+<<<<<<< HEAD
                 }
             });
         });
+=======
+                } 
+            });
+        }); 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 
         $('#imageUploadForm').on('submit',(function(e) {
         e.preventDefault();
@@ -666,9 +955,15 @@
         });
     }));
 
+<<<<<<< HEAD
 
         $('#kab_kota').on('change', function()  {
             $.ajax({
+=======
+   
+        $('#kab_kota').on('change', function()  {
+            $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.get.kecamatan')}}",
                 method: 'POST',
                 headers: {
@@ -687,12 +982,21 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_kec').hide();
+<<<<<<< HEAD
                 }
             });
         });
 
         $('#kecamatan').on('change', function()  {
             $.ajax({
+=======
+                } 
+            });
+        }); 
+
+        $('#kecamatan').on('change', function()  {
+            $.ajax({ 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
                 url: "{{route('tanah.get.desa')}}",
                 method: 'POST',
                 headers: {
@@ -711,14 +1015,24 @@
                     },
                 complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
                     $('#loader_desa').hide();
+<<<<<<< HEAD
                 }
             });
         });
+=======
+                } 
+            });
+        }); 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 
 
         $('#sub_sub_rincian_obyek').on('change', function()  {
             var v = this.value;
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
             var dt = v.split("_");
             $("#kd_aset").attr("value",dt[0]);
             $("#kd_aset0").attr("value",dt[1]);
@@ -729,6 +1043,7 @@
             $("#kd_aset5").attr("value",dt[6]);
             $("#nama_aset").html(dt[7]);
             $('#modalAsset').modal('toggle');
+<<<<<<< HEAD
 
 
             return false;
@@ -744,6 +1059,23 @@
             });
 
 
+=======
+            
+
+            return false;
+        });    
+    
+
+        $("#uploadFile").change(function(){  
+            $('#imgPreview').html(""); 
+            var total_file=document.getElementById("uploadFile").files.length; 
+                for(var i=0;i<total_file;i++)  { 
+                 $('#imgPreview').append("<img src='"+URL.createObjectURL(event.target.files[i])+"'>"); 
+                } 
+            }); 
+
+            
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
 
         $('#mapLatLong').ready(() => {
             require([
@@ -805,7 +1137,11 @@
                     view.graphics.add(graphic);
                 });
             });
+<<<<<<< HEAD
         });
+=======
+        }); 
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
     });
 
 </script>

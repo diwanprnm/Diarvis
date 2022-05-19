@@ -30,10 +30,17 @@ class JenisController extends Controller
     public function json(Request $request)
     {
         $jenis = DB::table('ref_rek_aset_5 as a')
+<<<<<<< HEAD
         ->join('ref_rek_aset_1 as b', 'b.kode_aset', '=', 'a.kode_aset_1')
         ->join('ref_rek_aset_2 as c', 'c.kode_aset_2', '=', 'a.kode_aset_2')
         ->join('ref_rek_aset_3 as d', 'd.kode_aset_3', '=', 'a.kode_aset_3')
         ->join('ref_rek_aset_4 as e', 'e.kode_aset_4', '=', 'a.kode_aset_4')
+=======
+        ->leftjoin('ref_rek_aset_1 as b', 'b.kode_aset', '=', 'a.kode_aset_1')
+        ->leftjoin('ref_rek_aset_2 as c', 'c.kode_aset_2', '=', 'a.kode_aset_2')
+        ->leftjoin('ref_rek_aset_3 as d', 'd.kode_aset_3', '=', 'a.kode_aset_3')
+        ->leftjoin('ref_rek_aset_4 as e', 'e.kode_aset_4', '=', 'a.kode_aset_4')
+>>>>>>> 09005f6219d70bc53af46cf010a37e9323643ef7
         ->select('a.id','b.nama_aset','c.nama_aset_2','d.nama_aset_3','e.nama_aset_4','a.kode_aset_5','a.nama_aset_5');
 
         if(!empty($request->aset_1)) {
