@@ -360,7 +360,7 @@ class PeralatanController extends Controller {
             ->where('a.kd_ka','1')->first();
 
         $dokumen = DB::table('ta_kib_b_dokumen')->where('idpemda', $id)->get();
-
+       
         // $profile_picture =  DB::table('ta_kib_b_dokumen')
         //     ->select('filename','path')
         //     ->where('idpemda',$id)->where('extension','jpg')->first();
