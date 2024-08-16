@@ -171,6 +171,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::get('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');
                 Route::post('gedung', 'MasterData\Barang\GedungController@index')->name('getGedung');
                 Route::get('gedung/add', 'MasterData\Barang\GedungController@add')->name('gedung.add');
+                Route::get('gedung/edit/{id}', 'MasterData\Barang\GedungController@edit')->name('gedung.edit');
+                Route::get('gedung/dokumen/download/{id}', 'MasterData\Barang\GedungController@download')->name('gedung.dokumen.download');
+                Route::get('gedung/delete/{id}', 'MasterData\Barang\GedungController@delete')->name('gedung.delete');
+
+                Route::post('gedung/getKecamatan', 'MasterData\Barang\GedungController@getKecamatan')->name('gedung.get.kecamatan');
+                Route::post('gedung/getDesa', 'MasterData\Barang\GedungController@getDesa')->name('gedung.get.desa');
+                Route::post('gedung/images-upload', 'ImageController@imagesUploadPost')->name('gedung/images-upload');
+
+                Route::post('gedung/getNoRegister', 'MasterData\Barang\GedungController@getNoRegister')->name('gedung.noregister');
+                Route::post('gedung/save', 'MasterData\Barang\GedungController@save')->name('gedung.save');
+                Route::post('gedung/update', 'MasterData\Barang\GedungController@update')->name('gedung.update');
                 Route::post('gedung/getKodePemilik', 'MasterData\Barang\GedungController@getKodePemilik')->name('gedung.kode-pemilik');
                 Route::post('gedung/get-sub-unit', 'MasterData\Barang\GedungController@getSubUnit')->name('gedung.sub-unit');
 
@@ -179,8 +190,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('gedung/get-sub-rincian-obyek', 'MasterData\Barang\GedungController@getSubRincianObyek')->name('gedung.sub-rincian-obyek');
                 Route::post('gedung/get-sub-sub-rincian-obyek', 'MasterData\Barang\GedungController@getSubSubRincianObyek')->name('gedung.sub-sub-rincian-obyek');
                 Route::get('gedung/save', 'MasterData\Barang\GedungController@save')->name('gedung.save');
-                Route::get('gedung/json', 'MasterData\Barang\GedungController@json')->name('getJsonGedung');
-                Route::get('gedung/detail/{id}', 'MasterData\Barang\GedungController@detail')->name('getDetailKIBC');
+                Route::get('gedung/detail/{id}', 'MasterData\Barang\GedungController@detail')->name('getDetailGedung');
 
 
                 // jalan
@@ -205,7 +215,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
                 Route::post('aset-tetap-lainnya', 'MasterData\Barang\AsetTetapLainnyaController@index')->name('getAsetTetapLainnyaFilter');
                 Route::get('aset-tetap-lainnya/add', 'MasterData\Barang\AsetTetapLainnyaController@add')->name('aset-tetap-lainnya.add');
                 Route::get('aset-tetap-lainnya/edit/{id}', 'MasterData\Barang\AsetTetapLainnyaController@edit')->name('aset-tetap-lainnya.edit');
-                Route::get('aset-tetap-lainnya/dokumen/download/{id}', 'MasterData\Barang\AsetTetapLainnyaController@download')->name('tanah.dokumen.download');
+                Route::get('aset-tetap-lainnya/dokumen/download/{id}', 'MasterData\Barang\AsetTetapLainnyaController@download')->name('Gedung.dokumen.download');
 
                 Route::post('aset-tetap-lainnya/getKecamatan', 'MasterData\Barang\AsetTetapLainnyaController@getKecamatan')->name('aset-tetap-lainnya.get.kecamatan');
                 Route::post('aset-tetap-lainnya/getDesa', 'MasterData\Barang\AsetTetapLainnyaController@getDesa')->name('aset-tetap-lainnya.get.desa');
